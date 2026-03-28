@@ -152,7 +152,9 @@ const VictoryScreen = (() => {
     const div = document.createElement('div');
     div.id = 'victory-overlay';
     div.className = 'hidden';
-    document.getElementById('game-container').appendChild(div);
+    const container = document.getElementById('game-container');
+    if (!container) return;
+    container.appendChild(div);
   }
 
   function buildStars() {
@@ -231,15 +233,20 @@ const VictoryScreen = (() => {
     document.getElementById('victory-overlay').classList.add('hidden');
   }
 
+  function buildFreshQuests() {
+    return QuestSystem.getQuestLog().map((q, i) => {
+      const entry = { id: q.id, completed: false, active: i === 0 };
+      if (q.progress) {
+        entry.progress = Object.fromEntries(
+          Object.keys(q.progress).map((k) => [k, 0])
+        );
+      }
+      return entry;
+    });
+  }
+
   function handleNewGamePlus() {
-    // Reset all quests to initial state, keeping player level and gear
-    const freshQuests = QuestSystem.getQuestLog().map((q, i) => ({
-      id: q.id,
-      completed: false,
-      active: i === 0,
-      ...(q.progress && { progress: Object.fromEntries(Object.keys(q.progress).map((k) => [k, 0])) }),
-    }));
-    QuestSystem.loadState(freshQuests);
+    QuestSystem.loadState(buildFreshQuests());
 
     // Reset play-time tracker
     startTime = Date.now();
