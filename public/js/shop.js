@@ -3,8 +3,8 @@ const ShopSystem = (() => {
   let open = false;
 
   const shopItems = [
-    'potion', 'hiPotion', 'antidote', 'ironSword',
-    'steelSword', 'leatherArmor', 'silverArmor', 'luckyRing',
+    'potion', 'hiPotion', 'ether', 'antidote', 'smokeBomb',
+    'ironSword', 'steelSword', 'leatherArmor', 'silverArmor', 'luckyRing',
   ];
 
   function createOverlay() {
