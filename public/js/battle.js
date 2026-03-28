@@ -291,7 +291,7 @@ const BattleSystem = (() => {
       renderActions();
       return;
     }
-    if (Math.random() < 0.4 + (ps.speed - enemy.speed) * 0.05) {
+    if (Math.random() < 0.4 + (ps.speed - (enemy.speed || 0)) * 0.05) {
       addLog('Got away safely!');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('flee');
       renderBattle();
