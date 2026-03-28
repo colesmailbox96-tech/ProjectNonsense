@@ -101,6 +101,7 @@ const Game = (() => {
     }
 
     if (typeof Particles !== 'undefined') Particles.update(dt);
+    if (typeof WeatherSystem !== 'undefined') WeatherSystem.update(dt);
 
     if (gameState === GAME_STATES.EXPLORE) {
       // Handle movement
@@ -168,6 +169,9 @@ const Game = (() => {
 
     // Minimap
     if (typeof Minimap !== 'undefined') Minimap.render(ctx, displayW, displayH);
+
+    // Weather & Day-Night overlay
+    if (typeof WeatherSystem !== 'undefined') WeatherSystem.renderOverlay(ctx, displayW, displayH);
 
     // Transition overlay
     if (transitionAlpha > 0) {

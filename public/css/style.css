@@ -254,22 +254,26 @@ html, body {
 
 #menu-tabs {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   margin-bottom: 16px;
 }
 
 .menu-tab {
-  flex: 1;
-  padding: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 6px 4px;
   background: #2a2a4e;
   border: 1px solid #555;
   border-radius: 6px;
   color: #aaa;
   font-family: 'Courier New', monospace;
-  font-size: 0.8em;
+  font-size: 0.7em;
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .menu-tab.active {

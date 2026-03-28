@@ -8,6 +8,7 @@ const EnemyDB = (() => {
       xp: 10, gold: 5,
       sprite: 'slime',
       skills: [],
+      drops: [{ id: 'slimeGel', chance: 0.5 }],
     },
     goblin: {
       name: 'Forest Goblin',
@@ -16,6 +17,7 @@ const EnemyDB = (() => {
       xp: 20, gold: 12,
       sprite: 'goblin',
       skills: ['powerStrike'],
+      drops: [{ id: 'goblinFang', chance: 0.4 }, { id: 'ironOre', chance: 0.2 }],
     },
     skeleton: {
       name: 'Skeleton Warrior',
@@ -24,6 +26,7 @@ const EnemyDB = (() => {
       xp: 35, gold: 20,
       sprite: 'skeleton',
       skills: ['boneThrow'],
+      drops: [{ id: 'boneShard', chance: 0.5 }, { id: 'shadowDust', chance: 0.2 }],
     },
     darkKnight: {
       name: 'Dark Knight',
@@ -32,6 +35,7 @@ const EnemyDB = (() => {
       xp: 60, gold: 40,
       sprite: 'darkKnight',
       skills: ['darkSlash', 'powerStrike'],
+      drops: [{ id: 'darkPlate', chance: 0.4 }, { id: 'ironOre', chance: 0.3 }],
     },
     shadowLord: {
       name: 'Shadow Lord',
@@ -41,6 +45,7 @@ const EnemyDB = (() => {
       sprite: 'shadowLord',
       skills: ['darkSlash', 'shadowBlast', 'powerStrike'],
       isBoss: true,
+      drops: [{ id: 'shadowEssence', chance: 1.0 }, { id: 'shadowDust', chance: 1.0 }],
     },
   };
 

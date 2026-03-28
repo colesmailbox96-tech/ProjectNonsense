@@ -107,6 +107,8 @@ const Player = (() => {
         state.moving = false;
         state.prevX = state.x;
         state.prevY = state.y;
+        // Advance time of day
+        if (typeof WeatherSystem !== 'undefined') WeatherSystem.advanceTime(1);
         checkWarps();
         checkEncounter();
       }
@@ -125,7 +127,11 @@ const Player = (() => {
 
   function checkEncounter() {
     const map = MapData.getMap(state.currentMap);
-    if (map.encounterRate > 0 && Math.random() < map.encounterRate) {
+    let rate = map.encounterRate;
+    if (typeof WeatherSystem !== 'undefined') {
+      rate *= WeatherSystem.getEncounterMultiplier();
+    }
+    if (rate > 0 && Math.random() < rate) {
       const pool = map.enemyPool || ['slime'];
       const enemyType = pool[Math.floor(Math.random() * pool.length)];
       BattleSystem.startBattle(enemyType);

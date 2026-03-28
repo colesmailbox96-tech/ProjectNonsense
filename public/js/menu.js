@@ -173,6 +173,71 @@ const MenuSystem = (() => {
           `;
         }
         break;
+
+      case 'bestiary':
+        if (typeof Bestiary !== 'undefined') {
+          const allEnemyTypes = ['slime', 'goblin', 'skeleton', 'darkKnight', 'shadowLord'];
+          const discovered = Bestiary.getDiscoveredCount();
+          html += `<div style="color:#ff8844; font-size:0.8em; text-align:center; margin-bottom:10px;">Discovered: ${discovered} / ${allEnemyTypes.length}</div>`;
+          allEnemyTypes.forEach(type => {
+            const entry = Bestiary.getEntry(type);
+            const template = EnemyDB.create(type);
+            if (entry && entry.seen) {
+              const dropsStr = (template.drops || []).map(d => {
+                const it = ItemDB.getItem(d.id);
+                return it ? `${it.name} (${Math.round(d.chance * 100)}%)` : d.id;
+              }).join(', ');
+              html += `
+                <div class="stat-row" style="border-left: 3px solid #ff8844; padding-left: 8px;">
+                  <span class="stat-label">${template.name}</span>
+                  <span class="stat-value" style="font-size:0.75em; color:#ff8844">×${entry.defeated}</span>
+                </div>
+                <div style="color:#888; font-size:0.7em; padding: 2px 0 2px 12px;">HP: ${template.maxHp} | ATK: ${template.attack} | DEF: ${template.defense}</div>
+                ${dropsStr ? `<div style="color:#aaa; font-size:0.7em; padding: 0 0 8px 12px;">Drops: ${dropsStr}</div>` : '<div style="padding-bottom:8px;"></div>'}
+              `;
+            } else {
+              html += `
+                <div class="stat-row" style="border-left: 3px solid #333; padding-left: 8px; opacity: 0.4;">
+                  <span class="stat-label">???</span>
+                  <span class="stat-value" style="font-size:0.75em; color:#555">Not discovered</span>
+                </div>
+                <div style="padding-bottom:8px;"></div>
+              `;
+            }
+          });
+        } else {
+          html = '<p style="color:#888; text-align:center; padding:20px;">No bestiary</p>';
+        }
+        break;
+
+      case 'crafting':
+        if (typeof CraftingSystem !== 'undefined') {
+          const allRecipes = CraftingSystem.getRecipes();
+          html += `<div style="color:#44ddaa; font-size:0.8em; text-align:center; margin-bottom:10px;">🔨 Crafting Recipes</div>`;
+          allRecipes.forEach(recipe => {
+            const craftable = CraftingSystem.canCraft(recipe.id);
+            const ingredientStr = recipe.ingredients.map(ing => {
+              const it = ItemDB.getItem(ing.id);
+              const held = Player.hasItem(ing.id);
+              const heldQty = held ? held.qty : 0;
+              const color = heldQty >= ing.qty ? '#44cc44' : '#cc4444';
+              return `<span style="color:${color}">${it ? it.name : ing.id} ${heldQty}/${ing.qty}</span>`;
+            }).join(' + ');
+            const resultItem = ItemDB.getItem(recipe.result.id);
+            html += `
+              <div class="item-row craft-row${craftable ? '' : ' craft-disabled'}" data-recipe="${recipe.id}" style="cursor:${craftable ? 'pointer' : 'default'}; opacity:${craftable ? '1' : '0.6'}; border-left: 3px solid ${craftable ? '#44ddaa' : '#555'}; padding-left: 8px; margin-bottom: 6px;">
+                <div>
+                  <div class="item-name" style="color:${craftable ? '#44ddaa' : '#888'}">${resultItem ? resultItem.name : recipe.name}</div>
+                  <div style="font-size:0.7em; color:#888; margin-top:2px;">${ingredientStr}</div>
+                </div>
+                <span style="font-size:0.75em; color:${craftable ? '#44ddaa' : '#555'}">${craftable ? 'CRAFT' : '—'}</span>
+              </div>
+            `;
+          });
+        } else {
+          html = '<p style="color:#888; text-align:center; padding:20px;">No crafting</p>';
+        }
+        break;
     }
 
     el.innerHTML = html;
@@ -222,6 +287,18 @@ const MenuSystem = (() => {
     if (activeTab === 'save' && typeof AudioSystem !== 'undefined') {
       const muteBtn = document.getElementById('mute-toggle-btn');
       if (muteBtn) muteBtn.onclick = () => { AudioSystem.toggleMute(); renderTab(); };
+    }
+
+    // Bind crafting actions
+    if (activeTab === 'crafting' && typeof CraftingSystem !== 'undefined') {
+      el.querySelectorAll('.craft-row:not(.craft-disabled)').forEach(row => {
+        row.onclick = () => {
+          const recipeId = row.dataset.recipe;
+          if (CraftingSystem.craft(recipeId)) {
+            renderTab();
+          }
+        };
+      });
     }
   }
 
