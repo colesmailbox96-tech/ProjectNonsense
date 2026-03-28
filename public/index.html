@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Realm of Echoes</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+    <div id="touch-controls">
+      <div id="dpad">
+        <button class="dpad-btn" id="btn-up" data-dir="up">&#9650;</button>
+        <button class="dpad-btn" id="btn-left" data-dir="left">&#9664;</button>
+        <button class="dpad-btn" id="btn-right" data-dir="right">&#9654;</button>
+        <button class="dpad-btn" id="btn-down" data-dir="down">&#9660;</button>
+      </div>
+      <div id="action-buttons">
+        <button class="action-btn" id="btn-action">A</button>
+        <button class="action-btn" id="btn-attack">B</button>
+        <button class="action-btn" id="btn-menu">&#9776;</button>
+      </div>
+    </div>
+    <div id="dialogue-box" class="hidden">
+      <div id="dialogue-speaker"></div>
+      <div id="dialogue-text"></div>
+      <div id="dialogue-continue">Tap to continue...</div>
+    </div>
+    <div id="menu-overlay" class="hidden">
+      <div id="menu-panel">
+        <h2>Menu</h2>
+        <div id="menu-tabs">
+          <button class="menu-tab active" data-tab="stats">Stats</button>
+          <button class="menu-tab" data-tab="inventory">Items</button>
+          <button class="menu-tab" data-tab="equipment">Equip</button>
+        </div>
+        <div id="menu-content"></div>
+        <button id="menu-close">Close</button>
+      </div>
+    </div>
+    <div id="battle-overlay" class="hidden">
+      <canvas id="battle-canvas"></canvas>
+      <div id="battle-ui">
+        <div id="battle-log"></div>
+        <div id="battle-actions">
+          <button class="battle-btn" data-action="attack">Attack</button>
+          <button class="battle-btn" data-action="skill">Skill</button>
+          <button class="battle-btn" data-action="item">Item</button>
+          <button class="battle-btn" data-action="flee">Flee</button>
+        </div>
+      </div>
+    </div>
+    <div id="title-screen">
+      <div id="title-art">
+        <h1>Realm of Echoes</h1>
+        <p class="subtitle">A Pixel RPG Adventure</p>
+      </div>
+      <button id="start-btn">Tap to Start</button>
+      <p class="version">v1.0</p>
+    </div>
+  </div>
+
+  <script src="js/constants.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/maps.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/npcs.js"></script>
+  <script src="js/items.js"></script>
+  <script src="js/battle.js"></script>
+  <script src="js/dialogue.js"></script>
+  <script src="js/hud.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

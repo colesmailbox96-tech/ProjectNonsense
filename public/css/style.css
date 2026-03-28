@@ -1,0 +1,443 @@
+/* ========= GLOBAL RESET & MOBILE OPTIMIZATION ========= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0a1a;
+  font-family: 'Courier New', monospace;
+  touch-action: none;
+}
+
+/* ========= GAME CONTAINER ========= */
+#game-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ========= TITLE SCREEN ========= */
+#title-screen {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 50%, #2a1a4e 100%);
+  z-index: 100;
+  animation: titlePulse 4s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+  0%, 100% { background: linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 50%, #2a1a4e 100%); }
+  50% { background: linear-gradient(180deg, #0e0e3a 0%, #1e0e4a 50%, #2e1e5a 100%); }
+}
+
+#title-art h1 {
+  font-size: 2.2em;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 2px 2px 0 #8b6914;
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+#title-art .subtitle {
+  color: #aaa;
+  font-size: 0.9em;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+#start-btn {
+  margin-top: 60px;
+  padding: 16px 48px;
+  font-size: 1.2em;
+  font-family: 'Courier New', monospace;
+  background: transparent;
+  color: #ffd700;
+  border: 2px solid #ffd700;
+  cursor: pointer;
+  animation: blink 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.version {
+  position: absolute;
+  bottom: 20px;
+  color: #555;
+  font-size: 0.7em;
+}
+
+/* ========= TOUCH CONTROLS ========= */
+#touch-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 16px 20px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#dpad {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  pointer-events: auto;
+}
+
+.dpad-btn {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.dpad-btn:active {
+  background: rgba(255, 215, 0, 0.4);
+  border-color: #ffd700;
+}
+
+#btn-up    { top: 0;   left: 50%; transform: translateX(-50%); }
+#btn-down  { bottom: 0; left: 50%; transform: translateX(-50%); }
+#btn-left  { top: 50%; left: 0;   transform: translateY(-50%); }
+#btn-right { top: 50%; right: 0;  transform: translateY(-50%); }
+
+#action-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  pointer-events: auto;
+}
+
+.action-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.action-btn:active {
+  background: rgba(255, 215, 0, 0.4);
+  border-color: #ffd700;
+}
+
+#btn-attack {
+  background: rgba(255, 80, 80, 0.2);
+  border-color: rgba(255, 80, 80, 0.5);
+}
+
+#btn-attack:active {
+  background: rgba(255, 80, 80, 0.5);
+}
+
+#btn-menu {
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+/* ========= DIALOGUE BOX ========= */
+#dialogue-box {
+  position: absolute;
+  bottom: 190px;
+  left: 16px;
+  right: 16px;
+  background: rgba(0, 0, 20, 0.92);
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  padding: 14px 18px;
+  z-index: 20;
+  min-height: 80px;
+}
+
+#dialogue-speaker {
+  color: #ffd700;
+  font-size: 0.85em;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+#dialogue-text {
+  color: #eee;
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+
+#dialogue-continue {
+  color: #888;
+  font-size: 0.7em;
+  text-align: right;
+  margin-top: 8px;
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+/* ========= MENU OVERLAY ========= */
+#menu-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+#menu-panel {
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  background: #1a1a2e;
+  border: 2px solid #ffd700;
+  border-radius: 12px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+#menu-panel h2 {
+  color: #ffd700;
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 1.3em;
+}
+
+#menu-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.menu-tab {
+  flex: 1;
+  padding: 8px;
+  background: #2a2a4e;
+  border: 1px solid #555;
+  border-radius: 6px;
+  color: #aaa;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.menu-tab.active {
+  background: #3a3a6e;
+  border-color: #ffd700;
+  color: #ffd700;
+}
+
+#menu-content {
+  color: #ddd;
+  font-size: 0.85em;
+  line-height: 1.8;
+  min-height: 200px;
+}
+
+#menu-content .stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid #333;
+}
+
+#menu-content .stat-label {
+  color: #aaa;
+}
+
+#menu-content .stat-value {
+  color: #ffd700;
+}
+
+#menu-content .item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+  border-bottom: 1px solid #333;
+}
+
+#menu-content .item-row:active {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+#menu-content .item-name {
+  color: #ddd;
+}
+
+#menu-content .item-qty {
+  color: #888;
+  font-size: 0.85em;
+}
+
+#menu-content .equip-slot {
+  padding: 10px 4px;
+  border-bottom: 1px solid #333;
+}
+
+#menu-content .equip-slot-name {
+  color: #888;
+  font-size: 0.75em;
+  text-transform: uppercase;
+}
+
+#menu-content .equip-item-name {
+  color: #7af;
+}
+
+#menu-content .xp-bar-container {
+  background: #333;
+  height: 12px;
+  border-radius: 6px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+#menu-content .xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4a7, #7f7);
+  border-radius: 6px;
+  transition: width 0.3s;
+}
+
+#menu-close {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  background: #2a2a4e;
+  border: 1px solid #ffd700;
+  border-radius: 6px;
+  color: #ffd700;
+  font-family: 'Courier New', monospace;
+  font-size: 1em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ========= BATTLE OVERLAY ========= */
+#battle-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #0a0a1a;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+}
+
+#battle-canvas {
+  flex: 1;
+  width: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+#battle-ui {
+  padding: 12px;
+  background: #111;
+}
+
+#battle-log {
+  color: #ccc;
+  font-size: 0.8em;
+  min-height: 48px;
+  max-height: 72px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding: 8px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 6px;
+  line-height: 1.5;
+}
+
+#battle-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.battle-btn {
+  padding: 14px;
+  background: #1a1a3e;
+  border: 2px solid #556;
+  border-radius: 8px;
+  color: #ddd;
+  font-family: 'Courier New', monospace;
+  font-size: 1em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.battle-btn:active {
+  background: #2a2a5e;
+  border-color: #ffd700;
+  color: #ffd700;
+}
+
+/* ========= UTILITY ========= */
+.hidden {
+  display: none !important;
+}
+
+/* ========= SAFE AREA (for notched phones) ========= */
+@supports (padding: env(safe-area-inset-bottom)) {
+  #touch-controls {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+  #dialogue-box {
+    bottom: calc(190px + env(safe-area-inset-bottom));
+  }
+}
