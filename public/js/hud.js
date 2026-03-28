@@ -63,6 +63,17 @@ const HUD = (() => {
     ctx.fillStyle = '#8844ff';
     ctx.fillRect(xpBarX, xpBarY, xpBarW * (ps.xp / ps.xpToNext), xpBarH);
 
+    // Time & Weather indicator
+    if (typeof WeatherSystem !== 'undefined') {
+      const weatherIcons = { clear: '☀', rain: '🌧', fog: '🌫', storm: '⛈' };
+      const icon = weatherIcons[WeatherSystem.getWeather()] || '☀';
+      const timeStr = WeatherSystem.getTimeString();
+      ctx.fillStyle = '#ddd';
+      ctx.textAlign = 'center';
+      ctx.font = '10px "Courier New", monospace';
+      ctx.fillText(`${icon} ${timeStr}`, canvasW / 2, 40);
+    }
+
     // Quest objective
     if (typeof QuestSystem !== 'undefined') {
       const quest = QuestSystem.getActiveQuest();

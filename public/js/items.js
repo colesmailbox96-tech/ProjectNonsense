@@ -90,6 +90,42 @@ const ItemDB = (() => {
       speed: 2,
       buyPrice: 150,
     },
+    // Crafting materials (dropped by enemies)
+    slimeGel: {
+      name: 'Slime Gel',
+      type: 'material',
+      description: 'Gooey residue from slimes',
+    },
+    goblinFang: {
+      name: 'Goblin Fang',
+      type: 'material',
+      description: 'A sharp fang from a goblin',
+    },
+    boneShard: {
+      name: 'Bone Shard',
+      type: 'material',
+      description: 'Fragment of an animated skeleton',
+    },
+    ironOre: {
+      name: 'Iron Ore',
+      type: 'material',
+      description: 'Raw iron ore found in caverns',
+    },
+    darkPlate: {
+      name: 'Dark Plate',
+      type: 'material',
+      description: 'Armor shard from a Dark Knight',
+    },
+    shadowDust: {
+      name: 'Shadow Dust',
+      type: 'material',
+      description: 'Mysterious dust from shadow creatures',
+    },
+    shadowEssence: {
+      name: 'Shadow Essence',
+      type: 'material',
+      description: 'Potent essence of the Shadow Lord',
+    },
   };
 
   function getItem(id) {

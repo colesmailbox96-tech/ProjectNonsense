@@ -35,6 +35,8 @@ const BattleSystem = (() => {
     playerEffects = [];
     enemyEffects = [];
 
+    if (typeof Bestiary !== 'undefined') Bestiary.recordSeen(enemy.type);
+
     if (enemy.isBoss) {
       addLog(`⚔ BOSS: ${enemy.name} blocks the way!`);
     } else {
@@ -415,6 +417,20 @@ const BattleSystem = (() => {
     const isBoss = enemy && enemy.isBoss;
     addLog(`Defeated ${enemy.name}!`);
     addLog(`Gained ${enemy.xp} XP and ${enemy.gold} gold!`);
+
+    // Bestiary tracking
+    if (typeof Bestiary !== 'undefined') Bestiary.recordDefeat(enemy.type);
+
+    // Loot drops
+    if (enemy.drops) {
+      for (const drop of enemy.drops) {
+        if (Math.random() < drop.chance) {
+          Player.addItem(drop.id, 1);
+          const item = ItemDB.getItem(drop.id);
+          if (item) addLog(`💎 Dropped: ${item.name}`);
+        }
+      }
+    }
 
     const ps = Player.getState();
     ps.gold += enemy.gold;

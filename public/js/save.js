@@ -91,6 +91,8 @@ const SaveSystem = (() => {
       },
       chests: gatherChestState(),
       quests: typeof QuestSystem !== 'undefined' ? QuestSystem.getState() : {},
+      weather: typeof WeatherSystem !== 'undefined' ? WeatherSystem.getState() : {},
+      bestiary: typeof Bestiary !== 'undefined' ? Bestiary.getState() : {},
     };
     return data;
   }
@@ -122,6 +124,14 @@ const SaveSystem = (() => {
 
     if (data.quests && typeof QuestSystem !== 'undefined') {
       QuestSystem.loadState(data.quests);
+    }
+
+    if (data.weather && typeof WeatherSystem !== 'undefined') {
+      WeatherSystem.loadState(data.weather);
+    }
+
+    if (data.bestiary && typeof Bestiary !== 'undefined') {
+      Bestiary.loadState(data.bestiary);
     }
   }
 
