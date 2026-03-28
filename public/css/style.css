@@ -427,6 +427,24 @@ html, body {
   color: #ffd700;
 }
 
+.battle-btn.btn-disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.battle-btn.btn-back {
+  background: #1a2a1a;
+  border-color: #448844;
+  color: #88cc88;
+}
+
+.battle-btn small {
+  display: block;
+  font-size: 0.7em;
+  color: #888;
+  margin-top: 2px;
+}
+
 /* ========= UTILITY ========= */
 .hidden {
   display: none !important;

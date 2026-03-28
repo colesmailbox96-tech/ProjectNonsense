@@ -128,14 +128,50 @@ const MenuSystem = (() => {
         }
         break;
 
+      case 'skills':
+        if (typeof SkillDB !== 'undefined') {
+          const ps2 = Player.getState();
+          const learned = SkillDB.getLearnedSkills(ps2.level);
+          if (learned.length === 0) {
+            html = '<p style="color:#888; text-align:center; padding:20px;">No skills yet</p>';
+          } else {
+            learned.forEach(s => {
+              html += `
+                <div class="stat-row" style="border-left: 3px solid #4488ff; padding-left: 8px;">
+                  <span class="stat-label">${s.name}</span>
+                  <span class="stat-value" style="font-size:0.75em; color:#4488ff">${s.mpCost} MP</span>
+                </div>
+                <div style="color:#888; font-size:0.75em; padding: 2px 0 8px 12px;">${s.description}</div>
+              `;
+            });
+          }
+          // Show next skill to learn
+          const allSkills = SkillDB.getLearnedSkills(99);
+          const nextSkill = allSkills.find(s => s.unlockLevel > ps2.level);
+          if (nextSkill) {
+            html += `<div style="color:#555; font-size:0.75em; padding:12px 0 0; text-align:center;">Next: ${nextSkill.name} at Lv.${nextSkill.unlockLevel}</div>`;
+          }
+        } else {
+          html = '<p style="color:#888; text-align:center; padding:20px;">No skills</p>';
+        }
+        break;
+
       case 'save':
         html = `
           <div style="text-align:center; padding:20px;">
             <button class="save-action-btn" id="menu-save-btn" style="width:100%;padding:12px;margin-bottom:12px;background:#1a3a1a;border:1px solid #44cc44;border-radius:6px;color:#44cc44;font-family:monospace;font-size:0.9em;cursor:pointer;">💾 Save Game</button>
             <button class="save-action-btn" id="menu-load-btn" style="width:100%;padding:12px;margin-bottom:12px;background:#1a1a3a;border:1px solid #4488ff;border-radius:6px;color:#4488ff;font-family:monospace;font-size:0.9em;cursor:pointer;">📂 Load Game</button>
-            <button class="save-action-btn" id="menu-delete-save-btn" style="width:100%;padding:12px;background:#3a1a1a;border:1px solid #cc4444;border-radius:6px;color:#cc4444;font-family:monospace;font-size:0.9em;cursor:pointer;">🗑 Delete Save</button>
+            <button class="save-action-btn" id="menu-delete-save-btn" style="width:100%;padding:12px;margin-bottom:16px;background:#3a1a1a;border:1px solid #cc4444;border-radius:6px;color:#cc4444;font-family:monospace;font-size:0.9em;cursor:pointer;">🗑 Delete Save</button>
           </div>
         `;
+        if (typeof AudioSystem !== 'undefined') {
+          const muted = AudioSystem.isMuted();
+          html += `
+            <div style="border-top:1px solid #333; padding-top:12px;">
+              <div class="stat-row"><span class="stat-label">🔊 Audio</span><span class="stat-value"><button id="mute-toggle-btn" style="background:none;border:1px solid #888;color:#ddd;border-radius:4px;padding:4px 10px;font-family:monospace;font-size:0.8em;cursor:pointer;">${muted ? 'Unmute' : 'Mute'}</button></span></div>
+            </div>
+          `;
+        }
         break;
     }
 
@@ -180,6 +216,12 @@ const MenuSystem = (() => {
         }
       };
       if (deleteBtn) deleteBtn.onclick = () => { SaveSystem.deleteSave(); renderTab(); };
+    }
+
+    // Bind mute toggle
+    if (activeTab === 'save' && typeof AudioSystem !== 'undefined') {
+      const muteBtn = document.getElementById('mute-toggle-btn');
+      if (muteBtn) muteBtn.onclick = () => { AudioSystem.toggleMute(); renderTab(); };
     }
   }
 

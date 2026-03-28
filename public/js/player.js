@@ -91,6 +91,7 @@ const Player = (() => {
     const item = ItemDB.getItem(chest.item);
     addItem(chest.item, 1);
     DialogueSystem.showMessage('Chest', `Found ${item.name}!`);
+    if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('chest');
   }
 
   function update(dt) {
@@ -208,6 +209,7 @@ const Player = (() => {
       const old = ItemDB.getItem(state[slot]);
       if (old.attack) state.attack -= old.attack;
       if (old.defense) state.defense -= old.defense;
+      if (old.speed) state.speed -= old.speed;
     }
 
     removeItem(itemId, 1);
@@ -216,6 +218,7 @@ const Player = (() => {
     // Apply stats
     if (item.attack) state.attack += item.attack;
     if (item.defense) state.defense += item.defense;
+    if (item.speed) state.speed += item.speed;
 
     return true;
   }
@@ -225,9 +228,19 @@ const Player = (() => {
     state.mp = state.maxMp;
   }
 
+  function getCritChance() {
+    let chance = 0.05 + state.speed * 0.01;
+    // Lucky Ring crit bonus
+    if (state.accessory) {
+      const acc = ItemDB.getItem(state.accessory);
+      if (acc && acc.critBonus) chance += acc.critBonus;
+    }
+    return Math.min(chance, 0.5);
+  }
+
   return {
     getState, setPosition, tryMove, update, getRenderPos,
     heal, restoreMp, takeDamage, gainXP, addItem, removeItem,
-    hasItem, equip, fullHeal,
+    hasItem, equip, fullHeal, getCritChance,
   };
 })();

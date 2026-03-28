@@ -66,6 +66,8 @@ const Game = (() => {
         canvas.height / (window.devicePixelRatio || 1),
         map.width, map.height
       );
+      // Start map music
+      if (typeof AudioSystem !== 'undefined') AudioSystem.playMapMusic(ps.currentMap);
     } else {
       const map = MapData.getMap('village');
       Player.setPosition(map.playerStart.x, map.playerStart.y);
@@ -75,6 +77,8 @@ const Game = (() => {
         canvas.height / (window.devicePixelRatio || 1),
         map.width, map.height
       );
+      // Start village music
+      if (typeof AudioSystem !== 'undefined') AudioSystem.playMapMusic('village');
     }
 
     requestAnimationFrame(gameLoop);
@@ -182,6 +186,9 @@ const Game = (() => {
       const displayW = canvas.width / (window.devicePixelRatio || 1);
       const displayH = canvas.height / (window.devicePixelRatio || 1);
       Camera.snapTo(x, y, displayW, displayH, map.width, map.height);
+
+      // Play map music
+      if (typeof AudioSystem !== 'undefined') AudioSystem.playMapMusic(mapName);
 
       // Quest progress on map enter
       if (typeof QuestSystem !== 'undefined') {
