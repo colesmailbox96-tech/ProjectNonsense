@@ -23,7 +23,12 @@ const BattleSystem = (() => {
     flashTimer = 0;
     flashTarget = null;
     log.length = 0;
-    addLog(`A wild ${enemy.name} appears!`);
+
+    if (enemy.isBoss) {
+      addLog(`⚔ BOSS: ${enemy.name} blocks the way!`);
+    } else {
+      addLog(`A wild ${enemy.name} appears!`);
+    }
 
     overlay().classList.remove('hidden');
     Game.setState(GAME_STATES.BATTLE);
@@ -157,6 +162,7 @@ const BattleSystem = (() => {
   }
 
   function victory() {
+    const isBoss = enemy && enemy.isBoss;
     addLog(`Defeated ${enemy.name}!`);
     addLog(`Gained ${enemy.xp} XP and ${enemy.gold} gold!`);
 
@@ -167,8 +173,18 @@ const BattleSystem = (() => {
       addLog(`LEVEL UP! Now level ${levels[levels.length - 1]}!`);
     }
 
+    if (typeof QuestSystem !== 'undefined') {
+      QuestSystem.checkProgress('defeat_enemy', { enemyType: enemy.type });
+      if (isBoss) {
+        QuestSystem.checkProgress('defeat_boss', {});
+      }
+    }
+
     renderBattle();
-    setTimeout(() => endBattle(), 1500);
+    setTimeout(() => {
+      endBattle();
+      if (typeof SaveSystem !== 'undefined') SaveSystem.autoSave();
+    }, 1500);
   }
 
   function defeat() {

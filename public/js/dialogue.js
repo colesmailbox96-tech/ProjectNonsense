@@ -14,6 +14,7 @@ const DialogueSystem = (() => {
     merchant_intro: [
       { speaker: 'Merchant', text: 'Welcome to my shop! I sell potions and equipment.' },
       { speaker: 'Merchant', text: 'Here, take this leather armor as a gift for the hero who will save us!' },
+      { speaker: 'Merchant', text: 'Come back anytime to browse my wares!' },
     ],
     healer_intro: [
       { speaker: 'Healer Aria', text: 'Oh, you must be the hero the Elder spoke of!' },
@@ -51,6 +52,12 @@ const DialogueSystem = (() => {
     if (id === 'healer_intro') {
       Player.fullHeal();
     }
+
+    // Quest progress
+    if (typeof QuestSystem !== 'undefined') {
+      const npcId = id.replace('_intro', '');
+      QuestSystem.checkProgress('talk_npc', { npcId });
+    }
   }
 
   function showMessage(speaker, text) {
@@ -83,11 +90,17 @@ const DialogueSystem = (() => {
   }
 
   function close() {
+    const wasDialogue = queue.length > 0 ? queue : null;
     active = false;
     queue = [];
     currentLine = 0;
     box().classList.add('hidden');
     Game.setState(GAME_STATES.EXPLORE);
+
+    // Open shop after merchant dialogue
+    if (wasDialogue && wasDialogue[0] && wasDialogue[0].speaker === 'Merchant' && typeof ShopSystem !== 'undefined') {
+      setTimeout(() => ShopSystem.open(), 100);
+    }
   }
 
   function isActive() { return active; }

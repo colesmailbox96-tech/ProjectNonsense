@@ -170,6 +170,7 @@ const MapData = (() => {
       { x: 15, y: 15, item: 'silverArmor', opened: false },
       { x: 3, y: 17, item: 'elixir', opened: false },
     ],
+    bossSpawn: { x: 10, y: 11 },
     playerStart: { x: 5, y: 1 },
   };
 

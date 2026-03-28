@@ -43,9 +43,9 @@ const HUD = (() => {
     ctx.fillStyle = '#ffd700';
     ctx.textAlign = 'right';
     ctx.font = '12px "Courier New", monospace';
-    ctx.fillText(`Lv.${ps.level}`, canvasW - 10, 18);
+    ctx.fillText(`Lv.${ps.level}`, canvasW - 120, 18);
     ctx.fillStyle = '#ffcc00';
-    ctx.fillText(`${ps.gold}G`, canvasW - 10, 36);
+    ctx.fillText(`${ps.gold}G`, canvasW - 120, 36);
 
     // Map name
     ctx.fillStyle = '#aaa';
@@ -62,6 +62,19 @@ const HUD = (() => {
     ctx.fillRect(xpBarX, xpBarY, xpBarW, xpBarH);
     ctx.fillStyle = '#8844ff';
     ctx.fillRect(xpBarX, xpBarY, xpBarW * (ps.xp / ps.xpToNext), xpBarH);
+
+    // Quest objective
+    if (typeof QuestSystem !== 'undefined') {
+      const quest = QuestSystem.getActiveQuest();
+      if (quest && !quest.completed) {
+        ctx.fillStyle = 'rgba(0, 0, 20, 0.65)';
+        ctx.fillRect(0, 48, canvasW, 20);
+        ctx.fillStyle = '#ffd700';
+        ctx.font = '10px "Courier New", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText(`▸ ${quest.description}`, 10, 62);
+      }
+    }
   }
 
   return { render };

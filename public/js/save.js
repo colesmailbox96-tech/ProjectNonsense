@@ -66,7 +66,7 @@ const SaveSystem = (() => {
 
   function buildSaveData() {
     const ps = Player.getState();
-    return {
+    const data = {
       version: 1,
       timestamp: Date.now(),
       player: {
@@ -90,9 +90,9 @@ const SaveSystem = (() => {
         y: ps.y,
       },
       chests: gatherChestState(),
-      // Reserved for future quest system integration
-      quests: {},
+      quests: typeof QuestSystem !== 'undefined' ? QuestSystem.getState() : {},
     };
+    return data;
   }
 
   function applySaveData(data) {
@@ -119,6 +119,10 @@ const SaveSystem = (() => {
     ps.y = p.y;
 
     applyChestState(data.chests);
+
+    if (data.quests && typeof QuestSystem !== 'undefined') {
+      QuestSystem.loadState(data.quests);
+    }
   }
 
   function save() {

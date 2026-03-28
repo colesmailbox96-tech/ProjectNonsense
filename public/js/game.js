@@ -7,6 +7,7 @@ const Game = (() => {
   const MOVE_INTERVAL = 150; // ms between moves when holding direction
   let transitionAlpha = 0;
   let transitionCallback = null;
+  let bossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -27,6 +28,11 @@ const Game = (() => {
       e.preventDefault();
       startGame();
     }, { passive: false });
+
+    // Show "Continue" on title if save exists
+    if (typeof SaveSystem !== 'undefined' && SaveSystem.hasSave()) {
+      startBtn.textContent = 'Tap to Continue';
+    }
   }
 
   function resizeCanvas() {
@@ -44,14 +50,28 @@ const Game = (() => {
     document.getElementById('title-screen').classList.add('hidden');
     gameState = GAME_STATES.EXPLORE;
 
-    const map = MapData.getMap('village');
-    Player.setPosition(map.playerStart.x, map.playerStart.y);
-    Camera.snapTo(
-      map.playerStart.x, map.playerStart.y,
-      canvas.width / (window.devicePixelRatio || 1),
-      canvas.height / (window.devicePixelRatio || 1),
-      map.width, map.height
-    );
+    // Try loading save
+    if (typeof SaveSystem !== 'undefined' && SaveSystem.hasSave()) {
+      SaveSystem.load();
+      const ps = Player.getState();
+      Player.setPosition(ps.x, ps.y);
+      const map = MapData.getMap(ps.currentMap);
+      Camera.snapTo(
+        ps.x, ps.y,
+        canvas.width / (window.devicePixelRatio || 1),
+        canvas.height / (window.devicePixelRatio || 1),
+        map.width, map.height
+      );
+    } else {
+      const map = MapData.getMap('village');
+      Player.setPosition(map.playerStart.x, map.playerStart.y);
+      Camera.snapTo(
+        map.playerStart.x, map.playerStart.y,
+        canvas.width / (window.devicePixelRatio || 1),
+        canvas.height / (window.devicePixelRatio || 1),
+        map.width, map.height
+      );
+    }
 
     requestAnimationFrame(gameLoop);
   }
@@ -71,6 +91,8 @@ const Game = (() => {
       updateTransition(dt);
       return;
     }
+
+    if (typeof Particles !== 'undefined') Particles.update(dt);
 
     if (gameState === GAME_STATES.EXPLORE) {
       // Handle movement
@@ -96,6 +118,19 @@ const Game = (() => {
       const displayW = canvas.width / (window.devicePixelRatio || 1);
       const displayH = canvas.height / (window.devicePixelRatio || 1);
       Camera.update(pos.x, pos.y, displayW, displayH, map.width, map.height);
+
+      // Check for boss encounter in dungeon
+      checkBossEncounter();
+    }
+  }
+
+  function checkBossEncounter() {
+    if (bossDefeated) return;
+    const ps = Player.getState();
+    const map = MapData.getMap(ps.currentMap);
+    if (map.bossSpawn && ps.x === map.bossSpawn.x && ps.y === map.bossSpawn.y) {
+      bossDefeated = true;
+      BattleSystem.startBattle('shadowLord');
     }
   }
 
@@ -117,8 +152,14 @@ const Game = (() => {
     Renderer.renderNPCs(ctx, camX, camY);
     Renderer.renderPlayer(ctx, camX, camY);
 
+    // Particles
+    if (typeof Particles !== 'undefined') Particles.render(ctx);
+
     // HUD
     HUD.render(ctx, displayW);
+
+    // Minimap
+    if (typeof Minimap !== 'undefined') Minimap.render(ctx, displayW, displayH);
 
     // Transition overlay
     if (transitionAlpha > 0) {
@@ -137,6 +178,24 @@ const Game = (() => {
       const displayW = canvas.width / (window.devicePixelRatio || 1);
       const displayH = canvas.height / (window.devicePixelRatio || 1);
       Camera.snapTo(x, y, displayW, displayH, map.width, map.height);
+
+      // Quest progress on map enter
+      if (typeof QuestSystem !== 'undefined') {
+        QuestSystem.checkProgress('enter_map', { mapName: map.name });
+
+        // Check if final quest completed
+        const active = QuestSystem.getActiveQuest();
+        if (!active) {
+          const log = QuestSystem.getQuestLog();
+          const allDone = log.every(q => q.completed);
+          if (allDone && typeof VictoryScreen !== 'undefined') {
+            setTimeout(() => VictoryScreen.show(), 500);
+          }
+        }
+      }
+
+      // Auto-save on map change
+      if (typeof SaveSystem !== 'undefined') SaveSystem.autoSave();
     };
     gameState = GAME_STATES.TRANSITION;
   }
@@ -166,9 +225,10 @@ const Game = (() => {
 
   function setState(s) { gameState = s; }
   function getState() { return gameState; }
+  function setBossDefeated(val) { bossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo };
+  return { init, setState, getState, warpTo, setBossDefeated };
 })();

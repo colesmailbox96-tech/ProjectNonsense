@@ -33,12 +33,22 @@ const EnemyDB = (() => {
       sprite: 'darkKnight',
       skills: ['darkSlash', 'powerStrike'],
     },
+    shadowLord: {
+      name: 'Shadow Lord',
+      hp: 200, maxHp: 200,
+      attack: 28, defense: 16, speed: 7,
+      xp: 150, gold: 100,
+      sprite: 'shadowLord',
+      skills: ['darkSlash', 'shadowBlast', 'powerStrike'],
+      isBoss: true,
+    },
   };
 
   const skills = {
     powerStrike: { name: 'Power Strike', multiplier: 1.5 },
     boneThrow: { name: 'Bone Throw', multiplier: 1.3 },
     darkSlash: { name: 'Dark Slash', multiplier: 1.8 },
+    shadowBlast: { name: 'Shadow Blast', multiplier: 2.0 },
   };
 
   function create(type) {
