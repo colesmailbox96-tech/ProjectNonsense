@@ -159,7 +159,35 @@ const ShopSystem = (() => {
     ps.gold -= item.buyPrice;
     Player.addItem(id, 1);
     render();
-    DialogueSystem.showMessage('Merchant', `Bought ${item.name}!`);
+    showPurchaseToast(`Bought ${item.name}!`);
+  }
+
+  function showPurchaseToast(msg) {
+    let toast = document.getElementById('shop-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'shop-toast';
+      Object.assign(toast.style, {
+        position: 'absolute',
+        bottom: '60px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        background: 'rgba(0,0,0,0.85)',
+        color: '#44cc44',
+        padding: '8px 18px',
+        borderRadius: '6px',
+        fontFamily: 'monospace',
+        fontSize: '13px',
+        zIndex: '200',
+        opacity: '0',
+        transition: 'opacity 0.3s',
+        pointerEvents: 'none',
+      });
+      document.getElementById('game-container').appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 1200);
   }
 
   function openShop() {

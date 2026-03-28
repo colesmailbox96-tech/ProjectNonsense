@@ -3,6 +3,10 @@ const VictoryScreen = (() => {
   let created = false;
   let startTime = Date.now();
 
+  function resetTimer() {
+    startTime = Date.now();
+  }
+
   function getPlayTime() {
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
     const hrs = Math.floor(elapsed / 3600);
@@ -234,11 +238,11 @@ const VictoryScreen = (() => {
   }
 
   function buildFreshQuests() {
-    return QuestSystem.getQuestLog().map((q, i) => {
-      const entry = { id: q.id, completed: false, active: i === 0 };
+    return QuestSystem.getQuestLog().map((q) => {
+      const entry = { id: q.id, completed: false, active: q.id === 'elder_request' };
       if (q.progress) {
         entry.progress = Object.fromEntries(
-          Object.keys(q.progress).map((k) => [k, 0])
+          Object.keys(q.progress).map((k) => [k, typeof q.progress[k] === 'boolean' ? false : 0])
         );
       }
       return entry;
@@ -247,11 +251,10 @@ const VictoryScreen = (() => {
 
   function handleNewGamePlus() {
     QuestSystem.loadState(buildFreshQuests());
-
-    // Reset play-time tracker
-    startTime = Date.now();
+    resetTimer();
 
     hide();
+    Game.setBossDefeated(false);
     Game.setState(GAME_STATES.EXPLORE);
   }
 
@@ -260,5 +263,5 @@ const VictoryScreen = (() => {
     Game.setState(GAME_STATES.TITLE);
   }
 
-  return { show, hide };
+  return { show, hide, resetTimer };
 })();

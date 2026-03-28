@@ -32,10 +32,13 @@ const DialogueSystem = (() => {
   const speakerEl = () => document.getElementById('dialogue-speaker');
   const textEl = () => document.getElementById('dialogue-text');
 
+  let lastDialogueId = null;
+
   function startDialogue(id) {
     const lines = dialogues[id];
     if (!lines) return;
 
+    lastDialogueId = id;
     queue = [...lines];
     currentLine = 0;
     active = true;
@@ -90,15 +93,16 @@ const DialogueSystem = (() => {
   }
 
   function close() {
-    const wasDialogue = queue.length > 0 ? queue : null;
+    const closingId = lastDialogueId;
     active = false;
     queue = [];
     currentLine = 0;
+    lastDialogueId = null;
     box().classList.add('hidden');
     Game.setState(GAME_STATES.EXPLORE);
 
     // Open shop after merchant dialogue
-    if (wasDialogue && wasDialogue[0] && wasDialogue[0].speaker === 'Merchant' && typeof ShopSystem !== 'undefined') {
+    if (closingId === 'merchant_intro' && typeof ShopSystem !== 'undefined') {
       setTimeout(() => ShopSystem.open(), 100);
     }
   }

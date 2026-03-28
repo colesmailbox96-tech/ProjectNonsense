@@ -50,11 +50,15 @@ const Game = (() => {
     document.getElementById('title-screen').classList.add('hidden');
     gameState = GAME_STATES.EXPLORE;
 
+    // Reset play time tracker
+    if (typeof VictoryScreen !== 'undefined') VictoryScreen.resetTimer();
+
     // Try loading save
     if (typeof SaveSystem !== 'undefined' && SaveSystem.hasSave()) {
       SaveSystem.load();
       const ps = Player.getState();
       Player.setPosition(ps.x, ps.y);
+      bossDefeated = false;
       const map = MapData.getMap(ps.currentMap);
       Camera.snapTo(
         ps.x, ps.y,
