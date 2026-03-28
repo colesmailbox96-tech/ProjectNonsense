@@ -73,7 +73,13 @@ const BattleSystem = (() => {
       btn.onclick = () => {
         if (!playerTurn || animating) return;
         const action = btn.dataset.action;
-        handlePlayerAction(action);
+        if (action === 'use-skill' && btn.dataset.skill) {
+          useSkill(btn.dataset.skill);
+        } else if (action === 'use-item' && btn.dataset.item) {
+          useItem(btn.dataset.item);
+        } else {
+          handlePlayerAction(action);
+        }
       };
     });
   }
@@ -131,14 +137,6 @@ const BattleSystem = (() => {
       case 'flee':
         attemptFlee();
         break;
-      case 'use-skill': {
-        // handled via data-skill attribute
-        break;
-      }
-      case 'use-item': {
-        // handled via data-item attribute
-        break;
-      }
       case 'back':
         subMenu = null;
         renderActions();
@@ -616,33 +614,10 @@ const BattleSystem = (() => {
 
   function isActive() { return active; }
 
-  // Override the action button onclick after renderActions
-  // Skill/item buttons need special handlers
-  function setupCustomHandlers() {
-    const el = actionsEl();
-    if (!el) return;
-    el.querySelectorAll('[data-skill]').forEach(btn => {
-      btn.onclick = () => {
-        if (!playerTurn || animating) return;
-        useSkill(btn.dataset.skill);
-      };
-    });
-    el.querySelectorAll('[data-item]').forEach(btn => {
-      btn.onclick = () => {
-        if (!playerTurn || animating) return;
-        useItem(btn.dataset.item);
-      };
-    });
-  }
-
-  // Patch renderActions to also setup custom handlers
-  const _origRenderActions = renderActions;
-
   return {
     startBattle,
     isActive,
     renderBattle,
     handlePlayerAction,
-    renderActions: () => { renderActions(); setupCustomHandlers(); },
   };
 })();
