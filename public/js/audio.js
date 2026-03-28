@@ -317,6 +317,35 @@ const AudioSystem = (() => {
         });
         break;
       }
+      case 'questComplete': {
+        [392.00, 523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.value = freq;
+          g.gain.setValueAtTime(sfxVolume * 0.55, now + i * 0.1);
+          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.4);
+          osc.connect(g);
+          g.connect(sfxGain);
+          osc.start(now + i * 0.1);
+          osc.stop(now + i * 0.1 + 0.4);
+        });
+        break;
+      }
+      case 'menu': {
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.linearRampToValueAtTime(660, now + 0.08);
+        g.gain.setValueAtTime(sfxVolume * 0.3, now);
+        g.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.connect(g);
+        g.connect(sfxGain);
+        osc.start(now);
+        osc.stop(now + 0.12);
+        break;
+      }
     }
   }
 

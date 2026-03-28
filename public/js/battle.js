@@ -10,6 +10,8 @@ const BattleSystem = (() => {
   let flashTarget = null; // 'enemy' or 'player'
   let subMenu = null; // null, 'skill', 'item'
   const log = [];
+  const battleTexts = []; // floating damage/heal numbers
+  const BATTLE_TEXT_LIFE = 1100; // ms for floating text animation
 
   // Status effects: { type, turns, value? }
   let playerEffects = [];
@@ -34,6 +36,7 @@ const BattleSystem = (() => {
     log.length = 0;
     playerEffects = [];
     enemyEffects = [];
+    battleTexts.length = 0;
 
     if (typeof Bestiary !== 'undefined') Bestiary.recordSeen(enemy.type);
 
@@ -164,10 +167,12 @@ const BattleSystem = (() => {
     if (isCrit) {
       dmg = Math.floor(dmg * 1.5);
       addLog(`⚡ CRITICAL HIT! You deal ${dmg} damage!`);
+      addBattleText(`CRIT! -${dmg}`, 'enemy', '#ffdd00');
       triggerShake(6);
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('crit');
     } else {
       addLog(`You deal ${dmg} damage!`);
+      addBattleText(`-${dmg}`, 'enemy', '#ff6644');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('hit');
     }
     enemy.hp = Math.max(0, enemy.hp - dmg);
@@ -202,6 +207,7 @@ const BattleSystem = (() => {
       const healAmt = 20 + ps.level * 5;
       Player.heal(healAmt);
       addLog(`${skill.name} restores ${healAmt} HP!`);
+      addBattleText(`+${healAmt} HP`, 'player', '#33ff88');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('heal');
       triggerFlash('player');
       endPlayerTurn();
@@ -209,6 +215,7 @@ const BattleSystem = (() => {
       const effectType = skill.buffStat === 'defense' ? 'defUp' : 'atkUp';
       addEffect(playerEffects, effectType, skill.buffDuration);
       addLog(`${skill.name}! ${skill.buffStat === 'defense' ? 'DEF' : 'ATK'} up for ${skill.buffDuration} turns!`);
+      addBattleText(skill.buffStat === 'defense' ? '⬆DEF' : '⬆ATK', 'player', '#88ccff');
       triggerFlash('player');
       endPlayerTurn();
     } else {
@@ -220,9 +227,11 @@ const BattleSystem = (() => {
       if (isCrit) {
         dmg = Math.floor(dmg * 1.5);
         addLog(`⚡ CRIT! ${skill.name} deals ${dmg} damage!`);
+        addBattleText(`CRIT! -${dmg}`, 'enemy', '#ffdd00');
         triggerShake(6);
       } else {
         addLog(`${skill.name} deals ${dmg} damage!`);
+        addBattleText(`-${dmg}`, 'enemy', '#ff8844');
       }
       enemy.hp = Math.max(0, enemy.hp - dmg);
       triggerFlash('enemy');
@@ -277,6 +286,11 @@ const BattleSystem = (() => {
     item.effect(Player);
     const restoreMsg = item.mpAmount ? 'MP restored.' : 'HP restored.';
     addLog(`Used ${item.name}! ${restoreMsg}`);
+    if (item.mpAmount) {
+      addBattleText(`+${item.mpAmount} MP`, 'player', '#88aaff');
+    } else if (item.healAmount) {
+      addBattleText(`+${item.healAmount} HP`, 'player', '#33ff88');
+    }
     if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('heal');
     triggerFlash('player');
     endPlayerTurn();
@@ -338,6 +352,7 @@ const BattleSystem = (() => {
       const skill = EnemyDB.getSkill(skillId);
       dmg = Player.takeDamage(Math.floor(atkPower * skill.multiplier));
       addLog(`${enemy.name} uses ${skill.name}! ${dmg} damage!`);
+      addBattleText(`-${dmg}`, 'player', '#ff4444');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('hit');
 
       // Boss/strong enemies can inflict poison (20% chance on dark skills)
@@ -345,12 +360,14 @@ const BattleSystem = (() => {
         if (!hasEffect(playerEffects, 'poison')) {
           addEffect(playerEffects, 'poison', 3);
           addLog(`You are poisoned!`);
+          addBattleText('☠ POISON', 'player', '#aa44aa');
           appliedPoison = true;
         }
       }
     } else {
       dmg = Player.takeDamage(atkPower);
       addLog(`${enemy.name} attacks! ${dmg} damage!`);
+      addBattleText(`-${dmg}`, 'player', '#ff4444');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('hit');
     }
     triggerFlash('player');
@@ -403,6 +420,7 @@ const BattleSystem = (() => {
       const poisonDmg = Math.max(1, Math.floor(ps.maxHp * 0.05));
       ps.hp = Math.max(0, ps.hp - poisonDmg);
       addLog(`☠ Poison deals ${poisonDmg} damage!`);
+      addBattleText(`☠ -${poisonDmg}`, 'player', '#aa44aa');
     }
   }
 
@@ -446,6 +464,9 @@ const BattleSystem = (() => {
           const newSkills = SkillDB.getNewSkillsAtLevel(lv);
           for (const s of newSkills) {
             addLog(`✨ Learned ${s.name}!`);
+            if (typeof HUD !== 'undefined') {
+              HUD.addToast(`✨ New Skill: ${s.name}!`, '#88aaff', 4000);
+            }
           }
         }
       }
@@ -602,10 +623,36 @@ const BattleSystem = (() => {
       ctx.fillText(pStatusStr, 16, c.height - 12);
     }
 
-    ctx.restore();
-
     // Update flash timer
     if (flashTimer > 0) flashTimer -= 16;
+
+    ctx.restore();
+
+    // Render floating battle texts (outside shake transform)
+    const now = Date.now();
+    for (let i = battleTexts.length - 1; i >= 0; i--) {
+      const t = battleTexts[i];
+      const elapsed = now - t.startTime;
+      if (elapsed >= t.life) {
+        battleTexts.splice(i, 1);
+        continue;
+      }
+      const progress = elapsed / t.life;
+      const fadeIn = Math.min(1, progress / 0.1);
+      const fadeOut = Math.max(0, 1 - (progress - 0.15) / 0.85);
+      const alpha = Math.min(fadeIn, fadeOut);
+      const floatY = t.y - progress * 55;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.font = 'bold 16px "Courier New", monospace';
+      ctx.textAlign = 'center';
+      ctx.strokeStyle = 'rgba(0,0,0,0.7)';
+      ctx.lineWidth = 3;
+      ctx.strokeText(t.text, t.x, floatY);
+      ctx.fillStyle = t.color;
+      ctx.fillText(t.text, t.x, floatY);
+      ctx.restore();
+    }
 
     // Update log display
     const logDisplay = logEl();
@@ -626,6 +673,23 @@ const BattleSystem = (() => {
       else if (e.type === 'defDown') icons.push(`⬇DEF${e.turns}`);
     }
     return icons.join(' ');
+  }
+
+  function addBattleText(text, target, color) {
+    const c = canvas();
+    if (!c) return;
+    const eScale = 6;
+    const eW = TILE_SIZE * eScale;
+    const eH = TILE_SIZE * eScale;
+    let x, y;
+    if (target === 'enemy') {
+      x = c.width / 2 + (Math.random() - 0.5) * 40;
+      y = c.height * 0.15 + eH * 0.4;
+    } else {
+      x = 120 + (Math.random() - 0.5) * 30;
+      y = c.height - 68;
+    }
+    battleTexts.push({ text, x, y, color: color || '#ffffff', startTime: Date.now(), life: BATTLE_TEXT_LIFE });
   }
 
   function isActive() { return active; }

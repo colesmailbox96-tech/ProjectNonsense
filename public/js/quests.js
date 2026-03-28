@@ -69,6 +69,14 @@ const QuestSystem = (() => {
     quest.completed = true;
     quest.active = false;
 
+    // Notify player
+    if (typeof HUD !== 'undefined') {
+      HUD.addToast(`✓ Quest Complete: ${quest.name}`, '#44ff88', 4000);
+    }
+    if (typeof AudioSystem !== 'undefined') {
+      AudioSystem.playSFX('questComplete');
+    }
+
     // Activate the next quest in the chain
     const idx = quests.indexOf(quest);
     if (idx < quests.length - 1) {

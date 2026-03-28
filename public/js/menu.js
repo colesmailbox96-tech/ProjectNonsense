@@ -166,9 +166,25 @@ const MenuSystem = (() => {
         `;
         if (typeof AudioSystem !== 'undefined') {
           const muted = AudioSystem.isMuted();
+          const musicVol = Math.round(AudioSystem.getMusicVolume() * 100);
+          const sfxVol = Math.round(AudioSystem.getSFXVolume() * 100);
           html += `
             <div style="border-top:1px solid #333; padding-top:12px;">
               <div class="stat-row"><span class="stat-label">🔊 Audio</span><span class="stat-value"><button id="mute-toggle-btn" style="background:none;border:1px solid #888;color:#ddd;border-radius:4px;padding:4px 10px;font-family:monospace;font-size:0.8em;cursor:pointer;">${muted ? 'Unmute' : 'Mute'}</button></span></div>
+              <div class="stat-row" style="margin-top:8px;">
+                <span class="stat-label" style="font-size:0.8em;">🎵 Music</span>
+                <span class="stat-value" style="display:flex;align-items:center;gap:6px;">
+                  <input type="range" id="music-vol-slider" min="0" max="100" value="${musicVol}" style="width:90px;cursor:pointer;" />
+                  <span id="music-vol-label" style="font-size:0.75em;color:#aaa;min-width:28px;">${musicVol}%</span>
+                </span>
+              </div>
+              <div class="stat-row" style="margin-top:4px;">
+                <span class="stat-label" style="font-size:0.8em;">🔔 SFX</span>
+                <span class="stat-value" style="display:flex;align-items:center;gap:6px;">
+                  <input type="range" id="sfx-vol-slider" min="0" max="100" value="${sfxVol}" style="width:90px;cursor:pointer;" />
+                  <span id="sfx-vol-label" style="font-size:0.75em;color:#aaa;min-width:28px;">${sfxVol}%</span>
+                </span>
+              </div>
             </div>
           `;
         }
@@ -283,10 +299,30 @@ const MenuSystem = (() => {
       if (deleteBtn) deleteBtn.onclick = () => { SaveSystem.deleteSave(); renderTab(); };
     }
 
-    // Bind mute toggle
+    // Bind mute toggle and volume sliders
     if (activeTab === 'save' && typeof AudioSystem !== 'undefined') {
       const muteBtn = document.getElementById('mute-toggle-btn');
       if (muteBtn) muteBtn.onclick = () => { AudioSystem.toggleMute(); renderTab(); };
+
+      const musicSlider = document.getElementById('music-vol-slider');
+      const musicLabel = document.getElementById('music-vol-label');
+      if (musicSlider) {
+        musicSlider.oninput = () => {
+          const v = musicSlider.value / 100;
+          AudioSystem.setMusicVolume(v);
+          if (musicLabel) musicLabel.textContent = `${musicSlider.value}%`;
+        };
+      }
+
+      const sfxSlider = document.getElementById('sfx-vol-slider');
+      const sfxLabel = document.getElementById('sfx-vol-label');
+      if (sfxSlider) {
+        sfxSlider.oninput = () => {
+          const v = sfxSlider.value / 100;
+          AudioSystem.setSFXVolume(v);
+          if (sfxLabel) sfxLabel.textContent = `${sfxSlider.value}%`;
+        };
+      }
     }
 
     // Bind crafting actions

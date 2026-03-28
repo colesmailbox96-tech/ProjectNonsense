@@ -255,7 +255,11 @@ const VictoryScreen = (() => {
 
     hide();
     Game.setBossDefeated(false);
-    Game.setState(GAME_STATES.EXPLORE);
+
+    // Warp player back to village start and restore HP/MP
+    const villageMap = MapData.getMap('village');
+    Player.fullHeal();
+    Game.warpTo('village', villageMap.playerStart.x, villageMap.playerStart.y);
   }
 
   function handleReturnToTitle() {
