@@ -121,6 +121,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'wyrmHeart', qty: 1 }, { id: 'thunderCore', qty: 3 }, { id: 'stormFeather', qty: 2 }],
       result: { id: 'stormweaveRing', qty: 1 },
     },
+    {
+      id: 'craft_voidBlade',
+      name: 'Forge Void Blade',
+      description: 'Combine 3 Void Shard + 2 Abyssal Ore for a Void Blade',
+      ingredients: [{ id: 'voidShard', qty: 3 }, { id: 'abyssalOre', qty: 2 }],
+      result: { id: 'voidBlade', qty: 1 },
+    },
+    {
+      id: 'craft_abyssalArmor',
+      name: 'Forge Abyssal Armor',
+      description: 'Combine 3 Abyssal Ore + 2 Void Shard + 1 Thunder Core',
+      ingredients: [{ id: 'abyssalOre', qty: 3 }, { id: 'voidShard', qty: 2 }, { id: 'thunderCore', qty: 1 }],
+      result: { id: 'abyssalArmor', qty: 1 },
+    },
+    {
+      id: 'craft_chaosRing',
+      name: 'Craft Chaos Ring',
+      description: 'Combine 1 Chaos Gem + 1 Dragon Essence + 2 Wyrm Heart',
+      ingredients: [{ id: 'chaosGem', qty: 1 }, { id: 'dragonEssence', qty: 1 }, { id: 'wyrmHeart', qty: 2 }],
+      result: { id: 'chaosRing', qty: 1 },
+    },
   ];
 
   function getRecipes() {

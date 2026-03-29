@@ -170,6 +170,24 @@ const AudioSystem = (() => {
         { n: 'G3', d: 4 }, { n: 'G3', d: 4 },
       ],
     },
+    abyss: {
+      tempo: 80,
+      loop: true,
+      melody: [
+        { n: 'E3', d: 3 }, { n: 'D3', d: 1 }, { n: 'C3', d: 2 }, { n: 'D3', d: 2 },
+        { n: 'E3', d: 2 }, { n: 'G3', d: 2 }, { n: 'E3', d: 4 },
+        { n: 'D3', d: 2 }, { n: 'C3', d: 2 }, { n: 'B3', d: 4 },
+        { n: 'C3', d: 2 }, { n: 'E3', d: 2 }, { n: 'D3', d: 4 },
+        { n: 'C3', d: 2 }, { n: 'D3', d: 2 }, { n: 'E3', d: 2 }, { n: 'G3', d: 2 },
+        { n: 'E3', d: 4 }, { n: 'D3', d: 4 },
+      ],
+      bass: [
+        { n: 'C3', d: 4 }, { n: 'C3', d: 4 },
+        { n: 'E3', d: 4 }, { n: 'D3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'G3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'C3', d: 4 },
+      ],
+    },
   };
 
   function ensureContext() {
@@ -427,6 +445,7 @@ const AudioSystem = (() => {
       ruins: 'ruins',
       peaks: 'peaks',
       sanctum: 'sanctum',
+      abyss: 'abyss',
     };
     const name = trackMap[mapName];
     if (name) playTrack(name);

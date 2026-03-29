@@ -194,6 +194,28 @@ const Renderer = (() => {
         ctx.fillRect(8, 0, 1, TILE_SIZE);
         break;
 
+      case TILE_TYPES.VOID:
+        ctx.fillStyle = COLORS.void;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.voidLight;
+        ctx.fillRect(3 + variant * 2, 2, 4, 3);
+        ctx.fillRect(9, 10 - variant, 3, 2);
+        ctx.fillStyle = COLORS.voidDark;
+        ctx.fillRect(variant * 3, 13, 2, 2);
+        ctx.fillRect(12 - variant, 6, 2, 2);
+        break;
+
+      case TILE_TYPES.OBSIDIAN:
+        ctx.fillStyle = COLORS.obsidian;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.obsidianLight;
+        ctx.fillRect(1, 1, 6, 6);
+        ctx.fillRect(9, 9, 6, 6);
+        ctx.fillStyle = COLORS.obsidianDark;
+        ctx.fillRect(0, 7, TILE_SIZE, 1);
+        ctx.fillRect(8, 0, 1, TILE_SIZE);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
