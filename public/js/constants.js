@@ -82,6 +82,12 @@ const COLORS = {
   arcaneGlow: '#5533aa',
   arcaneGlowLight: '#7755cc',
   arcaneGlowDark: '#332266',
+  starStone: '#1a1a40',
+  starStoneLight: '#2a2a55',
+  starStoneDark: '#0d0d25',
+  nebulaGlow: '#6633aa',
+  nebulaGlowLight: '#8855cc',
+  nebulaGlowDark: '#441177',
 };
 
 const TILE_TYPES = {
@@ -110,6 +116,8 @@ const TILE_TYPES = {
   CRYSTAL: 22,
   SHADOW_STONE: 23,
   ARCANE_GLOW: 24,
+  STAR_STONE: 25,
+  NEBULA_GLOW: 26,
 };
 
 const PASSABLE = new Set([
@@ -132,4 +140,6 @@ const PASSABLE = new Set([
   TILE_TYPES.CRYSTAL,
   TILE_TYPES.SHADOW_STONE,
   TILE_TYPES.ARCANE_GLOW,
+  TILE_TYPES.STAR_STONE,
+  TILE_TYPES.NEBULA_GLOW,
 ]);

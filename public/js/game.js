@@ -15,6 +15,7 @@ const Game = (() => {
   let volcanoBossDefeated = false;
   let gardensBossDefeated = false;
   let citadelBossDefeated = false;
+  let nexusBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -171,6 +172,9 @@ const Game = (() => {
     } else if (ps.currentMap === 'citadel' && !citadelBossDefeated) {
       citadelBossDefeated = true;
       BattleSystem.startBattle('voidEmperor');
+    } else if (ps.currentMap === 'nexus' && !nexusBossDefeated) {
+      nexusBossDefeated = true;
+      BattleSystem.startBattle('starDevourer');
     }
   }
 
@@ -288,9 +292,10 @@ const Game = (() => {
   function setVolcanoBossDefeated(val) { volcanoBossDefeated = val; }
   function setGardensBossDefeated(val) { gardensBossDefeated = val; }
   function setCitadelBossDefeated(val) { citadelBossDefeated = val; }
+  function setNexusBossDefeated(val) { nexusBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated, setCitadelBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated, setCitadelBossDefeated, setNexusBossDefeated };
 })();

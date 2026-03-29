@@ -282,6 +282,28 @@ const Renderer = (() => {
         ctx.fillRect(5 + animFrame * 3, 3 + variant, 2, 2);
         break;
 
+      case TILE_TYPES.STAR_STONE:
+        ctx.fillStyle = variant === 0 ? COLORS.starStone : COLORS.starStoneLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.starStoneDark;
+        ctx.fillRect(2 + variant, 2, 4, 3);
+        ctx.fillRect(9, 8 - variant, 3, 2);
+        // Star twinkle
+        ctx.fillStyle = '#aaaaff';
+        ctx.fillRect(6 + animFrame * 2, 6, 1, 1);
+        break;
+
+      case TILE_TYPES.NEBULA_GLOW:
+        ctx.fillStyle = variant === 0 ? COLORS.nebulaGlow : COLORS.nebulaGlowLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.nebulaGlowDark;
+        ctx.fillRect(3 + variant, 3, 3, 2);
+        ctx.fillRect(8, 9 - variant, 2, 2);
+        // Nebula shimmer
+        ctx.fillStyle = '#cc88ff';
+        ctx.fillRect(4 + animFrame * 3, 4 + variant, 2, 2);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
@@ -302,7 +324,9 @@ const Renderer = (() => {
             key.startsWith(`${TILE_TYPES.ETHEREAL}_`) ||
             key.startsWith(`${TILE_TYPES.CRYSTAL}_`) ||
             key.startsWith(`${TILE_TYPES.SHADOW_STONE}_`) ||
-            key.startsWith(`${TILE_TYPES.ARCANE_GLOW}_`)) {
+            key.startsWith(`${TILE_TYPES.ARCANE_GLOW}_`) ||
+            key.startsWith(`${TILE_TYPES.STAR_STONE}_`) ||
+            key.startsWith(`${TILE_TYPES.NEBULA_GLOW}_`)) {
           delete tileCache[key];
         }
       }

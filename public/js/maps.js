@@ -709,6 +709,7 @@ const MapData = (() => {
     npcs: [],
     warps: [
       { x: 12, y: 0, toMap: 'gardens', toX: 12, toY: 20 },
+      { x: 12, y: 19, toMap: 'nexus', toX: 12, toY: 1 },
     ],
     chests: [
       { x: 4, y: 8, item: 'twilightBlade', opened: false },
@@ -764,13 +765,88 @@ const MapData = (() => {
         if (y === 0 && x >= 11 && x <= 13) t = T.ARCANE_GLOW;
         if (y === 1 && x >= 11 && x <= 13) t = T.ARCANE_GLOW;
 
+        // South exit to Astral Nexus
+        if (y === 19 && x === 12) t = T.ARCANE_GLOW;
+
         m[y][x] = t;
       }
     }
     citadel.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens, citadel };
+  // Astral Nexus map (25x22)
+  const nexus = {
+    name: 'Astral Nexus',
+    width: 25,
+    height: 22,
+    encounterRate: 0.14,
+    enemyPool: ['astralWraith', 'cosmicSentinel'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 12, y: 0, toMap: 'citadel', toX: 12, toY: 18 },
+    ],
+    chests: [
+      { x: 4, y: 10, item: 'astralBlade', opened: false },
+      { x: 20, y: 10, item: 'astralArmor', opened: false },
+    ],
+    bossSpawn: { x: 12, y: 18 },
+    playerStart: { x: 12, y: 1 },
+  };
+
+  (function buildNexus() {
+    const m = [];
+    for (let y = 0; y < nexus.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < nexus.width; x++) {
+        let t = T.STAR_STONE;
+
+        // Wall borders
+        if (x === 0 || x === 24) t = T.WALL;
+        if (y === 0 && (x < 11 || x > 13)) t = T.WALL;
+        if (y === 21) t = T.WALL;
+
+        // Main north-south corridor
+        if (x >= 11 && x <= 13 && y >= 0 && y <= 13) t = T.NEBULA_GLOW;
+
+        // West wing corridor
+        if (y >= 8 && y <= 10 && x >= 1 && x <= 11) t = T.NEBULA_GLOW;
+        // West wing chamber
+        if (x >= 1 && x <= 7 && y >= 7 && y <= 12) t = T.NEBULA_GLOW;
+
+        // East wing corridor
+        if (y >= 8 && y <= 10 && x >= 13 && x <= 23) t = T.NEBULA_GLOW;
+        // East wing chamber
+        if (x >= 17 && x <= 23 && y >= 7 && y <= 12) t = T.NEBULA_GLOW;
+
+        // Cosmic void pools in wings
+        if (x >= 2 && x <= 3 && y >= 8 && y <= 9) t = T.WATER;
+        if (x >= 21 && x <= 22 && y >= 8 && y <= 9) t = T.WATER;
+
+        // Boss chamber (south)
+        if (x >= 5 && x <= 19 && y >= 13 && y <= 20) t = T.NEBULA_GLOW;
+        if (x >= 5 && x <= 19 && y === 12) t = T.WALL;
+        if ((x === 5 || x === 19) && y >= 12 && y <= 20) t = T.WALL;
+        if (x >= 11 && x <= 13 && y === 12) t = T.NEBULA_GLOW; // entrance
+
+        // Inner boss floor
+        if (x >= 7 && x <= 17 && y >= 15 && y <= 19) t = T.FLOOR;
+
+        // Chests
+        if (x === 4 && y === 10) t = T.CHEST;
+        if (x === 20 && y === 10) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 11 && x <= 13) t = T.NEBULA_GLOW;
+        if (y === 1 && x >= 11 && x <= 13) t = T.NEBULA_GLOW;
+
+        m[y][x] = t;
+      }
+    }
+    nexus.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens, citadel, nexus };
 
   function getMap(name) {
     return maps[name];

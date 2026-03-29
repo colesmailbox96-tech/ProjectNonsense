@@ -461,6 +461,42 @@ const ItemDB = (() => {
       type: 'material',
       description: 'The seal of the Void Emperor',
     },
+    astralBlade: {
+      name: 'Astral Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +48, star-forged sword',
+      attack: 48,
+      buyPrice: 3000,
+    },
+    astralArmor: {
+      name: 'Astral Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +44, star-forged armor',
+      defense: 44,
+      buyPrice: 3300,
+    },
+    astralCrown: {
+      name: 'Astral Crown',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +18, DEF +12, SPD +6',
+      attack: 18,
+      defense: 12,
+      speed: 6,
+      buyPrice: 2600,
+    },
+    stardustShard: {
+      name: 'Stardust Shard',
+      type: 'material',
+      description: 'A shard shimmering with cosmic energy',
+    },
+    nexusCore: {
+      name: 'Nexus Core',
+      type: 'material',
+      description: 'A core of pure astral energy from the Nexus',
+    },
   };
 
   function getItem(id) {
