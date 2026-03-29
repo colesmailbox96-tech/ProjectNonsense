@@ -111,7 +111,7 @@ const CraftingSystem = (() => {
       id: 'craft_celestialPlate',
       name: 'Forge Celestial Plate',
       description: 'Combine 3 Lightning Shard + 2 Thunder Core + 1 Drake Scale',
-      ingredients: [{ id: 'lightningS', qty: 3 }, { id: 'thunderCore', qty: 2 }, { id: 'drakeScale', qty: 1 }],
+      ingredients: [{ id: 'lightningShard', qty: 3 }, { id: 'thunderCore', qty: 2 }, { id: 'drakeScale', qty: 1 }],
       result: { id: 'celestialPlate', qty: 1 },
     },
     {

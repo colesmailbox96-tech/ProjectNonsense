@@ -396,8 +396,9 @@ const BattleSystem = (() => {
       if ((skillId === 'frostBite' || skillId === 'iceBlast' || skillId === 'crystalBreath' || skillId === 'thunderStrike' || skillId === 'celestialRay') && Math.random() < 0.15) {
         if (!hasEffect(playerEffects, 'stun')) {
           addEffect(playerEffects, 'stun', 1);
-          addLog(`You are frozen solid!`);
-          addBattleText('❄ FROZEN', 'player', '#88ccff');
+          const isLightning = skillId === 'thunderStrike' || skillId === 'celestialRay';
+          addLog(isLightning ? `You are paralyzed!` : `You are frozen solid!`);
+          addBattleText(isLightning ? '⚡ PARALYZED' : '❄ FROZEN', 'player', isLightning ? '#ffdd44' : '#88ccff');
         }
       }
     } else {

@@ -110,7 +110,7 @@ const EnemyDB = (() => {
       xp: 70, gold: 45,
       sprite: 'stormHawk',
       skills: ['galeSlash', 'powerStrike'],
-      drops: [{ id: 'stormFeather', chance: 0.45 }, { id: 'lightningS', chance: 0.15 }],
+      drops: [{ id: 'stormFeather', chance: 0.45 }, { id: 'lightningShard', chance: 0.15 }],
     },
     thunderGolem: {
       name: 'Thunder Golem',
@@ -119,7 +119,7 @@ const EnemyDB = (() => {
       xp: 100, gold: 70,
       sprite: 'thunderGolem',
       skills: ['thunderStrike', 'rockSmash'],
-      drops: [{ id: 'thunderCore', chance: 0.5 }, { id: 'lightningS', chance: 0.35 }],
+      drops: [{ id: 'thunderCore', chance: 0.5 }, { id: 'lightningShard', chance: 0.35 }],
     },
     celestialWyrm: {
       name: 'Celestial Wyrm',

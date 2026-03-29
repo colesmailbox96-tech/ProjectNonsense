@@ -169,6 +169,8 @@ const Achievements = (() => {
       unlock('sky_explorer');
     }
     // Check world explorer (all 6 maps visited)
+    // Village, Woods, and Cavern are required to reach later maps, so checking
+    // only the optional-path achievements is sufficient
     const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer'];
     if (allMaps.every(id => unlocked.has(id))) {
       unlock('world_explorer');

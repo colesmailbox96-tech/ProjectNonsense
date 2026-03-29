@@ -248,7 +248,7 @@ const ItemDB = (() => {
       type: 'material',
       description: 'Crackling core from a thunder golem',
     },
-    lightningS: {
+    lightningShard: {
       name: 'Lightning Shard',
       type: 'material',
       description: 'A jagged shard of condensed lightning',
