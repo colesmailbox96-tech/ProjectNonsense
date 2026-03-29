@@ -88,6 +88,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'descend_to_abyss',
+      name: 'Descend to the Abyss',
+      description: 'Enter the Abyssal Depths',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_chaos_dragon',
+      name: 'Defeat the Chaos Dragon',
+      description: 'Defeat the boss in the Abyssal Depths',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -219,6 +233,20 @@ const QuestSystem = (() => {
       case 'defeat_celestial_wyrm':
         if (event === 'defeat_boss' && data && data.bossType === 'celestialWyrm') {
           completeQuest('defeat_celestial_wyrm');
+          return true;
+        }
+        break;
+
+      case 'descend_to_abyss':
+        if (event === 'enter_map' && data && data.mapName === 'Abyssal Depths') {
+          completeQuest('descend_to_abyss');
+          return true;
+        }
+        break;
+
+      case 'defeat_chaos_dragon':
+        if (event === 'defeat_boss' && data && data.bossType === 'chaosDragon') {
+          completeQuest('defeat_chaos_dragon');
           return true;
         }
         break;

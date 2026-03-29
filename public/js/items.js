@@ -258,6 +258,53 @@ const ItemDB = (() => {
       type: 'material',
       description: 'Radiant heart of a celestial wyrm',
     },
+    // Abyssal Depths items
+    voidBlade: {
+      name: 'Void Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +30, void-forged sword',
+      attack: 30,
+      buyPrice: 1200,
+    },
+    abyssalArmor: {
+      name: 'Abyssal Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +26, abyssal-forged armor',
+      defense: 26,
+      buyPrice: 1400,
+    },
+    chaosRing: {
+      name: 'Chaos Ring',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +8, SPD +4, DEF +4',
+      attack: 8,
+      speed: 4,
+      defense: 4,
+      buyPrice: 1000,
+    },
+    voidShard: {
+      name: 'Void Shard',
+      type: 'material',
+      description: 'A shard pulsing with void energy',
+    },
+    abyssalOre: {
+      name: 'Abyssal Ore',
+      type: 'material',
+      description: 'Dark ore from the depths of the abyss',
+    },
+    chaosGem: {
+      name: 'Chaos Gem',
+      type: 'material',
+      description: 'A gem radiating chaotic power',
+    },
+    dragonEssence: {
+      name: 'Dragon Essence',
+      type: 'material',
+      description: 'Pure essence from the Chaos Dragon',
+    },
   };
 
   function getItem(id) {

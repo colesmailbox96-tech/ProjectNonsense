@@ -11,6 +11,7 @@ const Game = (() => {
   let ruinsBossDefeated = false;
   let peaksBossDefeated = false;
   let sanctumBossDefeated = false;
+  let abyssBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -155,6 +156,9 @@ const Game = (() => {
     } else if (ps.currentMap === 'sanctum' && !sanctumBossDefeated) {
       sanctumBossDefeated = true;
       BattleSystem.startBattle('celestialWyrm');
+    } else if (ps.currentMap === 'abyss' && !abyssBossDefeated) {
+      abyssBossDefeated = true;
+      BattleSystem.startBattle('chaosDragon');
     }
   }
 
@@ -268,9 +272,10 @@ const Game = (() => {
   function setRuinsBossDefeated(val) { ruinsBossDefeated = val; }
   function setPeaksBossDefeated(val) { peaksBossDefeated = val; }
   function setSanctumBossDefeated(val) { sanctumBossDefeated = val; }
+  function setAbyssBossDefeated(val) { abyssBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated };
 })();

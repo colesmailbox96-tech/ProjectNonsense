@@ -23,7 +23,11 @@ const Achievements = (() => {
     { id: 'sky_explorer', name: 'Sky Explorer', description: 'Enter the Celestial Sanctum', icon: '☁' },
     { id: 'wyrm_slayer', name: 'Wyrm Slayer', description: 'Defeat the Celestial Wyrm', icon: '🌟' },
     { id: 'storm_crafter', name: 'Storm Crafter', description: 'Craft a Celestial Sanctum item', icon: '⚡' },
-    { id: 'world_explorer', name: 'World Explorer', description: 'Visit all 6 maps', icon: '🌍' },
+    { id: 'world_explorer', name: 'World Explorer', description: 'Visit all 7 maps', icon: '🌍' },
+    { id: 'abyss_explorer', name: 'Abyss Explorer', description: 'Enter the Abyssal Depths', icon: '🕳' },
+    { id: 'chaos_slayer', name: 'Chaos Slayer', description: 'Defeat the Chaos Dragon', icon: '🐲' },
+    { id: 'abyss_crafter', name: 'Abyss Crafter', description: 'Craft an Abyssal Depths item', icon: '🔮' },
+    { id: 'ultimate_champion', name: 'Ultimate Champion', description: 'Complete all quests and defeat all bosses', icon: '👑' },
   ];
 
   // Unlocked achievements: Set of ids
@@ -103,6 +107,10 @@ const Achievements = (() => {
     if (enemyType === 'celestialWyrm') {
       unlock('wyrm_slayer');
     }
+
+    if (enemyType === 'chaosDragon') {
+      unlock('chaos_slayer');
+    }
   }
 
   // Called after crafting
@@ -121,6 +129,9 @@ const Achievements = (() => {
     }
     if (recipeId === 'craft_thunderSpear' || recipeId === 'craft_celestialPlate' || recipeId === 'craft_stormweaveRing') {
       unlock('storm_crafter');
+    }
+    if (recipeId === 'craft_voidBlade' || recipeId === 'craft_abyssalArmor' || recipeId === 'craft_chaosRing') {
+      unlock('abyss_crafter');
     }
   }
 
@@ -142,7 +153,7 @@ const Achievements = (() => {
 
     // Check bestiary completion
     if (typeof Bestiary !== 'undefined') {
-      const totalEnemyTypes = 14; // 8 original + 3 frozen peaks + 3 celestial sanctum
+      const totalEnemyTypes = 17; // 8 original + 3 frozen peaks + 3 celestial sanctum + 3 abyssal depths
       if (Bestiary.getDiscoveredCount() >= totalEnemyTypes) {
         unlock('zoologist');
       }
@@ -168,19 +179,27 @@ const Achievements = (() => {
     if (mapName === 'Celestial Sanctum') {
       unlock('sky_explorer');
     }
-    // Check world explorer (all 6 maps visited)
+    if (mapName === 'Abyssal Depths') {
+      unlock('abyss_explorer');
+    }
+    // Check world explorer (all 7 maps visited)
     // Village, Woods, and Cavern are required to reach later maps, so checking
     // only the optional-path achievements is sufficient
-    const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer'];
+    const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer', 'abyss_explorer'];
     if (allMaps.every(id => unlocked.has(id))) {
       unlock('world_explorer');
+    }
+    // Check ultimate champion (all bosses + world explorer)
+    const allBosses = ['shadow_slayer', 'ancient_vanquisher', 'drake_slayer', 'wyrm_slayer', 'chaos_slayer'];
+    if (allBosses.every(id => unlocked.has(id)) && unlocked.has('world_explorer')) {
+      unlock('ultimate_champion');
     }
   }
 
   // Called when a chest is opened
   function onChestOpen() {
     // Count all chests across all maps
-    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum'];
+    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum', 'abyss'];
     let totalChests = 0;
     let openedChests = 0;
     for (const name of mapNames) {

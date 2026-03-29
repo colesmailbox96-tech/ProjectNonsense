@@ -397,6 +397,7 @@ const MapData = (() => {
     warps: [
       { x: 12, y: 0, toMap: 'peaks', toX: 15, toY: 23 },
       { x: 11, y: 0, toMap: 'peaks', toX: 14, toY: 23 },
+      { x: 12, y: 19, toMap: 'abyss', toX: 10, toY: 1 },
     ],
     chests: [
       { x: 21, y: 8, item: 'thunderSpear', opened: false },
@@ -455,13 +456,90 @@ const MapData = (() => {
         if (y === 0 && x >= 11 && x <= 12) t = T.SKY_BRICK;
         if (y === 1 && x >= 10 && x <= 13) t = T.SKY_BRICK;
 
+        // South exit to Abyssal Depths
+        if (y >= 18 && y <= 19 && x >= 11 && x <= 13) t = T.SKY_BRICK;
+
         m[y][x] = t;
       }
     }
     sanctum.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins, peaks, sanctum };
+  // Abyssal Depths map (20x20)
+  const abyss = {
+    name: 'Abyssal Depths',
+    width: 20,
+    height: 20,
+    encounterRate: 0.12,
+    enemyPool: ['voidWraith', 'abyssalKnight'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 10, y: 0, toMap: 'sanctum', toX: 12, toY: 18 },
+    ],
+    chests: [
+      { x: 16, y: 8, item: 'voidBlade', opened: false },
+      { x: 3, y: 15, item: 'abyssalArmor', opened: false },
+    ],
+    bossSpawn: { x: 10, y: 16 },
+    playerStart: { x: 10, y: 1 },
+  };
+
+  (function buildAbyss() {
+    const m = [];
+    for (let y = 0; y < abyss.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < abyss.width; x++) {
+        let t = T.VOID;
+
+        // Wall borders
+        if (x === 0 || x === 19) t = T.WALL;
+        if (y === 0 && (x < 9 || x > 11)) t = T.WALL;
+        if (y === 19) t = T.WALL;
+
+        // Main north-south corridor
+        if (x >= 9 && x <= 11 && y >= 0 && y <= 14) t = T.OBSIDIAN;
+
+        // East wing corridor
+        if (y >= 6 && y <= 8 && x >= 11 && x <= 18) t = T.OBSIDIAN;
+        // East wing chamber
+        if (x >= 14 && x <= 18 && y >= 5 && y <= 10) t = T.OBSIDIAN;
+
+        // West wing corridor
+        if (y >= 6 && y <= 8 && x >= 1 && x <= 9) t = T.OBSIDIAN;
+        // West wing chamber
+        if (x >= 1 && x <= 5 && y >= 5 && y <= 10) t = T.OBSIDIAN;
+
+        // Boss chamber (south)
+        if (x >= 5 && x <= 15 && y >= 13 && y <= 18) t = T.OBSIDIAN;
+        if (x >= 5 && x <= 15 && y === 12) t = T.WALL;
+        if ((x === 5 || x === 15) && y >= 12 && y <= 18) t = T.WALL;
+        if (x >= 9 && x <= 11 && y === 12) t = T.OBSIDIAN; // entrance
+
+        // Floor rooms (inner areas)
+        if (x >= 7 && x <= 13 && y >= 14 && y <= 17) t = T.FLOOR;
+        if (x >= 2 && x <= 4 && y >= 6 && y <= 9) t = T.FLOOR;
+        if (x >= 15 && x <= 17 && y >= 6 && y <= 9) t = T.FLOOR;
+
+        // Dark pools (water features)
+        if (x >= 2 && x <= 3 && y >= 7 && y <= 8) t = T.WATER;
+        if (x >= 16 && x <= 17 && y >= 7 && y <= 8) t = T.WATER;
+
+        // Chests
+        if (x === 16 && y === 8) t = T.CHEST;
+        if (x === 3 && y === 15) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 9 && x <= 10) t = T.OBSIDIAN;
+        if (y === 1 && x >= 9 && x <= 11) t = T.OBSIDIAN;
+
+        m[y][x] = t;
+      }
+    }
+    abyss.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss };
 
   function getMap(name) {
     return maps[name];

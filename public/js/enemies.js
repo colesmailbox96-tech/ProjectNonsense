@@ -131,6 +131,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'wyrmHeart', chance: 1.0 }, { id: 'thunderCore', chance: 1.0 }],
     },
+    voidWraith: {
+      name: 'Void Wraith',
+      hp: 110, maxHp: 110,
+      attack: 30, defense: 12, speed: 12,
+      xp: 85, gold: 55,
+      sprite: 'voidWraith',
+      skills: ['voidTouch', 'darkSlash'],
+      drops: [{ id: 'voidShard', chance: 0.45 }, { id: 'shadowDust', chance: 0.2 }],
+    },
+    abyssalKnight: {
+      name: 'Abyssal Knight',
+      hp: 160, maxHp: 160,
+      attack: 34, defense: 22, speed: 5,
+      xp: 120, gold: 80,
+      sprite: 'abyssalKnight',
+      skills: ['abyssalStrike', 'darkSlash'],
+      drops: [{ id: 'abyssalOre', chance: 0.5 }, { id: 'voidShard', chance: 0.3 }],
+    },
+    chaosDragon: {
+      name: 'Chaos Dragon',
+      hp: 800, maxHp: 800,
+      attack: 55, defense: 32, speed: 12,
+      xp: 600, gold: 500,
+      sprite: 'chaosDragon',
+      skills: ['chaosBreath', 'voidTouch', 'celestialRay'],
+      isBoss: true,
+      drops: [{ id: 'chaosGem', chance: 1.0 }, { id: 'dragonEssence', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -147,6 +175,9 @@ const EnemyDB = (() => {
     galeSlash: { name: 'Gale Slash', multiplier: 1.5 },
     thunderStrike: { name: 'Thunder Strike', multiplier: 1.9 },
     celestialRay: { name: 'Celestial Ray', multiplier: 2.8 },
+    voidTouch: { name: 'Void Touch', multiplier: 1.6 },
+    abyssalStrike: { name: 'Abyssal Strike', multiplier: 1.8 },
+    chaosBreath: { name: 'Chaos Breath', multiplier: 3.0 },
   };
 
   function create(type) {
