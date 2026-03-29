@@ -45,6 +45,12 @@ const COLORS = {
   bridge: '#7a5a2a',
   chest: '#aa7733',
   chestGold: '#ffd700',
+  ice: '#99ccee',
+  iceLight: '#bbddff',
+  iceDark: '#6699bb',
+  snow: '#ddeeff',
+  snowLight: '#eef4ff',
+  frost: '#aaddff',
 };
 
 const TILE_TYPES = {
@@ -61,6 +67,8 @@ const TILE_TYPES = {
   BRIDGE: 10,
   WALL_TOP: 11,
   SIGN: 12,
+  ICE: 13,
+  SNOW: 14,
 };
 
 const PASSABLE = new Set([
@@ -72,4 +80,6 @@ const PASSABLE = new Set([
   TILE_TYPES.SAND,
   TILE_TYPES.BRIDGE,
   TILE_TYPES.SIGN,
+  TILE_TYPES.ICE,
+  TILE_TYPES.SNOW,
 ]);

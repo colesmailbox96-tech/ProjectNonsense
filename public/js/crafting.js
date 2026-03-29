@@ -79,6 +79,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'ancientCore', qty: 1 }, { id: 'spectralDust', qty: 1 }, { id: 'shadowEssence', qty: 1 }],
       result: { id: 'phoenixFeather', qty: 1 },
     },
+    {
+      id: 'craft_frostBlade',
+      name: 'Forge Frost Blade',
+      description: 'Combine 3 Frost Fang + 2 Ice Core for a Frost Blade',
+      ingredients: [{ id: 'frostFang', qty: 3 }, { id: 'iceCore', qty: 2 }],
+      result: { id: 'frostBlade', qty: 1 },
+    },
+    {
+      id: 'craft_crystalArmor',
+      name: 'Forge Crystal Armor',
+      description: 'Combine 3 Frozen Shard + 2 Ice Core + 1 Rune Fragment',
+      ingredients: [{ id: 'frozenShard', qty: 3 }, { id: 'iceCore', qty: 2 }, { id: 'runeFragment', qty: 1 }],
+      result: { id: 'crystalArmor', qty: 1 },
+    },
+    {
+      id: 'craft_warmthAmulet',
+      name: 'Craft Warmth Amulet',
+      description: 'Combine 1 Drake Scale + 3 Ice Core + 2 Spectral Dust',
+      ingredients: [{ id: 'drakeScale', qty: 1 }, { id: 'iceCore', qty: 3 }, { id: 'spectralDust', qty: 2 }],
+      result: { id: 'warmthAmulet', qty: 1 },
+    },
   ];
 
   function getRecipes() {

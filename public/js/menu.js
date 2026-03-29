@@ -192,7 +192,7 @@ const MenuSystem = (() => {
 
       case 'bestiary':
         if (typeof Bestiary !== 'undefined') {
-          const allEnemyTypes = ['slime', 'goblin', 'skeleton', 'darkKnight', 'shadowLord', 'wraith', 'stoneGolem', 'ancientGuardian'];
+          const allEnemyTypes = ['slime', 'goblin', 'skeleton', 'darkKnight', 'shadowLord', 'wraith', 'stoneGolem', 'ancientGuardian', 'frostWolf', 'iceElemental', 'crystalDrake'];
           const discovered = Bestiary.getDiscoveredCount();
           html += `<div style="color:#ff8844; font-size:0.8em; text-align:center; margin-bottom:10px;">Discovered: ${discovered} / ${allEnemyTypes.length}</div>`;
           allEnemyTypes.forEach(type => {
@@ -277,6 +277,39 @@ const MenuSystem = (() => {
           html = '<p style="color:#888; text-align:center; padding:20px;">No achievements</p>';
         }
         break;
+
+      case 'talents':
+        if (typeof TalentSystem !== 'undefined') {
+          const available = TalentSystem.getAvailablePoints();
+          const spent = TalentSystem.getPointsSpent();
+          const talentPaths = TalentSystem.getPaths();
+          const talentUnlocked = TalentSystem.getUnlocked();
+          html += `<div style="color:#bb88ff; font-size:0.8em; text-align:center; margin-bottom:10px;">💎 Talent Points: <span style="color:#ffdd00">${available}</span> available (${spent} spent)</div>`;
+          for (const [pathName, talents] of Object.entries(talentPaths)) {
+            const pathLabel = pathName.charAt(0).toUpperCase() + pathName.slice(1);
+            const pathColors = { might: '#ff6644', arcane: '#6688ff', survival: '#44cc88' };
+            const pathColor = pathColors[pathName] || '#aaa';
+            html += `<div style="color:${pathColor}; font-size:0.85em; margin-top:12px; margin-bottom:4px; font-weight:bold;">${pathLabel} Path</div>`;
+            talents.forEach((talent, idx) => {
+              const isUnlocked = talentUnlocked[pathName][idx];
+              const canUnlock = TalentSystem.canUnlock(pathName, idx);
+              const borderColor = isUnlocked ? pathColor : canUnlock ? '#888' : '#333';
+              const opacity = isUnlocked ? '1' : canUnlock ? '0.8' : '0.4';
+              html += `
+                <div class="item-row talent-row${canUnlock ? ' talent-available' : ''}${isUnlocked ? ' talent-unlocked' : ''}" data-path="${pathName}" data-tier="${idx}" style="cursor:${canUnlock ? 'pointer' : 'default'}; opacity:${opacity}; border-left: 3px solid ${borderColor}; padding-left: 8px; margin-bottom: 4px;">
+                  <div>
+                    <span class="item-name" style="color:${isUnlocked ? pathColor : '#aaa'}">${talent.icon} ${talent.name}</span>
+                    <br><small style="color:#888">${talent.description}</small>
+                  </div>
+                  <span style="font-size:0.75em; color:${isUnlocked ? '#44cc44' : canUnlock ? '#ffdd00' : '#555'}">${isUnlocked ? '✓' : `${talent.cost}pt`}</span>
+                </div>
+              `;
+            });
+          }
+        } else {
+          html = '<p style="color:#888; text-align:center; padding:20px;">No talents</p>';
+        }
+        break;
     }
 
     el.innerHTML = html;
@@ -354,6 +387,20 @@ const MenuSystem = (() => {
         row.onclick = () => {
           const recipeId = row.dataset.recipe;
           if (CraftingSystem.craft(recipeId)) {
+            renderTab();
+          }
+        };
+      });
+    }
+
+    // Bind talent unlock actions
+    if (activeTab === 'talents' && typeof TalentSystem !== 'undefined') {
+      el.querySelectorAll('.talent-available').forEach(row => {
+        row.onclick = () => {
+          const pathName = row.dataset.path;
+          const tier = parseInt(row.dataset.tier, 10);
+          if (TalentSystem.unlock(pathName, tier)) {
+            if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('levelup');
             renderTab();
           }
         };

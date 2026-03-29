@@ -16,6 +16,10 @@ const Achievements = (() => {
     { id: 'ancient_explorer', name: 'Ancient Explorer', description: 'Enter the Ancient Ruins', icon: '🏛' },
     { id: 'ancient_vanquisher', name: 'Ancient Vanquisher', description: 'Defeat the Ancient Guardian', icon: '🏆' },
     { id: 'phoenix_rise', name: 'Phoenix Rise', description: 'Revive with a Phoenix Feather', icon: '🔥' },
+    { id: 'frozen_explorer', name: 'Frozen Explorer', description: 'Enter the Frozen Peaks', icon: '❄' },
+    { id: 'drake_slayer', name: 'Drake Slayer', description: 'Defeat the Crystal Drake', icon: '🐉' },
+    { id: 'frost_crafter', name: 'Frost Crafter', description: 'Craft a Frozen Peaks item', icon: '🧊' },
+    { id: 'talent_apprentice', name: 'Talent Apprentice', description: 'Unlock your first talent', icon: '💎' },
   ];
 
   // Unlocked achievements: Set of ids
@@ -87,6 +91,10 @@ const Achievements = (() => {
     if (enemyType === 'ancientGuardian') {
       unlock('ancient_vanquisher');
     }
+
+    if (enemyType === 'crystalDrake') {
+      unlock('drake_slayer');
+    }
   }
 
   // Called after crafting
@@ -99,6 +107,9 @@ const Achievements = (() => {
     }
     if (counters.uniqueCrafts.size >= 5) {
       unlock('master_crafter');
+    }
+    if (recipeId === 'craft_frostBlade' || recipeId === 'craft_crystalArmor' || recipeId === 'craft_warmthAmulet') {
+      unlock('frost_crafter');
     }
   }
 
@@ -120,7 +131,7 @@ const Achievements = (() => {
 
     // Check bestiary completion
     if (typeof Bestiary !== 'undefined') {
-      const totalEnemyTypes = 8; // 5 original + 3 new
+      const totalEnemyTypes = 11; // 8 original + 3 frozen peaks
       if (Bestiary.getDiscoveredCount() >= totalEnemyTypes) {
         unlock('zoologist');
       }
@@ -140,12 +151,15 @@ const Achievements = (() => {
     if (mapName === 'Ancient Ruins') {
       unlock('ancient_explorer');
     }
+    if (mapName === 'Frozen Peaks') {
+      unlock('frozen_explorer');
+    }
   }
 
   // Called when a chest is opened
   function onChestOpen() {
     // Count all chests across all maps
-    const mapNames = ['village', 'forest', 'dungeon', 'ruins'];
+    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks'];
     let totalChests = 0;
     let openedChests = 0;
     for (const name of mapNames) {
@@ -162,6 +176,11 @@ const Achievements = (() => {
   // Called on phoenix feather revive
   function onPhoenixRevive() {
     unlock('phoenix_rise');
+  }
+
+  // Called on talent unlock
+  function onTalentUnlock() {
+    unlock('talent_apprentice');
   }
 
   // Save/Load
@@ -195,7 +214,7 @@ const Achievements = (() => {
 
   return {
     getDefinitions, isUnlocked, unlock, getUnlockedCount, getTotalCount,
-    onBattleVictory, onCraft, checkPassive, onMapEnter, onChestOpen, onPhoenixRevive,
+    onBattleVictory, onCraft, checkPassive, onMapEnter, onChestOpen, onPhoenixRevive, onTalentUnlock,
     getState, loadState,
   };
 })();

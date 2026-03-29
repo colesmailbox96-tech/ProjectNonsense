@@ -153,8 +153,9 @@ const BattleSystem = (() => {
   // The real handlers are bound in renderActions via btn.onclick
 
   function calcCrit() {
-    const chance = Player.getCritChance();
-    return Math.random() < chance;
+    let chance = Player.getCritChance();
+    if (typeof TalentSystem !== 'undefined') chance += TalentSystem.getCritBonus();
+    return Math.random() < Math.min(chance, 0.6);
   }
 
   function playerAttack() {
@@ -163,6 +164,13 @@ const BattleSystem = (() => {
     const atkPower = getEffectiveStat(ps.attack, playerEffects, 'atkUp', 'atkDown');
     const defPower = getEffectiveStat(enemy.defense, enemyEffects, 'defUp', 'defDown');
     let dmg = Math.max(1, atkPower - defPower + Math.floor(Math.random() * 4));
+
+    // Talent: ATK bonus
+    if (typeof TalentSystem !== 'undefined') {
+      dmg = Math.floor(dmg * (1 + TalentSystem.getAtkBonus()));
+      dmg = Math.floor(dmg * (1 + TalentSystem.getBerserkerBonus(ps.hp, ps.maxHp)));
+    }
+
     const isCrit = calcCrit();
     if (isCrit) {
       dmg = Math.floor(dmg * 1.5);
@@ -199,12 +207,20 @@ const BattleSystem = (() => {
       renderActions();
       return;
     }
-    ps.mp -= skill.mpCost;
+
+    let actualCost = skill.mpCost;
+    if (typeof TalentSystem !== 'undefined') {
+      actualCost = Math.max(1, Math.floor(actualCost * (1 - TalentSystem.getMpCostReduction())));
+    }
+    ps.mp -= actualCost;
 
     if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('skill');
 
     if (skill.type === 'heal') {
-      const healAmt = 20 + ps.level * 5;
+      let healAmt = 20 + ps.level * 5;
+      if (typeof TalentSystem !== 'undefined') {
+        healAmt = Math.floor(healAmt * (1 + TalentSystem.getHealBonus()));
+      }
       Player.heal(healAmt);
       addLog(`${skill.name} restores ${healAmt} HP!`);
       addBattleText(`+${healAmt} HP`, 'player', '#33ff88');
@@ -223,6 +239,13 @@ const BattleSystem = (() => {
       const atkPower = getEffectiveStat(ps.attack, playerEffects, 'atkUp', 'atkDown');
       const defPower = getEffectiveStat(enemy.defense, enemyEffects, 'defUp', 'defDown');
       let dmg = Math.max(1, Math.floor(atkPower * skill.multiplier) - defPower + Math.floor(Math.random() * 6));
+
+      // Talent: skill damage and berserker bonuses
+      if (typeof TalentSystem !== 'undefined') {
+        dmg = Math.floor(dmg * (1 + TalentSystem.getSkillDmgBonus()));
+        dmg = Math.floor(dmg * (1 + TalentSystem.getBerserkerBonus(ps.hp, ps.maxHp)));
+      }
+
       const isCrit = calcCrit();
       if (isCrit) {
         dmg = Math.floor(dmg * 1.5);
@@ -307,7 +330,7 @@ const BattleSystem = (() => {
       renderActions();
       return;
     }
-    if (Math.random() < 0.4 + (ps.speed - (enemy.speed || 0)) * 0.05) {
+    if (Math.random() < 0.4 + (ps.speed - (enemy.speed || 0)) * 0.05 + (typeof TalentSystem !== 'undefined' ? TalentSystem.getFleeBonus() : 0)) {
       addLog('Got away safely!');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('flee');
       renderBattle();
@@ -350,7 +373,9 @@ const BattleSystem = (() => {
     if (enemy.skills.length > 0 && Math.random() < 0.4) {
       const skillId = enemy.skills[Math.floor(Math.random() * enemy.skills.length)];
       const skill = EnemyDB.getSkill(skillId);
-      dmg = Player.takeDamage(Math.floor(atkPower * skill.multiplier));
+      let rawDmg = Math.floor(atkPower * skill.multiplier);
+      if (typeof TalentSystem !== 'undefined') rawDmg = Math.floor(rawDmg * (1 - TalentSystem.getDefBonus()));
+      dmg = Player.takeDamage(rawDmg);
       addLog(`${enemy.name} uses ${skill.name}! ${dmg} damage!`);
       addBattleText(`-${dmg}`, 'player', '#ff4444');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('hit');
@@ -364,8 +389,19 @@ const BattleSystem = (() => {
           appliedPoison = true;
         }
       }
+
+      // Ice skills can stun (15% chance)
+      if ((skillId === 'frostBite' || skillId === 'iceBlast' || skillId === 'crystalBreath') && Math.random() < 0.15) {
+        if (!hasEffect(playerEffects, 'stun')) {
+          addEffect(playerEffects, 'stun', 1);
+          addLog(`You are frozen solid!`);
+          addBattleText('❄ FROZEN', 'player', '#88ccff');
+        }
+      }
     } else {
-      dmg = Player.takeDamage(atkPower);
+      let rawDmg = atkPower;
+      if (typeof TalentSystem !== 'undefined') rawDmg = Math.floor(rawDmg * (1 - TalentSystem.getDefBonus()));
+      dmg = Player.takeDamage(rawDmg);
       addLog(`${enemy.name} attacks! ${dmg} damage!`);
       addBattleText(`-${dmg}`, 'player', '#ff4444');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('hit');
@@ -380,6 +416,14 @@ const BattleSystem = (() => {
     if (ps.hp <= 0) {
       defeat();
     } else {
+      // Talent: Second Wind regen
+      if (typeof TalentSystem !== 'undefined') {
+        const regen = TalentSystem.getRegenPerTurn();
+        if (regen > 0) {
+          Player.heal(regen);
+          addBattleText(`+${regen} HP`, 'player', '#88ff88');
+        }
+      }
       playerTurn = true;
     }
     renderBattle();
@@ -451,7 +495,11 @@ const BattleSystem = (() => {
     }
 
     const ps = Player.getState();
-    ps.gold += enemy.gold;
+    let goldReward = enemy.gold;
+    if (typeof TalentSystem !== 'undefined') {
+      goldReward = Math.floor(goldReward * (1 + TalentSystem.getGoldBonus()));
+    }
+    ps.gold += goldReward;
     const prevLevel = ps.level;
     const levels = Player.gainXP(enemy.xp);
     if (levels.length > 0) {

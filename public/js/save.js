@@ -1,6 +1,6 @@
 const SaveSystem = (() => {
   const SAVE_KEY = 'realm_of_echoes_save';
-  const MAP_NAMES = ['village', 'forest', 'dungeon', 'ruins'];
+  const MAP_NAMES = ['village', 'forest', 'dungeon', 'ruins', 'peaks'];
 
   let notifEl = null;
   let notifTimer = null;
@@ -94,6 +94,7 @@ const SaveSystem = (() => {
       weather: typeof WeatherSystem !== 'undefined' ? WeatherSystem.getState() : {},
       bestiary: typeof Bestiary !== 'undefined' ? Bestiary.getState() : {},
       achievements: typeof Achievements !== 'undefined' ? Achievements.getState() : {},
+      talents: typeof TalentSystem !== 'undefined' ? TalentSystem.getState() : {},
     };
     return data;
   }
@@ -137,6 +138,10 @@ const SaveSystem = (() => {
 
     if (data.achievements && typeof Achievements !== 'undefined') {
       Achievements.loadState(data.achievements);
+    }
+
+    if (data.talents && typeof TalentSystem !== 'undefined') {
+      TalentSystem.loadState(data.talents);
     }
   }
 

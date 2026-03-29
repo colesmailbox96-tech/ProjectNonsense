@@ -9,6 +9,7 @@ const Game = (() => {
   let transitionCallback = null;
   let bossDefeated = false;
   let ruinsBossDefeated = false;
+  let peaksBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -147,6 +148,9 @@ const Game = (() => {
     } else if (ps.currentMap === 'ruins' && !ruinsBossDefeated) {
       ruinsBossDefeated = true;
       BattleSystem.startBattle('ancientGuardian');
+    } else if (ps.currentMap === 'peaks' && !peaksBossDefeated) {
+      peaksBossDefeated = true;
+      BattleSystem.startBattle('crystalDrake');
     }
   }
 
@@ -258,9 +262,10 @@ const Game = (() => {
   function getState() { return gameState; }
   function setBossDefeated(val) { bossDefeated = val; }
   function setRuinsBossDefeated(val) { ruinsBossDefeated = val; }
+  function setPeaksBossDefeated(val) { peaksBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated };
 })();

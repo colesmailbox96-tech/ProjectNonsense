@@ -229,6 +229,8 @@ const MapData = (() => {
     warps: [
       { x: 12, y: 0, toMap: 'dungeon', toX: 10, toY: 18 },
       { x: 11, y: 0, toMap: 'dungeon', toX: 9, toY: 18 },
+      { x: 12, y: 24, toMap: 'peaks', toX: 15, toY: 1 },
+      { x: 11, y: 24, toMap: 'peaks', toX: 14, toY: 1 },
     ],
     chests: [
       { x: 20, y: 10, item: 'runeBlade', opened: false },
@@ -289,13 +291,99 @@ const MapData = (() => {
         // Ensure entrance is clear
         if (y === 0 && x >= 11 && x <= 12) t = T.FLOOR;
 
+        // South passage to Frozen Peaks
+        if (x >= 11 && x <= 13 && y >= 22 && y <= 24) t = T.FLOOR;
+        if (y === 24 && (x === 11 || x === 12)) t = T.FLOOR;
+
         m[y][x] = t;
       }
     }
     ruins.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins };
+  // Frozen Peaks map (30x25)
+  const peaks = {
+    name: 'Frozen Peaks',
+    width: 30,
+    height: 25,
+    encounterRate: 0.1,
+    enemyPool: ['frostWolf', 'iceElemental'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 15, y: 0, toMap: 'ruins', toX: 12, toY: 23 },
+      { x: 14, y: 0, toMap: 'ruins', toX: 11, toY: 23 },
+    ],
+    chests: [
+      { x: 25, y: 10, item: 'frostBlade', opened: false },
+      { x: 5, y: 18, item: 'warmthAmulet', opened: false },
+    ],
+    bossSpawn: { x: 15, y: 20 },
+    playerStart: { x: 15, y: 1 },
+  };
+
+  (function buildPeaks() {
+    const m = [];
+    let seed = 77;
+    function rand() { seed = (seed * 16807 + 0) % 2147483647; return seed / 2147483647; }
+
+    for (let y = 0; y < peaks.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < peaks.width; x++) {
+        let t = T.SNOW;
+
+        // Ice patches
+        if (rand() < 0.12) t = T.ICE;
+
+        // Mountain walls (borders)
+        if (x === 0 || x === 29) t = T.WALL;
+        if (y === 0 && (x < 13 || x > 16)) t = T.WALL;
+        if (y === 24 && (x < 13 || x > 16)) t = T.WALL;
+
+        // Central ice path (main north-south)
+        if (x >= 14 && x <= 15 && y >= 0 && y <= 24) t = T.ICE;
+
+        // East-west crossing path
+        if (y >= 10 && y <= 11 && x >= 3 && x <= 27) t = T.ICE;
+
+        // Frozen lake (east)
+        if (x >= 20 && x <= 26 && y >= 4 && y <= 8) t = T.WATER;
+
+        // Crystal cave (west alcove)
+        if (x >= 2 && x <= 8 && y >= 14 && y <= 20) t = T.FLOOR;
+        if (x >= 1 && x <= 9 && y >= 14 && y <= 14) t = T.WALL;
+        if (x >= 1 && x <= 9 && y >= 21 && y <= 21) t = T.WALL;
+        if (x === 1 && y >= 14 && y <= 21) t = T.WALL;
+        if (x === 9 && y >= 14 && y <= 21 && y !== 17) t = T.WALL;
+        if (x === 9 && y === 17) t = T.ICE; // entrance
+
+        // Boss chamber (south)
+        if (x >= 10 && x <= 20 && y >= 18 && y <= 23) t = T.ICE;
+        if (x >= 10 && x <= 20 && y === 17) t = T.WALL;
+        if ((x === 10 || x === 20) && y >= 17 && y <= 23) t = T.WALL;
+        if (x >= 14 && x <= 16 && y === 17) t = T.ICE; // entrance
+
+        // Snow mounds (scattered)
+        if (t === T.SNOW && (x + y) % 9 === 0 && x > 1 && x < 28) t = T.TREE;
+
+        // Entrance/exit paths
+        if (y <= 1 && x >= 13 && x <= 16) t = T.ICE;
+        if (y >= 23 && x >= 13 && x <= 16) t = T.SNOW;
+
+        // Chests
+        if (x === 25 && y === 10) t = T.CHEST;
+        if (x === 5 && y === 18) t = T.CHEST;
+
+        // Entrance sign
+        if (x === 16 && y === 2) t = T.SIGN;
+
+        m[y][x] = t;
+      }
+    }
+    peaks.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks };
 
   function getMap(name) {
     return maps[name];
