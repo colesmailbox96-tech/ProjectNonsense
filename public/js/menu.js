@@ -229,7 +229,7 @@ const MenuSystem = (() => {
       case 'crafting':
         if (typeof CraftingSystem !== 'undefined') {
           const allRecipes = CraftingSystem.getRecipes();
-          html += `<div style="color:#44ddaa; font-size:0.8em; text-align:center; margin-bottom:10px;">\u{1F528} Crafting Recipes</div>`;
+          html += `<div style="color:#44ddaa; font-size:0.8em; text-align:center; margin-bottom:10px;">🔨 Crafting Recipes</div>`;
           allRecipes.forEach(recipe => {
             const craftable = CraftingSystem.canCraft(recipe.id);
             const ingredientStr = recipe.ingredients.map(ing => {
@@ -246,7 +246,7 @@ const MenuSystem = (() => {
                   <div class="item-name" style="color:${craftable ? '#44ddaa' : '#888'}">${resultItem ? resultItem.name : recipe.name}</div>
                   <div style="font-size:0.7em; color:#888; margin-top:2px;">${ingredientStr}</div>
                 </div>
-                <span style="font-size:0.75em; color:${craftable ? '#44ddaa' : '#555'}">${craftable ? 'CRAFT' : '\u{2014}'}</span>
+                <span style="font-size:0.75em; color:${craftable ? '#44ddaa' : '#555'}">${craftable ? 'CRAFT' : '—'}</span>
               </div>
             `;
           });
@@ -260,7 +260,7 @@ const MenuSystem = (() => {
           const defs = Achievements.getDefinitions();
           const count = Achievements.getUnlockedCount();
           const total = Achievements.getTotalCount();
-          html += `<div style="color:#ffaa00; font-size:0.8em; text-align:center; margin-bottom:10px;">\u{1F3C6} Achievements: ${count} / ${total}</div>`;
+          html += `<div style="color:#ffaa00; font-size:0.8em; text-align:center; margin-bottom:10px;">🏆 Achievements: ${count} / ${total}</div>`;
           defs.forEach(def => {
             const done = Achievements.isUnlocked(def.id);
             const borderColor = done ? '#ffaa00' : '#333';
@@ -268,7 +268,7 @@ const MenuSystem = (() => {
             html += `
               <div class="stat-row" style="border-left: 3px solid ${borderColor}; padding-left: 8px; opacity: ${opacity};">
                 <span class="stat-label">${def.icon} ${def.name}</span>
-                <span class="stat-value" style="font-size:0.75em; color:${done ? '#ffaa00' : '#555'}">${done ? '\u2713' : '\u{1F512}'}</span>
+                <span class="stat-value" style="font-size:0.75em; color:${done ? '#ffaa00' : '#555'}">${done ? '✓' : '🔒'}</span>
               </div>
               <div style="color:#888; font-size:0.7em; padding: 2px 0 8px 12px;">${def.description}</div>
             `;

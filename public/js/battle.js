@@ -502,10 +502,10 @@ const BattleSystem = (() => {
     if (feather) {
       Player.removeItem('phoenixFeather', 1);
       Player.fullHeal();
-      addLog('\u{1F525} Phoenix Feather activates! You are revived!');
-      addBattleText('\u{1F525} REVIVE!', 'player', '#ff6600');
+      addLog('🔥 Phoenix Feather activates! You are revived!');
+      addBattleText('🔥 REVIVE!', 'player', '#ff6600');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('heal');
-      if (typeof HUD !== 'undefined') HUD.addToast('\u{1F525} Phoenix Feather used!', '#ff6600', 3000);
+      if (typeof HUD !== 'undefined') HUD.addToast('🔥 Phoenix Feather used!', '#ff6600', 3000);
       if (typeof Achievements !== 'undefined') Achievements.onPhoenixRevive();
       playerEffects = [];
       renderBattle();
