@@ -497,6 +497,42 @@ const ItemDB = (() => {
       type: 'material',
       description: 'A core of pure astral energy from the Nexus',
     },
+    temporalBlade: {
+      name: 'Temporal Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +52, time-forged sword',
+      attack: 52,
+      buyPrice: 3500,
+    },
+    temporalArmor: {
+      name: 'Temporal Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +48, time-forged armor',
+      defense: 48,
+      buyPrice: 3800,
+    },
+    temporalCirclet: {
+      name: 'Temporal Circlet',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +20, DEF +14, SPD +8',
+      attack: 20,
+      defense: 14,
+      speed: 8,
+      buyPrice: 3000,
+    },
+    temporalShard: {
+      name: 'Temporal Shard',
+      type: 'material',
+      description: 'A shard vibrating with temporal energy',
+    },
+    riftEssence: {
+      name: 'Rift Essence',
+      type: 'material',
+      description: 'A crystallized fragment of the Temporal Rift',
+    },
   };
 
   function getItem(id) {

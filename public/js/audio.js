@@ -242,6 +242,40 @@ const AudioSystem = (() => {
         { n: 'C3', d: 4 }, { n: 'D3', d: 4 },
       ],
     },
+    nexus: {
+      tempo: 85,
+      loop: true,
+      melody: [
+        { n: 'E4', d: 3 }, { n: 'D4', d: 1 }, { n: 'B3', d: 2 }, { n: 'D4', d: 2 },
+        { n: 'E4', d: 2 }, { n: 'F#4', d: 2 }, { n: 'E4', d: 4 },
+        { n: 'D4', d: 2 }, { n: 'B3', d: 2 }, { n: 'A3', d: 4 },
+        { n: 'B3', d: 2 }, { n: 'D4', d: 2 }, { n: 'E4', d: 2 }, { n: 'F#4', d: 2 },
+        { n: 'E4', d: 3 }, { n: 'D4', d: 1 }, { n: 'B3', d: 4 },
+      ],
+      bass: [
+        { n: 'E3', d: 4 }, { n: 'B3', d: 4 },
+        { n: 'D3', d: 4 }, { n: 'A3', d: 4 },
+        { n: 'E3', d: 4 }, { n: 'B3', d: 4 },
+        { n: 'D3', d: 4 }, { n: 'E3', d: 4 },
+      ],
+    },
+    rift: {
+      tempo: 80,
+      loop: true,
+      melody: [
+        { n: 'C4', d: 3 }, { n: 'B3', d: 1 }, { n: 'G3', d: 2 }, { n: 'B3', d: 2 },
+        { n: 'C4', d: 2 }, { n: 'D4', d: 2 }, { n: 'C4', d: 4 },
+        { n: 'B3', d: 2 }, { n: 'G3', d: 2 }, { n: 'F3', d: 4 },
+        { n: 'G3', d: 2 }, { n: 'B3', d: 2 }, { n: 'C4', d: 2 }, { n: 'D4', d: 2 },
+        { n: 'C4', d: 3 }, { n: 'B3', d: 1 }, { n: 'G3', d: 4 },
+      ],
+      bass: [
+        { n: 'C3', d: 4 }, { n: 'G3', d: 4 },
+        { n: 'F3', d: 4 }, { n: 'C3', d: 4 },
+        { n: 'G3', d: 4 }, { n: 'D3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'G3', d: 4 },
+      ],
+    },
   };
 
   function ensureContext() {
@@ -503,6 +537,8 @@ const AudioSystem = (() => {
       volcano: 'volcano',
       gardens: 'gardens',
       citadel: 'citadel',
+      nexus: 'nexus',
+      rift: 'rift',
     };
     const name = trackMap[mapName];
     if (name) playTrack(name);
