@@ -187,6 +187,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'infernoGem', chance: 1.0 }, { id: 'titanShard', chance: 1.0 }],
     },
+    faeGuardian: {
+      name: 'Fae Guardian',
+      hp: 150, maxHp: 150,
+      attack: 36, defense: 16, speed: 14,
+      xp: 110, gold: 75,
+      sprite: 'faeGuardian',
+      skills: ['faeBlast', 'celestialRay'],
+      drops: [{ id: 'faeDust', chance: 0.45 }, { id: 'etherealShard', chance: 0.2 }],
+    },
+    crystalGolem: {
+      name: 'Crystal Golem',
+      hp: 200, maxHp: 200,
+      attack: 40, defense: 28, speed: 4,
+      xp: 160, gold: 100,
+      sprite: 'crystalGolem',
+      skills: ['crystalSmash', 'rockSmash'],
+      drops: [{ id: 'crystalHeart', chance: 0.5 }, { id: 'etherealShard', chance: 0.3 }],
+    },
+    eternalPhoenix: {
+      name: 'Eternal Phoenix',
+      hp: 1200, maxHp: 1200,
+      attack: 68, defense: 38, speed: 14,
+      xp: 900, gold: 750,
+      sprite: 'eternalPhoenix',
+      skills: ['phoenixFlare', 'infernoBurst', 'celestialRay'],
+      isBoss: true,
+      drops: [{ id: 'phoenixPlume', chance: 1.0 }, { id: 'eternalFlame', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -209,6 +237,9 @@ const EnemyDB = (() => {
     magmaBurst: { name: 'Magma Burst', multiplier: 1.7 },
     forgeStrike: { name: 'Forge Strike', multiplier: 1.9 },
     infernoBurst: { name: 'Inferno Burst', multiplier: 3.2 },
+    faeBlast: { name: 'Fae Blast', multiplier: 1.8 },
+    crystalSmash: { name: 'Crystal Smash', multiplier: 2.0 },
+    phoenixFlare: { name: 'Phoenix Flare', multiplier: 3.5 },
   };
 
   function create(type) {

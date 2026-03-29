@@ -13,6 +13,7 @@ const Game = (() => {
   let sanctumBossDefeated = false;
   let abyssBossDefeated = false;
   let volcanoBossDefeated = false;
+  let gardensBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -163,6 +164,9 @@ const Game = (() => {
     } else if (ps.currentMap === 'volcano' && !volcanoBossDefeated) {
       volcanoBossDefeated = true;
       BattleSystem.startBattle('infernoTitan');
+    } else if (ps.currentMap === 'gardens' && !gardensBossDefeated) {
+      gardensBossDefeated = true;
+      BattleSystem.startBattle('eternalPhoenix');
     }
   }
 
@@ -278,9 +282,10 @@ const Game = (() => {
   function setSanctumBossDefeated(val) { sanctumBossDefeated = val; }
   function setAbyssBossDefeated(val) { abyssBossDefeated = val; }
   function setVolcanoBossDefeated(val) { volcanoBossDefeated = val; }
+  function setGardensBossDefeated(val) { gardensBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated };
 })();

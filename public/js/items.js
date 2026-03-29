@@ -357,6 +357,58 @@ const ItemDB = (() => {
       type: 'material',
       description: 'A shard of the Inferno Titan',
     },
+    // Ethereal Gardens items
+    etherealBlade: {
+      name: 'Ethereal Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +38, ethereal-forged sword',
+      attack: 38,
+      buyPrice: 2000,
+    },
+    etherealPlate: {
+      name: 'Ethereal Plate',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +34, ethereal-forged armor',
+      defense: 34,
+      buyPrice: 2200,
+    },
+    etherealCrown: {
+      name: 'Ethereal Crown',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +12, DEF +8, SPD +4',
+      attack: 12,
+      defense: 8,
+      speed: 4,
+      buyPrice: 1800,
+    },
+    faeDust: {
+      name: 'Fae Dust',
+      type: 'material',
+      description: 'Glittering dust from a fae guardian',
+    },
+    crystalHeart: {
+      name: 'Crystal Heart',
+      type: 'material',
+      description: 'Radiant heart of a crystal golem',
+    },
+    etherealShard: {
+      name: 'Ethereal Shard',
+      type: 'material',
+      description: 'A shard pulsing with ethereal energy',
+    },
+    phoenixPlume: {
+      name: 'Phoenix Plume',
+      type: 'material',
+      description: 'A blazing plume from the Eternal Phoenix',
+    },
+    eternalFlame: {
+      name: 'Eternal Flame',
+      type: 'material',
+      description: 'An undying flame from the Eternal Phoenix',
+    },
   };
 
   function getItem(id) {
