@@ -159,6 +159,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'chaosGem', chance: 1.0 }, { id: 'dragonEssence', chance: 1.0 }],
     },
+    magmaElemental: {
+      name: 'Magma Elemental',
+      hp: 130, maxHp: 130,
+      attack: 32, defense: 14, speed: 8,
+      xp: 95, gold: 65,
+      sprite: 'magmaElemental',
+      skills: ['magmaBurst', 'darkSlash'],
+      drops: [{ id: 'magmaCore', chance: 0.45 }, { id: 'emberDust', chance: 0.2 }],
+    },
+    forgeSentinel: {
+      name: 'Forge Sentinel',
+      hp: 180, maxHp: 180,
+      attack: 38, defense: 24, speed: 4,
+      xp: 140, gold: 90,
+      sprite: 'forgeSentinel',
+      skills: ['forgeStrike', 'rockSmash'],
+      drops: [{ id: 'forgeSteel', chance: 0.5 }, { id: 'magmaCore', chance: 0.3 }],
+    },
+    infernoTitan: {
+      name: 'Inferno Titan',
+      hp: 1000, maxHp: 1000,
+      attack: 62, defense: 36, speed: 10,
+      xp: 750, gold: 600,
+      sprite: 'infernoTitan',
+      skills: ['infernoBurst', 'magmaBurst', 'chaosBreath'],
+      isBoss: true,
+      drops: [{ id: 'infernoGem', chance: 1.0 }, { id: 'titanShard', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -178,6 +206,9 @@ const EnemyDB = (() => {
     voidTouch: { name: 'Void Touch', multiplier: 1.6 },
     abyssalStrike: { name: 'Abyssal Strike', multiplier: 1.8 },
     chaosBreath: { name: 'Chaos Breath', multiplier: 3.0 },
+    magmaBurst: { name: 'Magma Burst', multiplier: 1.7 },
+    forgeStrike: { name: 'Forge Strike', multiplier: 1.9 },
+    infernoBurst: { name: 'Inferno Burst', multiplier: 3.2 },
   };
 
   function create(type) {

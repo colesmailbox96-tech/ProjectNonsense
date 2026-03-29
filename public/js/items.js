@@ -305,6 +305,58 @@ const ItemDB = (() => {
       type: 'material',
       description: 'Pure essence from the Chaos Dragon',
     },
+    // Volcanic Forge items
+    infernoBlade: {
+      name: 'Inferno Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +34, flame-forged sword',
+      attack: 34,
+      buyPrice: 1500,
+    },
+    forgePlate: {
+      name: 'Forge Plate',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +30, volcanic-forged armor',
+      defense: 30,
+      buyPrice: 1800,
+    },
+    titanBand: {
+      name: "Titan's Band",
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +10, DEF +6, SPD +2',
+      attack: 10,
+      defense: 6,
+      speed: 2,
+      buyPrice: 1200,
+    },
+    magmaCore: {
+      name: 'Magma Core',
+      type: 'material',
+      description: 'Molten core from a magma elemental',
+    },
+    emberDust: {
+      name: 'Ember Dust',
+      type: 'material',
+      description: 'Smoldering dust from volcanic creatures',
+    },
+    forgeSteel: {
+      name: 'Forge Steel',
+      type: 'material',
+      description: 'Heat-tempered steel from a forge sentinel',
+    },
+    infernoGem: {
+      name: 'Inferno Gem',
+      type: 'material',
+      description: 'A gem blazing with infernal power',
+    },
+    titanShard: {
+      name: 'Titan Shard',
+      type: 'material',
+      description: 'A shard of the Inferno Titan',
+    },
   };
 
   function getItem(id) {
