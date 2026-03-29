@@ -238,6 +238,28 @@ const Renderer = (() => {
         ctx.fillRect(8, 0, 1, TILE_SIZE);
         break;
 
+      case TILE_TYPES.ETHEREAL:
+        ctx.fillStyle = variant === 0 ? COLORS.ethereal : COLORS.etherealLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.etherealDark;
+        ctx.fillRect(3 + variant * 2, 4, 3, 2);
+        ctx.fillRect(9, 10 - variant, 2, 2);
+        // Magical sparkle
+        ctx.fillStyle = '#ddaaff';
+        ctx.fillRect(5 + animFrame * 3, 2 + variant, 2, 2);
+        break;
+
+      case TILE_TYPES.CRYSTAL:
+        ctx.fillStyle = variant === 0 ? COLORS.crystal : COLORS.crystalLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.crystalDark;
+        ctx.fillRect(2 + variant, 3, 4, 3);
+        ctx.fillRect(10, 8 - variant, 3, 2);
+        // Crystal shimmer
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(6 + animFrame * 2, 5, 1, 1);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);

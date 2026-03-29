@@ -163,6 +163,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'infernoGem', qty: 1 }, { id: 'titanShard', qty: 1 }, { id: 'chaosGem', qty: 2 }],
       result: { id: 'titanBand', qty: 1 },
     },
+    {
+      id: 'craft_etherealBlade',
+      name: 'Forge Ethereal Blade',
+      description: 'Combine 3 Crystal Heart + 2 Fae Dust for an Ethereal Blade',
+      ingredients: [{ id: 'crystalHeart', qty: 3 }, { id: 'faeDust', qty: 2 }],
+      result: { id: 'etherealBlade', qty: 1 },
+    },
+    {
+      id: 'craft_etherealPlate',
+      name: 'Forge Ethereal Plate',
+      description: 'Combine 3 Ethereal Shard + 2 Crystal Heart + 1 Forge Steel',
+      ingredients: [{ id: 'etherealShard', qty: 3 }, { id: 'crystalHeart', qty: 2 }, { id: 'forgeSteel', qty: 1 }],
+      result: { id: 'etherealPlate', qty: 1 },
+    },
+    {
+      id: 'craft_etherealCrown',
+      name: 'Craft Ethereal Crown',
+      description: 'Combine 1 Phoenix Plume + 1 Eternal Flame + 2 Inferno Gem',
+      ingredients: [{ id: 'phoenixPlume', qty: 1 }, { id: 'eternalFlame', qty: 1 }, { id: 'infernoGem', qty: 2 }],
+      result: { id: 'etherealCrown', qty: 1 },
+    },
   ];
 
   function getRecipes() {

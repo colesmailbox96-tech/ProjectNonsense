@@ -70,6 +70,12 @@ const COLORS = {
   basalt: '#3a3032',
   basaltLight: '#4a4042',
   basaltDark: '#2a2022',
+  ethereal: '#7744aa',
+  etherealLight: '#9966cc',
+  etherealDark: '#553388',
+  crystal: '#88ccff',
+  crystalLight: '#aaddff',
+  crystalDark: '#6699cc',
 };
 
 const TILE_TYPES = {
@@ -94,6 +100,8 @@ const TILE_TYPES = {
   OBSIDIAN: 18,
   LAVA: 19,
   BASALT: 20,
+  ETHEREAL: 21,
+  CRYSTAL: 22,
 };
 
 const PASSABLE = new Set([
@@ -112,4 +120,6 @@ const PASSABLE = new Set([
   TILE_TYPES.VOID,
   TILE_TYPES.OBSIDIAN,
   TILE_TYPES.BASALT,
+  TILE_TYPES.ETHEREAL,
+  TILE_TYPES.CRYSTAL,
 ]);

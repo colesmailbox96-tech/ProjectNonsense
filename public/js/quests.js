@@ -116,6 +116,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_ethereal_gardens',
+      name: 'Enter the Ethereal Gardens',
+      description: 'Enter the Ethereal Gardens',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_eternal_phoenix',
+      name: 'Defeat the Eternal Phoenix',
+      description: 'Defeat the boss in the Ethereal Gardens',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -275,6 +289,20 @@ const QuestSystem = (() => {
       case 'defeat_inferno_titan':
         if (event === 'defeat_boss' && data && data.bossType === 'infernoTitan') {
           completeQuest('defeat_inferno_titan');
+          return true;
+        }
+        break;
+
+      case 'enter_ethereal_gardens':
+        if (event === 'enter_map' && data && data.mapName === 'Ethereal Gardens') {
+          completeQuest('enter_ethereal_gardens');
+          return true;
+        }
+        break;
+
+      case 'defeat_eternal_phoenix':
+        if (event === 'defeat_boss' && data && data.bossType === 'eternalPhoenix') {
+          completeQuest('defeat_eternal_phoenix');
           return true;
         }
         break;

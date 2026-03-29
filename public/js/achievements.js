@@ -23,13 +23,16 @@ const Achievements = (() => {
     { id: 'sky_explorer', name: 'Sky Explorer', description: 'Enter the Celestial Sanctum', icon: '☁' },
     { id: 'wyrm_slayer', name: 'Wyrm Slayer', description: 'Defeat the Celestial Wyrm', icon: '🌟' },
     { id: 'storm_crafter', name: 'Storm Crafter', description: 'Craft a Celestial Sanctum item', icon: '⚡' },
-    { id: 'world_explorer', name: 'World Explorer', description: 'Visit all 8 maps', icon: '🌍' },
+    { id: 'world_explorer', name: 'World Explorer', description: 'Visit all 9 maps', icon: '🌍' },
     { id: 'abyss_explorer', name: 'Abyss Explorer', description: 'Enter the Abyssal Depths', icon: '🕳' },
     { id: 'chaos_slayer', name: 'Chaos Slayer', description: 'Defeat the Chaos Dragon', icon: '🐲' },
     { id: 'abyss_crafter', name: 'Abyss Crafter', description: 'Craft an Abyssal Depths item', icon: '🔮' },
     { id: 'volcano_explorer', name: 'Volcano Explorer', description: 'Enter the Volcanic Forge', icon: '🌋' },
     { id: 'titan_slayer', name: 'Titan Slayer', description: 'Defeat the Inferno Titan', icon: '👹' },
     { id: 'forge_crafter', name: 'Forge Master', description: 'Craft a Volcanic Forge item', icon: '⚒' },
+    { id: 'gardens_explorer', name: 'Gardens Explorer', description: 'Enter the Ethereal Gardens', icon: '🌸' },
+    { id: 'phoenix_slayer', name: 'Phoenix Slayer', description: 'Defeat the Eternal Phoenix', icon: '🦅' },
+    { id: 'ethereal_crafter', name: 'Ethereal Crafter', description: 'Craft an Ethereal Gardens item', icon: '✨' },
     { id: 'ultimate_champion', name: 'Ultimate Champion', description: 'Complete all quests and defeat all bosses', icon: '👑' },
   ];
 
@@ -118,6 +121,9 @@ const Achievements = (() => {
     if (enemyType === 'infernoTitan') {
       unlock('titan_slayer');
     }
+    if (enemyType === 'eternalPhoenix') {
+      unlock('phoenix_slayer');
+    }
   }
 
   // Called after crafting
@@ -143,6 +149,9 @@ const Achievements = (() => {
     if (recipeId === 'craft_infernoBlade' || recipeId === 'craft_forgePlate' || recipeId === 'craft_titanBand') {
       unlock('forge_crafter');
     }
+    if (recipeId === 'craft_etherealBlade' || recipeId === 'craft_etherealPlate' || recipeId === 'craft_etherealCrown') {
+      unlock('ethereal_crafter');
+    }
   }
 
   // Called periodically to check passive achievements
@@ -163,7 +172,7 @@ const Achievements = (() => {
 
     // Check bestiary completion
     if (typeof Bestiary !== 'undefined') {
-      const totalEnemyTypes = 20; // 8 original + 3 frozen peaks + 3 celestial sanctum + 3 abyssal depths + 3 volcanic forge
+      const totalEnemyTypes = 23; // 8 original + 3 frozen peaks + 3 celestial sanctum + 3 abyssal depths + 3 volcanic forge + 3 ethereal gardens
       if (Bestiary.getDiscoveredCount() >= totalEnemyTypes) {
         unlock('zoologist');
       }
@@ -195,15 +204,18 @@ const Achievements = (() => {
     if (mapName === 'Volcanic Forge') {
       unlock('volcano_explorer');
     }
-    // Check world explorer (all 8 maps visited)
+    if (mapName === 'Ethereal Gardens') {
+      unlock('gardens_explorer');
+    }
+    // Check world explorer (all 9 maps visited)
     // Village, Woods, and Cavern are required to reach later maps, so checking
     // only the optional-path achievements is sufficient
-    const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer', 'abyss_explorer', 'volcano_explorer'];
+    const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer', 'abyss_explorer', 'volcano_explorer', 'gardens_explorer'];
     if (allMaps.every(id => unlocked.has(id))) {
       unlock('world_explorer');
     }
     // Check ultimate champion (all bosses + world explorer)
-    const allBosses = ['shadow_slayer', 'ancient_vanquisher', 'drake_slayer', 'wyrm_slayer', 'chaos_slayer', 'titan_slayer'];
+    const allBosses = ['shadow_slayer', 'ancient_vanquisher', 'drake_slayer', 'wyrm_slayer', 'chaos_slayer', 'titan_slayer', 'phoenix_slayer'];
     if (allBosses.every(id => unlocked.has(id)) && unlocked.has('world_explorer')) {
       unlock('ultimate_champion');
     }
@@ -212,7 +224,7 @@ const Achievements = (() => {
   // Called when a chest is opened
   function onChestOpen() {
     // Count all chests across all maps
-    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum', 'abyss', 'volcano'];
+    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum', 'abyss', 'volcano', 'gardens'];
     let totalChests = 0;
     let openedChests = 0;
     for (const name of mapNames) {
