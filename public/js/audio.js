@@ -224,6 +224,24 @@ const AudioSystem = (() => {
         { n: 'A3', d: 4 }, { n: 'E3', d: 4 },
       ],
     },
+    citadel: {
+      tempo: 90,
+      loop: true,
+      melody: [
+        { n: 'D4', d: 3 }, { n: 'C4', d: 1 }, { n: 'A3', d: 2 }, { n: 'C4', d: 2 },
+        { n: 'D4', d: 2 }, { n: 'E4', d: 2 }, { n: 'D4', d: 4 },
+        { n: 'C4', d: 2 }, { n: 'A3', d: 2 }, { n: 'G3', d: 4 },
+        { n: 'A3', d: 2 }, { n: 'C4', d: 2 }, { n: 'D4', d: 2 }, { n: 'E4', d: 2 },
+        { n: 'D4', d: 3 }, { n: 'C4', d: 1 }, { n: 'A3', d: 4 },
+        { n: 'G3', d: 2 }, { n: 'A3', d: 2 }, { n: 'C4', d: 4 },
+      ],
+      bass: [
+        { n: 'D3', d: 4 }, { n: 'A3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'G3', d: 4 },
+        { n: 'D3', d: 4 }, { n: 'A3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'D3', d: 4 },
+      ],
+    },
   };
 
   function ensureContext() {
@@ -484,6 +502,7 @@ const AudioSystem = (() => {
       abyss: 'abyss',
       volcano: 'volcano',
       gardens: 'gardens',
+      citadel: 'citadel',
     };
     const name = trackMap[mapName];
     if (name) playTrack(name);

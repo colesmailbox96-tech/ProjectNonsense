@@ -14,6 +14,7 @@ const Game = (() => {
   let abyssBossDefeated = false;
   let volcanoBossDefeated = false;
   let gardensBossDefeated = false;
+  let citadelBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -167,6 +168,9 @@ const Game = (() => {
     } else if (ps.currentMap === 'gardens' && !gardensBossDefeated) {
       gardensBossDefeated = true;
       BattleSystem.startBattle('eternalPhoenix');
+    } else if (ps.currentMap === 'citadel' && !citadelBossDefeated) {
+      citadelBossDefeated = true;
+      BattleSystem.startBattle('voidEmperor');
     }
   }
 
@@ -283,9 +287,10 @@ const Game = (() => {
   function setAbyssBossDefeated(val) { abyssBossDefeated = val; }
   function setVolcanoBossDefeated(val) { volcanoBossDefeated = val; }
   function setGardensBossDefeated(val) { gardensBossDefeated = val; }
+  function setCitadelBossDefeated(val) { citadelBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated, setCitadelBossDefeated };
 })();

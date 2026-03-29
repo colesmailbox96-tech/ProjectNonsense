@@ -215,6 +215,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'phoenixPlume', chance: 1.0 }, { id: 'eternalFlame', chance: 1.0 }],
     },
+    twilightSentinel: {
+      name: 'Twilight Sentinel',
+      hp: 220, maxHp: 220,
+      attack: 42, defense: 20, speed: 10,
+      xp: 180, gold: 110,
+      sprite: 'twilightSentinel',
+      skills: ['twilightSlash', 'darkSlash'],
+      drops: [{ id: 'twilightShard', chance: 0.45 }, { id: 'shadowOrb', chance: 0.2 }],
+    },
+    shadowMage: {
+      name: 'Shadow Mage',
+      hp: 170, maxHp: 170,
+      attack: 44, defense: 14, speed: 16,
+      xp: 190, gold: 120,
+      sprite: 'shadowMage',
+      skills: ['shadowBolt', 'celestialRay'],
+      drops: [{ id: 'arcaneDust', chance: 0.45 }, { id: 'twilightShard', chance: 0.2 }],
+    },
+    voidEmperor: {
+      name: 'Void Emperor',
+      hp: 1500, maxHp: 1500,
+      attack: 75, defense: 42, speed: 12,
+      xp: 1100, gold: 900,
+      sprite: 'voidEmperor',
+      skills: ['voidRend', 'chaosBreath', 'shadowBolt'],
+      isBoss: true,
+      drops: [{ id: 'voidCrystal', chance: 1.0 }, { id: 'emperorSeal', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -240,6 +268,9 @@ const EnemyDB = (() => {
     faeBlast: { name: 'Fae Blast', multiplier: 1.8 },
     crystalSmash: { name: 'Crystal Smash', multiplier: 2.0 },
     phoenixFlare: { name: 'Phoenix Flare', multiplier: 3.5 },
+    twilightSlash: { name: 'Twilight Slash', multiplier: 2.0 },
+    shadowBolt: { name: 'Shadow Bolt', multiplier: 2.2 },
+    voidRend: { name: 'Void Rend', multiplier: 3.8 },
   };
 
   function create(type) {

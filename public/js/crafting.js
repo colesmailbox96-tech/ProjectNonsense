@@ -184,6 +184,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'phoenixPlume', qty: 1 }, { id: 'eternalFlame', qty: 1 }, { id: 'infernoGem', qty: 2 }],
       result: { id: 'etherealCrown', qty: 1 },
     },
+    {
+      id: 'craft_twilightBlade',
+      name: 'Forge Twilight Blade',
+      description: 'Combine 3 Twilight Shard + 2 Arcane Dust for a Twilight Blade',
+      ingredients: [{ id: 'twilightShard', qty: 3 }, { id: 'arcaneDust', qty: 2 }],
+      result: { id: 'twilightBlade', qty: 1 },
+    },
+    {
+      id: 'craft_twilightArmor',
+      name: 'Forge Twilight Armor',
+      description: 'Combine 3 Arcane Dust + 2 Twilight Shard + 1 Crystal Heart',
+      ingredients: [{ id: 'arcaneDust', qty: 3 }, { id: 'twilightShard', qty: 2 }, { id: 'crystalHeart', qty: 1 }],
+      result: { id: 'twilightArmor', qty: 1 },
+    },
+    {
+      id: 'craft_twilightSigil',
+      name: 'Craft Twilight Sigil',
+      description: "Combine 1 Void Crystal + 1 Emperor's Seal + 2 Phoenix Plume",
+      ingredients: [{ id: 'voidCrystal', qty: 1 }, { id: 'emperorSeal', qty: 1 }, { id: 'phoenixPlume', qty: 2 }],
+      result: { id: 'twilightSigil', qty: 1 },
+    },
   ];
 
   function getRecipes() {
