@@ -11,6 +11,12 @@ npm start
 
 Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 
+## Environment Screenshot
+
+Shattered Realm environment (latest added area/content), showing the updated map visuals and in-game HUD context:
+
+![Shattered Realm environment screenshot](https://github.com/user-attachments/assets/9f68aa71-42d1-4003-a913-2df0e536f394)
+
 ## Features
 
 - **Tile-based exploration** across 13 unique maps: Echohaven Village, Whispering Woods, Shadow Cavern, Ancient Ruins, Frozen Peaks, Celestial Sanctum, Abyssal Depths, Volcanic Forge, Ethereal Gardens, Twilight Citadel, Astral Nexus, Temporal Rift, and Shattered Realm
