@@ -52,6 +52,12 @@ const COLORS = {
   snowLight: '#eef4ff',
   frost: '#aaddff',
   snowDark: '#ccdde8',
+  cloud: '#d8e8f8',
+  cloudLight: '#eef4ff',
+  cloudDark: '#b0c8e0',
+  skyBrick: '#8899bb',
+  skyBrickLight: '#99aacc',
+  skyBrickDark: '#667799',
 };
 
 const TILE_TYPES = {
@@ -70,6 +76,8 @@ const TILE_TYPES = {
   SIGN: 12,
   ICE: 13,
   SNOW: 14,
+  CLOUD: 15,
+  SKY_BRICK: 16,
 };
 
 const PASSABLE = new Set([
@@ -83,4 +91,6 @@ const PASSABLE = new Set([
   TILE_TYPES.SIGN,
   TILE_TYPES.ICE,
   TILE_TYPES.SNOW,
+  TILE_TYPES.CLOUD,
+  TILE_TYPES.SKY_BRICK,
 ]);

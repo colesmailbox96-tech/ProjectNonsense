@@ -313,6 +313,8 @@ const MapData = (() => {
     warps: [
       { x: 15, y: 0, toMap: 'ruins', toX: 12, toY: 23 },
       { x: 14, y: 0, toMap: 'ruins', toX: 11, toY: 23 },
+      { x: 15, y: 24, toMap: 'sanctum', toX: 12, toY: 1 },
+      { x: 14, y: 24, toMap: 'sanctum', toX: 11, toY: 1 },
     ],
     chests: [
       { x: 25, y: 10, item: 'frostBlade', opened: false },
@@ -368,7 +370,7 @@ const MapData = (() => {
 
         // Entrance/exit paths
         if (y <= 1 && x >= 13 && x <= 16) t = T.ICE;
-        if (y >= 23 && x >= 13 && x <= 16) t = T.SNOW;
+        if (y >= 23 && x >= 13 && x <= 16) t = T.ICE;
 
         // Chests
         if (x === 25 && y === 10) t = T.CHEST;
@@ -383,7 +385,83 @@ const MapData = (() => {
     peaks.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins, peaks };
+  // Celestial Sanctum map (25x20)
+  const sanctum = {
+    name: 'Celestial Sanctum',
+    width: 25,
+    height: 20,
+    encounterRate: 0.1,
+    enemyPool: ['stormHawk', 'thunderGolem'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 12, y: 0, toMap: 'peaks', toX: 15, toY: 23 },
+      { x: 11, y: 0, toMap: 'peaks', toX: 14, toY: 23 },
+    ],
+    chests: [
+      { x: 21, y: 8, item: 'thunderSpear', opened: false },
+      { x: 3, y: 15, item: 'stormweaveRing', opened: false },
+    ],
+    bossSpawn: { x: 12, y: 16 },
+    playerStart: { x: 12, y: 1 },
+  };
+
+  (function buildSanctum() {
+    const m = [];
+    for (let y = 0; y < sanctum.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < sanctum.width; x++) {
+        let t = T.CLOUD;
+
+        // Sky brick borders
+        if (x === 0 || x === 24) t = T.WALL;
+        if (y === 0 && (x < 10 || x > 13)) t = T.WALL;
+        if (y === 19) t = T.WALL;
+
+        // Main north-south corridor
+        if (x >= 11 && x <= 13 && y >= 0 && y <= 16) t = T.SKY_BRICK;
+
+        // East wing corridor
+        if (y >= 6 && y <= 8 && x >= 13 && x <= 22) t = T.SKY_BRICK;
+        // East wing chamber
+        if (x >= 18 && x <= 22 && y >= 5 && y <= 10) t = T.SKY_BRICK;
+
+        // West wing corridor
+        if (y >= 6 && y <= 8 && x >= 2 && x <= 11) t = T.SKY_BRICK;
+        // West wing chamber
+        if (x >= 2 && x <= 6 && y >= 5 && y <= 10) t = T.SKY_BRICK;
+
+        // Boss chamber (south)
+        if (x >= 7 && x <= 17 && y >= 14 && y <= 18) t = T.SKY_BRICK;
+        if (x >= 7 && x <= 17 && y === 13) t = T.WALL;
+        if ((x === 7 || x === 17) && y >= 13 && y <= 18) t = T.WALL;
+        if (x >= 11 && x <= 13 && y === 13) t = T.SKY_BRICK; // entrance
+
+        // Cloud patches (decorative)
+        if (t === T.SKY_BRICK && ((x + y) % 11 === 0)) t = T.CLOUD;
+
+        // Small water features (sky pools)
+        if (x >= 3 && x <= 5 && y >= 7 && y <= 8) t = T.WATER;
+        if (x >= 19 && x <= 21 && y >= 7 && y <= 8) t = T.WATER;
+
+        // Entrance sign
+        if (x === 14 && y === 2) t = T.SIGN;
+
+        // Chests
+        if (x === 21 && y === 8) t = T.CHEST;
+        if (x === 3 && y === 15) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 11 && x <= 12) t = T.SKY_BRICK;
+        if (y === 1 && x >= 10 && x <= 13) t = T.SKY_BRICK;
+
+        m[y][x] = t;
+      }
+    }
+    sanctum.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks, sanctum };
 
   function getMap(name) {
     return maps[name];

@@ -100,6 +100,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'drakeScale', qty: 1 }, { id: 'iceCore', qty: 3 }, { id: 'spectralDust', qty: 2 }],
       result: { id: 'warmthAmulet', qty: 1 },
     },
+    {
+      id: 'craft_thunderSpear',
+      name: 'Forge Thunder Spear',
+      description: 'Combine 3 Storm Feather + 2 Thunder Core for a Thunder Spear',
+      ingredients: [{ id: 'stormFeather', qty: 3 }, { id: 'thunderCore', qty: 2 }],
+      result: { id: 'thunderSpear', qty: 1 },
+    },
+    {
+      id: 'craft_celestialPlate',
+      name: 'Forge Celestial Plate',
+      description: 'Combine 3 Lightning Shard + 2 Thunder Core + 1 Drake Scale',
+      ingredients: [{ id: 'lightningS', qty: 3 }, { id: 'thunderCore', qty: 2 }, { id: 'drakeScale', qty: 1 }],
+      result: { id: 'celestialPlate', qty: 1 },
+    },
+    {
+      id: 'craft_stormweaveRing',
+      name: 'Craft Stormweave Ring',
+      description: 'Combine 1 Wyrm Heart + 3 Thunder Core + 2 Storm Feather',
+      ingredients: [{ id: 'wyrmHeart', qty: 1 }, { id: 'thunderCore', qty: 3 }, { id: 'stormFeather', qty: 2 }],
+      result: { id: 'stormweaveRing', qty: 1 },
+    },
   ];
 
   function getRecipes() {

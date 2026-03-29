@@ -46,9 +46,51 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'explore_ruins',
+      name: 'Explore the Ruins',
+      description: 'Enter the Ancient Ruins',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_ancient_guardian',
+      name: 'Defeat the Ancient Guardian',
+      description: 'Defeat the boss in the Ancient Ruins',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'brave_the_peaks',
+      name: 'Brave the Peaks',
+      description: 'Enter the Frozen Peaks',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_crystal_drake',
+      name: 'Defeat the Crystal Drake',
+      description: 'Defeat the boss in the Frozen Peaks',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'reach_the_sanctum',
+      name: 'Reach the Sanctum',
+      description: 'Enter the Celestial Sanctum',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_celestial_wyrm',
+      name: 'Defeat the Celestial Wyrm',
+      description: 'Defeat the boss in the Celestial Sanctum',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
-      name: 'Hero of Echohaven',
-      description: 'Return to the village',
+      name: 'Legend of Echohaven',
+      description: 'Return to the village as a legend',
       completed: false,
       active: false,
     },
@@ -133,8 +175,50 @@ const QuestSystem = (() => {
         break;
 
       case 'defeat_shadow_lord':
-        if (event === 'defeat_boss') {
+        if (event === 'defeat_boss' && data && data.bossType === 'shadowLord') {
           completeQuest('defeat_shadow_lord');
+          return true;
+        }
+        break;
+
+      case 'explore_ruins':
+        if (event === 'enter_map' && data && data.mapName === 'Ancient Ruins') {
+          completeQuest('explore_ruins');
+          return true;
+        }
+        break;
+
+      case 'defeat_ancient_guardian':
+        if (event === 'defeat_boss' && data && data.bossType === 'ancientGuardian') {
+          completeQuest('defeat_ancient_guardian');
+          return true;
+        }
+        break;
+
+      case 'brave_the_peaks':
+        if (event === 'enter_map' && data && data.mapName === 'Frozen Peaks') {
+          completeQuest('brave_the_peaks');
+          return true;
+        }
+        break;
+
+      case 'defeat_crystal_drake':
+        if (event === 'defeat_boss' && data && data.bossType === 'crystalDrake') {
+          completeQuest('defeat_crystal_drake');
+          return true;
+        }
+        break;
+
+      case 'reach_the_sanctum':
+        if (event === 'enter_map' && data && data.mapName === 'Celestial Sanctum') {
+          completeQuest('reach_the_sanctum');
+          return true;
+        }
+        break;
+
+      case 'defeat_celestial_wyrm':
+        if (event === 'defeat_boss' && data && data.bossType === 'celestialWyrm') {
+          completeQuest('defeat_celestial_wyrm');
           return true;
         }
         break;
