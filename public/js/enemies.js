@@ -47,6 +47,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'shadowEssence', chance: 1.0 }, { id: 'shadowDust', chance: 1.0 }],
     },
+    wraith: {
+      name: 'Wraith',
+      hp: 65, maxHp: 65,
+      attack: 18, defense: 5, speed: 9,
+      xp: 50, gold: 30,
+      sprite: 'wraith',
+      skills: ['spectralTouch', 'darkSlash'],
+      drops: [{ id: 'spectralDust', chance: 0.5 }, { id: 'shadowDust', chance: 0.3 }],
+    },
+    stoneGolem: {
+      name: 'Stone Golem',
+      hp: 120, maxHp: 120,
+      attack: 22, defense: 20, speed: 2,
+      xp: 70, gold: 50,
+      sprite: 'stoneGolem',
+      skills: ['rockSmash', 'powerStrike'],
+      drops: [{ id: 'runeFragment', chance: 0.5 }, { id: 'ironOre', chance: 0.4 }],
+    },
+    ancientGuardian: {
+      name: 'Ancient Guardian',
+      hp: 350, maxHp: 350,
+      attack: 35, defense: 22, speed: 6,
+      xp: 250, gold: 200,
+      sprite: 'ancientGuardian',
+      skills: ['rockSmash', 'ancientBeam', 'powerStrike'],
+      isBoss: true,
+      drops: [{ id: 'ancientCore', chance: 1.0 }, { id: 'runeFragment', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -54,6 +82,9 @@ const EnemyDB = (() => {
     boneThrow: { name: 'Bone Throw', multiplier: 1.3 },
     darkSlash: { name: 'Dark Slash', multiplier: 1.8 },
     shadowBlast: { name: 'Shadow Blast', multiplier: 2.0 },
+    spectralTouch: { name: 'Spectral Touch', multiplier: 1.6 },
+    rockSmash: { name: 'Rock Smash', multiplier: 1.7 },
+    ancientBeam: { name: 'Ancient Beam', multiplier: 2.2 },
   };
 
   function create(type) {

@@ -92,6 +92,7 @@ const Player = (() => {
     addItem(chest.item, 1);
     DialogueSystem.showMessage('Chest', `Found ${item.name}!`);
     if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('chest');
+    if (typeof Achievements !== 'undefined') Achievements.onChestOpen();
   }
 
   function update(dt) {

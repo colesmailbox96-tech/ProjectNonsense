@@ -479,6 +479,12 @@ const BattleSystem = (() => {
       }
     }
 
+    // Achievement tracking
+    if (typeof Achievements !== 'undefined') {
+      Achievements.onBattleVictory(enemy.type);
+      Achievements.checkPassive();
+    }
+
     // Clear status effects
     playerEffects = [];
     enemyEffects = [];
@@ -491,6 +497,23 @@ const BattleSystem = (() => {
   }
 
   function defeat() {
+    // Check for Phoenix Feather auto-revive
+    const feather = Player.hasItem('phoenixFeather');
+    if (feather) {
+      Player.removeItem('phoenixFeather', 1);
+      Player.fullHeal();
+      addLog('🔥 Phoenix Feather activates! You are revived!');
+      addBattleText('🔥 REVIVE!', 'player', '#ff6600');
+      if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('heal');
+      if (typeof HUD !== 'undefined') HUD.addToast('🔥 Phoenix Feather used!', '#ff6600', 3000);
+      if (typeof Achievements !== 'undefined') Achievements.onPhoenixRevive();
+      playerEffects = [];
+      renderBattle();
+      playerTurn = true;
+      renderActions();
+      return;
+    }
+
     addLog('You were defeated...');
     if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('defeat');
     playerEffects = [];

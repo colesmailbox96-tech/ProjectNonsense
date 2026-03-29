@@ -165,6 +165,8 @@ const MapData = (() => {
     warps: [
       { x: 5, y: 0, toMap: 'forest', toX: 15, toY: 28 },
       { x: 4, y: 0, toMap: 'forest', toX: 14, toY: 28 },
+      { x: 10, y: 19, toMap: 'ruins', toX: 12, toY: 1 },
+      { x: 9, y: 19, toMap: 'ruins', toX: 11, toY: 1 },
     ],
     chests: [
       { x: 15, y: 15, item: 'silverArmor', opened: false },
@@ -196,6 +198,9 @@ const MapData = (() => {
         if (y >= 6 && y <= 9 && x === 10) t = T.FLOOR;
         if (y >= 13 && y <= 15 && x === 10) t = T.FLOOR;
 
+        // Passage to Ancient Ruins (center bottom)
+        if (x >= 9 && x <= 11 && y >= 17 && y <= 19) t = T.FLOOR;
+
         // Borders stay as wall
         if (y === 0 && (x < 3 || x > 7)) t = T.WALL;
 
@@ -212,7 +217,85 @@ const MapData = (() => {
     dungeon.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon };
+  // Ancient Ruins map (25x25)
+  const ruins = {
+    name: 'Ancient Ruins',
+    width: 25,
+    height: 25,
+    encounterRate: 0.12,
+    enemyPool: ['wraith', 'stoneGolem'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 12, y: 0, toMap: 'dungeon', toX: 10, toY: 18 },
+      { x: 11, y: 0, toMap: 'dungeon', toX: 9, toY: 18 },
+    ],
+    chests: [
+      { x: 20, y: 10, item: 'runeBlade', opened: false },
+      { x: 4, y: 20, item: 'phoenixFeather', opened: false },
+    ],
+    bossSpawn: { x: 12, y: 18 },
+    playerStart: { x: 12, y: 1 },
+  };
+
+  (function buildRuins() {
+    const m = [];
+    for (let y = 0; y < ruins.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < ruins.width; x++) {
+        let t = T.WALL;
+
+        // North entrance corridor
+        if (x >= 11 && x <= 13 && y >= 0 && y <= 4) t = T.FLOOR;
+
+        // Main north-south hall
+        if (x >= 10 && x <= 14 && y >= 4 && y <= 20) t = T.FLOOR;
+
+        // East wing corridor
+        if (y >= 8 && y <= 10 && x >= 14 && x <= 22) t = T.FLOOR;
+        // East wing room
+        if (x >= 18 && x <= 22 && y >= 7 && y <= 12) t = T.FLOOR;
+
+        // West wing corridor
+        if (y >= 8 && y <= 10 && x >= 2 && x <= 10) t = T.FLOOR;
+        // West wing room
+        if (x >= 2 && x <= 6 && y >= 7 && y <= 12) t = T.FLOOR;
+
+        // South chamber (boss room)
+        if (x >= 8 && x <= 16 && y >= 16 && y <= 22) t = T.FLOOR;
+
+        // Small side alcoves
+        if (x >= 2 && x <= 6 && y >= 18 && y <= 22) t = T.FLOOR;
+        if (x >= 18 && x <= 22 && y >= 18 && y <= 22) t = T.FLOOR;
+
+        // Connect side alcoves to boss room
+        if (y >= 19 && y <= 21 && x >= 6 && x <= 8) t = T.FLOOR;
+        if (y >= 19 && y <= 21 && x >= 16 && x <= 18) t = T.FLOOR;
+
+        // Ancient pools (water features)
+        if (x >= 3 && x <= 5 && y >= 9 && y <= 10) t = T.WATER;
+        if (x >= 19 && x <= 21 && y >= 9 && y <= 10) t = T.WATER;
+
+        // Sandy areas (weathered sections)
+        if (t === T.FLOOR && ((x + y) % 9 === 0)) t = T.SAND;
+
+        // Entrance sign
+        if (x === 14 && y === 4) t = T.SIGN;
+
+        // Chests
+        if (x === 20 && y === 10) t = T.CHEST;
+        if (x === 4 && y === 20) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 11 && x <= 12) t = T.FLOOR;
+
+        m[y][x] = t;
+      }
+    }
+    ruins.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins };
 
   function getMap(name) {
     return maps[name];

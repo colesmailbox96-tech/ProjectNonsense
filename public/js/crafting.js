@@ -58,6 +58,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'shadowEssence', qty: 1 }, { id: 'boneShard', qty: 2 }],
       result: { id: 'luckyRing', qty: 1 },
     },
+    {
+      id: 'craft_runeBlade',
+      name: 'Forge Rune Blade',
+      description: 'Combine 2 Rune Fragment + 1 Shadow Essence for a Rune Blade',
+      ingredients: [{ id: 'runeFragment', qty: 2 }, { id: 'shadowEssence', qty: 1 }],
+      result: { id: 'runeBlade', qty: 1 },
+    },
+    {
+      id: 'craft_ancientArmor',
+      name: 'Forge Ancient Armor',
+      description: 'Combine 2 Ancient Core + 1 Dark Plate for Ancient Armor',
+      ingredients: [{ id: 'ancientCore', qty: 2 }, { id: 'darkPlate', qty: 1 }],
+      result: { id: 'ancientArmor', qty: 1 },
+    },
+    {
+      id: 'craft_phoenixFeather',
+      name: 'Craft Phoenix Feather',
+      description: 'Combine 1 Ancient Core + 1 Spectral Dust + 1 Shadow Essence',
+      ingredients: [{ id: 'ancientCore', qty: 1 }, { id: 'spectralDust', qty: 1 }, { id: 'shadowEssence', qty: 1 }],
+      result: { id: 'phoenixFeather', qty: 1 },
+    },
   ];
 
   function getRecipes() {
@@ -88,6 +109,10 @@ const CraftingSystem = (() => {
     Player.addItem(recipe.result.id, recipe.result.qty);
 
     if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('chest');
+
+    // Track achievement
+    if (typeof Achievements !== 'undefined') Achievements.onCraft(recipeId);
+
     return true;
   }
 

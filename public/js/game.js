@@ -8,6 +8,7 @@ const Game = (() => {
   let transitionAlpha = 0;
   let transitionCallback = null;
   let bossDefeated = false;
+  let ruinsBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -135,12 +136,17 @@ const Game = (() => {
   }
 
   function checkBossEncounter() {
-    if (bossDefeated) return;
     const ps = Player.getState();
     const map = MapData.getMap(ps.currentMap);
-    if (map.bossSpawn && ps.x === map.bossSpawn.x && ps.y === map.bossSpawn.y) {
+    if (!map.bossSpawn) return;
+    if (ps.x !== map.bossSpawn.x || ps.y !== map.bossSpawn.y) return;
+
+    if (ps.currentMap === 'dungeon' && !bossDefeated) {
       bossDefeated = true;
       BattleSystem.startBattle('shadowLord');
+    } else if (ps.currentMap === 'ruins' && !ruinsBossDefeated) {
+      ruinsBossDefeated = true;
+      BattleSystem.startBattle('ancientGuardian');
     }
   }
 
@@ -213,6 +219,12 @@ const Game = (() => {
         }
       }
 
+      // Achievement tracking on map enter
+      if (typeof Achievements !== 'undefined') {
+        Achievements.onMapEnter(map.name);
+        Achievements.checkPassive();
+      }
+
       // Auto-save on map change
       if (typeof SaveSystem !== 'undefined') SaveSystem.autoSave();
     };
@@ -245,9 +257,10 @@ const Game = (() => {
   function setState(s) { gameState = s; }
   function getState() { return gameState; }
   function setBossDefeated(val) { bossDefeated = val; }
+  function setRuinsBossDefeated(val) { ruinsBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated };
 })();
