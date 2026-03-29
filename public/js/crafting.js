@@ -205,6 +205,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'voidCrystal', qty: 1 }, { id: 'emperorSeal', qty: 1 }, { id: 'phoenixPlume', qty: 2 }],
       result: { id: 'twilightSigil', qty: 1 },
     },
+    {
+      id: 'craft_astralBlade',
+      name: 'Forge Astral Blade',
+      description: 'Combine 3 Stardust Shard + 2 Twilight Shard for an Astral Blade',
+      ingredients: [{ id: 'stardustShard', qty: 3 }, { id: 'twilightShard', qty: 2 }],
+      result: { id: 'astralBlade', qty: 1 },
+    },
+    {
+      id: 'craft_astralArmor',
+      name: 'Forge Astral Armor',
+      description: 'Combine 3 Stardust Shard + 2 Nexus Core + 1 Void Crystal',
+      ingredients: [{ id: 'stardustShard', qty: 3 }, { id: 'nexusCore', qty: 2 }, { id: 'voidCrystal', qty: 1 }],
+      result: { id: 'astralArmor', qty: 1 },
+    },
+    {
+      id: 'craft_astralCrown',
+      name: 'Craft Astral Crown',
+      description: 'Combine 1 Nexus Core + 1 Stardust Shard + 2 Arcane Dust',
+      ingredients: [{ id: 'nexusCore', qty: 1 }, { id: 'stardustShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
+      result: { id: 'astralCrown', qty: 1 },
+    },
   ];
 
   function getRecipes() {

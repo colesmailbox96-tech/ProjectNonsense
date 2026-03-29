@@ -13,22 +13,22 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 
 ## Features
 
-- **Tile-based exploration** across 10 unique maps: Echohaven Village, Whispering Woods, Shadow Cavern, Ancient Ruins, Frozen Peaks, Celestial Sanctum, Abyssal Depths, Volcanic Forge, Ethereal Gardens, and Twilight Citadel
+- **Tile-based exploration** across 11 unique maps: Echohaven Village, Whispering Woods, Shadow Cavern, Ancient Ruins, Frozen Peaks, Celestial Sanctum, Abyssal Depths, Volcanic Forge, Ethereal Gardens, Twilight Citadel, and Astral Nexus
 - **Turn-based combat** with attack, skills, items, and flee options
 - **Skill system** — learn 6 unique skills as you level up (Power Strike, Heal, Flame Strike, Shield Bash, Warding Light, Holy Smite)
 - **Talent system** — 3 talent paths (Might, Arcane, Survival) with 4 tiers each
 - **Status effects** — poison, stun, ATK/DEF buffs affect both player and enemies in combat
 - **Critical hits** — SPD-based crit chance with 1.5x damage multiplier
-- **8 Boss fights** — Shadow Lord, Ancient Guardian, Crystal Drake, Celestial Wyrm, Chaos Dragon, Inferno Titan, Eternal Phoenix, and Void Emperor
-- **Quest system** — 21-part story chain tracking your journey across all areas
+- **9 Boss fights** — Shadow Lord, Ancient Guardian, Crystal Drake, Celestial Wyrm, Chaos Dragon, Inferno Titan, Eternal Phoenix, Void Emperor, and Star Devourer
+- **Quest system** — 23-part story chain tracking your journey across all areas
 - **Character progression** — gain XP, level up, increase stats, unlock new skills
 - **NPC dialogue system** — talk to the Village Elder, Merchant, Healer, and Guard
 - **Merchant shop** — buy potions, ethers, weapons, armor, and accessories
 - **Inventory & equipment** — collect items, equip weapons, armor, and accessories with real stat effects
-- **Crafting system** — 29 recipes to forge equipment and brew consumables from enemy drops
+- **Crafting system** — 33 recipes to forge equipment and brew consumables from enemy drops
 - **Treasure chests** hidden across every map
-- **Bestiary** — track all 26 enemy types you've encountered
-- **36 Achievements** — unlock rewards for combat, crafting, exploration, and more
+- **Bestiary** — track all 29 enemy types you've encountered
+- **43 Achievements** — unlock rewards for combat, crafting, exploration, and more
 - **Save/Load system** — auto-saves on map transitions and victories; manual save from menu
 - **Minimap** — see the full map layout in the corner during exploration
 - **Particle effects** — visual feedback for damage, healing, and leveling
@@ -63,6 +63,7 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 | 8 | Volcanic Forge | 22×20 | Magma Elemental, Forge Sentinel | Inferno Titan |
 | 9 | Ethereal Gardens | 24×22 | Fae Guardian, Crystal Golem | Eternal Phoenix |
 | 10 | Twilight Citadel | 25×20 | Twilight Sentinel, Shadow Mage | Void Emperor |
+| 11 | Astral Nexus | 25×22 | Astral Wraith, Cosmic Sentinel | Star Devourer |
 
 ## Quest Chain
 
@@ -86,7 +87,9 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 18. **Defeat the Eternal Phoenix** — Defeat the gardens boss
 19. **Enter the Twilight Citadel** — Enter the Twilight Citadel
 20. **Defeat the Void Emperor** — Defeat the citadel boss
-21. **Legend of Echohaven** — Return to the village
+21. **Enter the Astral Nexus** — Enter the Astral Nexus
+22. **Defeat the Star Devourer** — Defeat the nexus boss
+23. **Legend of Echohaven** — Return to the village
 
 ## Player Skills
 

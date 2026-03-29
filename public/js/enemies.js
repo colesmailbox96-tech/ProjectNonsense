@@ -243,6 +243,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'voidCrystal', chance: 1.0 }, { id: 'emperorSeal', chance: 1.0 }],
     },
+    astralWraith: {
+      name: 'Astral Wraith',
+      hp: 250, maxHp: 250,
+      attack: 48, defense: 22, speed: 14,
+      xp: 210, gold: 130,
+      sprite: 'astralWraith',
+      skills: ['astralSlash', 'voidTouch'],
+      drops: [{ id: 'stardustShard', chance: 0.45 }, { id: 'nexusCore', chance: 0.15 }],
+    },
+    cosmicSentinel: {
+      name: 'Cosmic Sentinel',
+      hp: 280, maxHp: 280,
+      attack: 46, defense: 26, speed: 8,
+      xp: 220, gold: 140,
+      sprite: 'cosmicSentinel',
+      skills: ['cosmicBlast', 'rockSmash'],
+      drops: [{ id: 'stardustShard', chance: 0.4 }, { id: 'nexusCore', chance: 0.2 }],
+    },
+    starDevourer: {
+      name: 'Star Devourer',
+      hp: 1800, maxHp: 1800,
+      attack: 82, defense: 48, speed: 10,
+      xp: 1400, gold: 1100,
+      sprite: 'starDevourer',
+      skills: ['starRend', 'cosmicBlast', 'voidRend'],
+      isBoss: true,
+      drops: [{ id: 'stardustShard', chance: 1.0 }, { id: 'nexusCore', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -271,6 +299,9 @@ const EnemyDB = (() => {
     twilightSlash: { name: 'Twilight Slash', multiplier: 2.0 },
     shadowBolt: { name: 'Shadow Bolt', multiplier: 2.2 },
     voidRend: { name: 'Void Rend', multiplier: 3.8 },
+    astralSlash: { name: 'Astral Slash', multiplier: 2.1 },
+    cosmicBlast: { name: 'Cosmic Blast', multiplier: 2.3 },
+    starRend: { name: 'Star Rend', multiplier: 4.0 },
   };
 
   function create(type) {

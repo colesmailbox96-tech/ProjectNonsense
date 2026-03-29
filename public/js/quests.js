@@ -144,6 +144,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_astral_nexus',
+      name: 'Enter the Astral Nexus',
+      description: 'Enter the Astral Nexus',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_star_devourer',
+      name: 'Defeat the Star Devourer',
+      description: 'Defeat the boss in the Astral Nexus',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -331,6 +345,20 @@ const QuestSystem = (() => {
       case 'defeat_void_emperor':
         if (event === 'defeat_boss' && data && data.bossType === 'voidEmperor') {
           completeQuest('defeat_void_emperor');
+          return true;
+        }
+        break;
+
+      case 'enter_astral_nexus':
+        if (event === 'enter_map' && data && data.mapName === 'Astral Nexus') {
+          completeQuest('enter_astral_nexus');
+          return true;
+        }
+        break;
+
+      case 'defeat_star_devourer':
+        if (event === 'defeat_boss' && data && data.bossType === 'starDevourer') {
+          completeQuest('defeat_star_devourer');
           return true;
         }
         break;
