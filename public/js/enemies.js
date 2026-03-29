@@ -271,6 +271,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'stardustShard', chance: 1.0 }, { id: 'nexusCore', chance: 1.0 }],
     },
+    chronoPhantom: {
+      name: 'Chrono Phantom',
+      hp: 290, maxHp: 290,
+      attack: 52, defense: 24, speed: 16,
+      xp: 240, gold: 150,
+      sprite: 'chronoPhantom',
+      skills: ['temporalSlash', 'voidTouch'],
+      drops: [{ id: 'temporalShard', chance: 0.45 }, { id: 'riftEssence', chance: 0.15 }],
+    },
+    temporalGuardian: {
+      name: 'Temporal Guardian',
+      hp: 320, maxHp: 320,
+      attack: 50, defense: 28, speed: 9,
+      xp: 250, gold: 160,
+      sprite: 'temporalGuardian',
+      skills: ['chronoBlast', 'rockSmash'],
+      drops: [{ id: 'temporalShard', chance: 0.4 }, { id: 'riftEssence', chance: 0.2 }],
+    },
+    epochWeaver: {
+      name: 'Epoch Weaver',
+      hp: 2100, maxHp: 2100,
+      attack: 90, defense: 52, speed: 11,
+      xp: 1600, gold: 1300,
+      sprite: 'epochWeaver',
+      skills: ['epochRend', 'chronoBlast', 'starRend'],
+      isBoss: true,
+      drops: [{ id: 'temporalShard', chance: 1.0 }, { id: 'riftEssence', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -302,6 +330,9 @@ const EnemyDB = (() => {
     astralSlash: { name: 'Astral Slash', multiplier: 2.1 },
     cosmicBlast: { name: 'Cosmic Blast', multiplier: 2.3 },
     starRend: { name: 'Star Rend', multiplier: 4.0 },
+    temporalSlash: { name: 'Temporal Slash', multiplier: 2.2 },
+    chronoBlast: { name: 'Chrono Blast', multiplier: 2.4 },
+    epochRend: { name: 'Epoch Rend', multiplier: 4.2 },
   };
 
   function create(type) {

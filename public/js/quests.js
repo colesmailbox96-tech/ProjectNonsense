@@ -158,6 +158,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_temporal_rift',
+      name: 'Enter the Temporal Rift',
+      description: 'Enter the Temporal Rift',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_epoch_weaver',
+      name: 'Defeat the Epoch Weaver',
+      description: 'Defeat the boss in the Temporal Rift',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -359,6 +373,20 @@ const QuestSystem = (() => {
       case 'defeat_star_devourer':
         if (event === 'defeat_boss' && data && data.bossType === 'starDevourer') {
           completeQuest('defeat_star_devourer');
+          return true;
+        }
+        break;
+
+      case 'enter_temporal_rift':
+        if (event === 'enter_map' && data && data.mapName === 'Temporal Rift') {
+          completeQuest('enter_temporal_rift');
+          return true;
+        }
+        break;
+
+      case 'defeat_epoch_weaver':
+        if (event === 'defeat_boss' && data && data.bossType === 'epochWeaver') {
+          completeQuest('defeat_epoch_weaver');
           return true;
         }
         break;

@@ -304,6 +304,28 @@ const Renderer = (() => {
         ctx.fillRect(4 + animFrame * 3, 4 + variant, 2, 2);
         break;
 
+      case TILE_TYPES.TEMPORAL_STONE:
+        ctx.fillStyle = variant === 0 ? COLORS.temporalStone : COLORS.temporalStoneLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.temporalStoneDark;
+        ctx.fillRect(1 + variant, 3, 4, 3);
+        ctx.fillRect(10, 7 - variant, 3, 2);
+        // Time shimmer
+        ctx.fillStyle = '#55dddd';
+        ctx.fillRect(5 + animFrame * 2, 5, 1, 1);
+        break;
+
+      case TILE_TYPES.RIFT_GLOW:
+        ctx.fillStyle = variant === 0 ? COLORS.riftGlow : COLORS.riftGlowLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.riftGlowDark;
+        ctx.fillRect(2 + variant, 2, 3, 2);
+        ctx.fillRect(9, 8 - variant, 2, 2);
+        // Rift pulse
+        ctx.fillStyle = '#88ffff';
+        ctx.fillRect(3 + animFrame * 3, 3 + variant, 2, 2);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
@@ -326,7 +348,9 @@ const Renderer = (() => {
             key.startsWith(`${TILE_TYPES.SHADOW_STONE}_`) ||
             key.startsWith(`${TILE_TYPES.ARCANE_GLOW}_`) ||
             key.startsWith(`${TILE_TYPES.STAR_STONE}_`) ||
-            key.startsWith(`${TILE_TYPES.NEBULA_GLOW}_`)) {
+            key.startsWith(`${TILE_TYPES.NEBULA_GLOW}_`) ||
+            key.startsWith(`${TILE_TYPES.TEMPORAL_STONE}_`) ||
+            key.startsWith(`${TILE_TYPES.RIFT_GLOW}_`)) {
           delete tileCache[key];
         }
       }

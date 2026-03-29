@@ -226,6 +226,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'nexusCore', qty: 1 }, { id: 'stardustShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
       result: { id: 'astralCrown', qty: 1 },
     },
+    {
+      id: 'craft_temporalBlade',
+      name: 'Forge Temporal Blade',
+      description: 'Combine 3 Temporal Shard + 2 Stardust Shard for a Temporal Blade',
+      ingredients: [{ id: 'temporalShard', qty: 3 }, { id: 'stardustShard', qty: 2 }],
+      result: { id: 'temporalBlade', qty: 1 },
+    },
+    {
+      id: 'craft_temporalArmor',
+      name: 'Forge Temporal Armor',
+      description: 'Combine 3 Temporal Shard + 2 Rift Essence + 1 Nexus Core',
+      ingredients: [{ id: 'temporalShard', qty: 3 }, { id: 'riftEssence', qty: 2 }, { id: 'nexusCore', qty: 1 }],
+      result: { id: 'temporalArmor', qty: 1 },
+    },
+    {
+      id: 'craft_temporalCirclet',
+      name: 'Craft Temporal Circlet',
+      description: 'Combine 1 Rift Essence + 1 Temporal Shard + 2 Arcane Dust',
+      ingredients: [{ id: 'riftEssence', qty: 1 }, { id: 'temporalShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
+      result: { id: 'temporalCirclet', qty: 1 },
+    },
   ];
 
   function getRecipes() {
