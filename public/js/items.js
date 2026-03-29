@@ -126,6 +126,46 @@ const ItemDB = (() => {
       type: 'material',
       description: 'Potent essence of the Shadow Lord',
     },
+    // Ancient Ruins items
+    runeBlade: {
+      name: 'Rune Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +18, ancient rune-etched sword',
+      attack: 18,
+      buyPrice: 500,
+    },
+    ancientArmor: {
+      name: 'Ancient Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +15, armor of the ancients',
+      defense: 15,
+      buyPrice: 600,
+    },
+    phoenixFeather: {
+      name: 'Phoenix Feather',
+      type: 'consumable',
+      description: 'Auto-revives on defeat (full HP)',
+      effect: () => { /* handled in battle defeat logic */ },
+      autoRevive: true,
+      buyPrice: 300,
+    },
+    spectralDust: {
+      name: 'Spectral Dust',
+      type: 'material',
+      description: 'Ethereal dust left by wraiths',
+    },
+    runeFragment: {
+      name: 'Rune Fragment',
+      type: 'material',
+      description: 'Glowing fragment from a stone golem',
+    },
+    ancientCore: {
+      name: 'Ancient Core',
+      type: 'material',
+      description: 'Core of an ancient guardian construct',
+    },
   };
 
   function getItem(id) {

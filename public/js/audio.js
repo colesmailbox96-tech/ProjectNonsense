@@ -115,6 +115,24 @@ const AudioSystem = (() => {
         { n: 'A3', d: 2 }, { n: 'E3', d: 2 }, { n: 'E3', d: 4 },
       ],
     },
+    ruins: {
+      tempo: 100,
+      loop: true,
+      melody: [
+        { n: 'D4', d: 3 }, { n: 'E4', d: 1 }, { n: 'G4', d: 2 }, { n: 'A4', d: 2 },
+        { n: 'G4', d: 2 }, { n: 'E4', d: 2 }, { n: 'D4', d: 4 },
+        { n: 'C4', d: 2 }, { n: 'D4', d: 2 }, { n: 'E4', d: 2 }, { n: 'G4', d: 2 },
+        { n: 'A4', d: 3 }, { n: 'G4', d: 1 }, { n: 'E4', d: 4 },
+        { n: 'D4', d: 2 }, { n: 'C4', d: 2 }, { n: 'D4', d: 4 },
+        { n: 'E4', d: 2 }, { n: 'D4', d: 2 }, { n: 'C4', d: 4 },
+      ],
+      bass: [
+        { n: 'D3', d: 4 }, { n: 'G3', d: 4 },
+        { n: 'A3', d: 4 }, { n: 'D3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'G3', d: 4 },
+        { n: 'D3', d: 4 }, { n: 'D3', d: 4 },
+      ],
+    },
   };
 
   function ensureContext() {
@@ -346,6 +364,21 @@ const AudioSystem = (() => {
         osc.stop(now + 0.12);
         break;
       }
+      case 'achievement': {
+        [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          g.gain.setValueAtTime(sfxVolume * 0.45, now + i * 0.09);
+          g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.35);
+          osc.connect(g);
+          g.connect(sfxGain);
+          osc.start(now + i * 0.09);
+          osc.stop(now + i * 0.09 + 0.35);
+        });
+        break;
+      }
     }
   }
 
@@ -354,6 +387,7 @@ const AudioSystem = (() => {
       village: 'village',
       forest: 'forest',
       dungeon: 'dungeon',
+      ruins: 'ruins',
     };
     const name = trackMap[mapName];
     if (name) playTrack(name);
