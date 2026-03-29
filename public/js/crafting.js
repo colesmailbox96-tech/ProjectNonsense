@@ -142,6 +142,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'chaosGem', qty: 1 }, { id: 'dragonEssence', qty: 1 }, { id: 'wyrmHeart', qty: 2 }],
       result: { id: 'chaosRing', qty: 1 },
     },
+    {
+      id: 'craft_infernoBlade',
+      name: 'Forge Inferno Blade',
+      description: 'Combine 3 Magma Core + 2 Forge Steel for an Inferno Blade',
+      ingredients: [{ id: 'magmaCore', qty: 3 }, { id: 'forgeSteel', qty: 2 }],
+      result: { id: 'infernoBlade', qty: 1 },
+    },
+    {
+      id: 'craft_forgePlate',
+      name: 'Forge Forge Plate',
+      description: 'Combine 3 Forge Steel + 2 Magma Core + 1 Abyssal Ore',
+      ingredients: [{ id: 'forgeSteel', qty: 3 }, { id: 'magmaCore', qty: 2 }, { id: 'abyssalOre', qty: 1 }],
+      result: { id: 'forgePlate', qty: 1 },
+    },
+    {
+      id: 'craft_titanBand',
+      name: "Craft Titan's Band",
+      description: 'Combine 1 Inferno Gem + 1 Titan Shard + 2 Chaos Gem',
+      ingredients: [{ id: 'infernoGem', qty: 1 }, { id: 'titanShard', qty: 1 }, { id: 'chaosGem', qty: 2 }],
+      result: { id: 'titanBand', qty: 1 },
+    },
   ];
 
   function getRecipes() {

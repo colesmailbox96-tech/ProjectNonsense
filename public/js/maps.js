@@ -476,6 +476,7 @@ const MapData = (() => {
     npcs: [],
     warps: [
       { x: 10, y: 0, toMap: 'sanctum', toX: 12, toY: 18 },
+      { x: 10, y: 19, toMap: 'volcano', toX: 11, toY: 1 },
     ],
     chests: [
       { x: 16, y: 8, item: 'voidBlade', opened: false },
@@ -533,13 +534,90 @@ const MapData = (() => {
         if (y === 0 && x >= 9 && x <= 10) t = T.OBSIDIAN;
         if (y === 1 && x >= 9 && x <= 11) t = T.OBSIDIAN;
 
+        // South exit to Volcanic Forge
+        if (y >= 18 && y <= 19 && x >= 9 && x <= 11) t = T.OBSIDIAN;
+
         m[y][x] = t;
       }
     }
     abyss.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss };
+  // Volcanic Forge map (22x20)
+  const volcano = {
+    name: 'Volcanic Forge',
+    width: 22,
+    height: 20,
+    encounterRate: 0.13,
+    enemyPool: ['magmaElemental', 'forgeSentinel'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 11, y: 0, toMap: 'abyss', toX: 10, toY: 18 },
+    ],
+    chests: [
+      { x: 18, y: 8, item: 'infernoBlade', opened: false },
+      { x: 3, y: 15, item: 'forgePlate', opened: false },
+    ],
+    bossSpawn: { x: 11, y: 16 },
+    playerStart: { x: 11, y: 1 },
+  };
+
+  (function buildVolcano() {
+    const m = [];
+    for (let y = 0; y < volcano.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < volcano.width; x++) {
+        let t = T.LAVA;
+
+        // Wall borders
+        if (x === 0 || x === 21) t = T.WALL;
+        if (y === 0 && (x < 10 || x > 12)) t = T.WALL;
+        if (y === 19) t = T.WALL;
+
+        // Main north-south corridor
+        if (x >= 10 && x <= 12 && y >= 0 && y <= 14) t = T.BASALT;
+
+        // East wing corridor
+        if (y >= 6 && y <= 8 && x >= 12 && x <= 20) t = T.BASALT;
+        // East wing chamber
+        if (x >= 16 && x <= 20 && y >= 5 && y <= 10) t = T.BASALT;
+
+        // West wing corridor
+        if (y >= 6 && y <= 8 && x >= 1 && x <= 10) t = T.BASALT;
+        // West wing chamber
+        if (x >= 1 && x <= 5 && y >= 5 && y <= 10) t = T.BASALT;
+
+        // Boss chamber (south)
+        if (x >= 6 && x <= 16 && y >= 13 && y <= 18) t = T.BASALT;
+        if (x >= 6 && x <= 16 && y === 12) t = T.WALL;
+        if ((x === 6 || x === 16) && y >= 12 && y <= 18) t = T.WALL;
+        if (x >= 10 && x <= 12 && y === 12) t = T.BASALT; // entrance
+
+        // Floor rooms (inner areas)
+        if (x >= 8 && x <= 14 && y >= 14 && y <= 17) t = T.FLOOR;
+        if (x >= 2 && x <= 4 && y >= 6 && y <= 9) t = T.FLOOR;
+        if (x >= 17 && x <= 19 && y >= 6 && y <= 9) t = T.FLOOR;
+
+        // Lava pools (decorative)
+        if (x >= 2 && x <= 3 && y >= 7 && y <= 8) t = T.LAVA;
+        if (x >= 18 && x <= 19 && y >= 7 && y <= 8) t = T.LAVA;
+
+        // Chests
+        if (x === 18 && y === 8) t = T.CHEST;
+        if (x === 3 && y === 15) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 10 && x <= 11) t = T.BASALT;
+        if (y === 1 && x >= 10 && x <= 12) t = T.BASALT;
+
+        m[y][x] = t;
+      }
+    }
+    volcano.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano };
 
   function getMap(name) {
     return maps[name];

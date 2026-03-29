@@ -102,6 +102,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_volcanic_forge',
+      name: 'Enter the Volcanic Forge',
+      description: 'Enter the Volcanic Forge',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_inferno_titan',
+      name: 'Defeat the Inferno Titan',
+      description: 'Defeat the boss in the Volcanic Forge',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -247,6 +261,20 @@ const QuestSystem = (() => {
       case 'defeat_chaos_dragon':
         if (event === 'defeat_boss' && data && data.bossType === 'chaosDragon') {
           completeQuest('defeat_chaos_dragon');
+          return true;
+        }
+        break;
+
+      case 'enter_volcanic_forge':
+        if (event === 'enter_map' && data && data.mapName === 'Volcanic Forge') {
+          completeQuest('enter_volcanic_forge');
+          return true;
+        }
+        break;
+
+      case 'defeat_inferno_titan':
+        if (event === 'defeat_boss' && data && data.bossType === 'infernoTitan') {
+          completeQuest('defeat_inferno_titan');
           return true;
         }
         break;
