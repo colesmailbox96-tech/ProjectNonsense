@@ -225,6 +225,8 @@ const AudioSystem = (() => {
       ],
     },
   };
+
+  function ensureContext() {
     if (!ctx) {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
       masterGain = ctx.createGain();
