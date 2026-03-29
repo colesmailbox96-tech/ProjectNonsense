@@ -28,7 +28,7 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 - **Crafting system** — 33 recipes to forge equipment and brew consumables from enemy drops
 - **Treasure chests** hidden across every map
 - **Bestiary** — track all 29 enemy types you've encountered
-- **43 Achievements** — unlock rewards for combat, crafting, exploration, and more
+- **39 Achievements** — unlock rewards for combat, crafting, exploration, and more
 - **Save/Load system** — auto-saves on map transitions and victories; manual save from menu
 - **Minimap** — see the full map layout in the corner during exploration
 - **Particle effects** — visual feedback for damage, healing, and leveling

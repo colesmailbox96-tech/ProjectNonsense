@@ -231,7 +231,7 @@ const Achievements = (() => {
     if (mapName === 'Astral Nexus') {
       unlock('nexus_explorer');
     }
-    // Check world explorer (all 10 maps visited)
+    // Check world explorer (all 11 maps visited)
     // Village, Woods, and Cavern are required to reach later maps, so checking
     // only the optional-path achievements is sufficient
     const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer', 'abyss_explorer', 'volcano_explorer', 'gardens_explorer', 'citadel_explorer', 'nexus_explorer'];
