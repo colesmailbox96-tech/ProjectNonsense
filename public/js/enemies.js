@@ -299,6 +299,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'temporalShard', chance: 1.0 }, { id: 'riftEssence', chance: 1.0 }],
     },
+    realmWraith: {
+      name: 'Realm Wraith',
+      hp: 330, maxHp: 330,
+      attack: 55, defense: 26, speed: 17,
+      xp: 270, gold: 170,
+      sprite: 'realmWraith',
+      skills: ['fractureSlash', 'voidTouch'],
+      drops: [{ id: 'realmShard', chance: 0.45 }, { id: 'voidCrystal', chance: 0.15 }],
+    },
+    voidSentinel: {
+      name: 'Void Sentinel',
+      hp: 360, maxHp: 360,
+      attack: 53, defense: 30, speed: 10,
+      xp: 280, gold: 180,
+      sprite: 'voidSentinel',
+      skills: ['fractureBurst', 'rockSmash'],
+      drops: [{ id: 'realmShard', chance: 0.4 }, { id: 'voidCrystal', chance: 0.2 }],
+    },
+    realityWeaver: {
+      name: 'Reality Weaver',
+      hp: 2400, maxHp: 2400,
+      attack: 95, defense: 56, speed: 12,
+      xp: 1800, gold: 1500,
+      sprite: 'realityWeaver',
+      skills: ['realityRend', 'fractureBurst', 'epochRend'],
+      isBoss: true,
+      drops: [{ id: 'realmShard', chance: 1.0 }, { id: 'voidCrystal', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -333,6 +361,9 @@ const EnemyDB = (() => {
     temporalSlash: { name: 'Temporal Slash', multiplier: 2.2 },
     chronoBlast: { name: 'Chrono Blast', multiplier: 2.4 },
     epochRend: { name: 'Epoch Rend', multiplier: 4.2 },
+    fractureSlash: { name: 'Fracture Slash', multiplier: 2.3 },
+    fractureBurst: { name: 'Fracture Burst', multiplier: 2.5 },
+    realityRend: { name: 'Reality Rend', multiplier: 4.5 },
   };
 
   function create(type) {

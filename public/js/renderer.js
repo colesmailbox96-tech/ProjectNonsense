@@ -326,6 +326,28 @@ const Renderer = (() => {
         ctx.fillRect(3 + animFrame * 3, 3 + variant, 2, 2);
         break;
 
+      case TILE_TYPES.SHATTERED_STONE:
+        ctx.fillStyle = variant === 0 ? COLORS.shatteredStone : COLORS.shatteredStoneLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.shatteredStoneDark;
+        ctx.fillRect(1 + variant * 2, 2, 4, 3);
+        ctx.fillRect(10, 8 - variant, 3, 2);
+        // Fracture line
+        ctx.fillStyle = '#cc66ee';
+        ctx.fillRect(4 + animFrame * 2, 6, 1, 1);
+        break;
+
+      case TILE_TYPES.FRACTURE_GLOW:
+        ctx.fillStyle = variant === 0 ? COLORS.fractureGlow : COLORS.fractureGlowLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.fractureGlowDark;
+        ctx.fillRect(2 + variant, 3, 3, 2);
+        ctx.fillRect(8, 9 - variant, 2, 2);
+        // Reality fracture pulse
+        ctx.fillStyle = '#ee88ff';
+        ctx.fillRect(3 + animFrame * 3, 2 + variant, 2, 2);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
@@ -350,7 +372,9 @@ const Renderer = (() => {
             key.startsWith(`${TILE_TYPES.STAR_STONE}_`) ||
             key.startsWith(`${TILE_TYPES.NEBULA_GLOW}_`) ||
             key.startsWith(`${TILE_TYPES.TEMPORAL_STONE}_`) ||
-            key.startsWith(`${TILE_TYPES.RIFT_GLOW}_`)) {
+            key.startsWith(`${TILE_TYPES.RIFT_GLOW}_`) ||
+            key.startsWith(`${TILE_TYPES.SHATTERED_STONE}_`) ||
+            key.startsWith(`${TILE_TYPES.FRACTURE_GLOW}_`)) {
           delete tileCache[key];
         }
       }

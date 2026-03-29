@@ -23,7 +23,7 @@ const Achievements = (() => {
     { id: 'sky_explorer', name: 'Sky Explorer', description: 'Enter the Celestial Sanctum', icon: '☁' },
     { id: 'wyrm_slayer', name: 'Wyrm Slayer', description: 'Defeat the Celestial Wyrm', icon: '🌟' },
     { id: 'storm_crafter', name: 'Storm Crafter', description: 'Craft a Celestial Sanctum item', icon: '⚡' },
-    { id: 'world_explorer', name: 'World Explorer', description: 'Visit all 11 maps', icon: '🌍' },
+    { id: 'world_explorer', name: 'World Explorer', description: 'Visit all 13 maps', icon: '🌍' },
     { id: 'abyss_explorer', name: 'Abyss Explorer', description: 'Enter the Abyssal Depths', icon: '🕳' },
     { id: 'chaos_slayer', name: 'Chaos Slayer', description: 'Defeat the Chaos Dragon', icon: '🐲' },
     { id: 'abyss_crafter', name: 'Abyss Crafter', description: 'Craft an Abyssal Depths item', icon: '🔮' },
@@ -42,6 +42,9 @@ const Achievements = (() => {
     { id: 'rift_explorer', name: 'Rift Explorer', description: 'Enter the Temporal Rift', icon: '🕐' },
     { id: 'epoch_conqueror', name: 'Epoch Conqueror', description: 'Defeat the Epoch Weaver', icon: '⏳' },
     { id: 'temporal_crafter', name: 'Temporal Crafter', description: 'Craft a Temporal Rift item', icon: '🔮' },
+    { id: 'realm_explorer', name: 'Realm Explorer', description: 'Enter the Shattered Realm', icon: '🔮' },
+    { id: 'reality_conqueror', name: 'Reality Conqueror', description: 'Defeat the Reality Weaver', icon: '🌀' },
+    { id: 'realm_crafter', name: 'Realm Crafter', description: 'Craft a Shattered Realm item', icon: '💎' },
     { id: 'ultimate_champion', name: 'Ultimate Champion', description: 'Complete all quests and defeat all bosses', icon: '👑' },
   ];
 
@@ -142,6 +145,9 @@ const Achievements = (() => {
     if (enemyType === 'epochWeaver') {
       unlock('epoch_conqueror');
     }
+    if (enemyType === 'realityWeaver') {
+      unlock('reality_conqueror');
+    }
   }
 
   // Called after crafting
@@ -179,6 +185,9 @@ const Achievements = (() => {
     if (recipeId === 'craft_temporalBlade' || recipeId === 'craft_temporalArmor' || recipeId === 'craft_temporalCirclet') {
       unlock('temporal_crafter');
     }
+    if (recipeId === 'craft_realmBlade' || recipeId === 'craft_realmArmor' || recipeId === 'craft_realmPendant') {
+      unlock('realm_crafter');
+    }
   }
 
   // Called periodically to check passive achievements
@@ -199,7 +208,7 @@ const Achievements = (() => {
 
     // Check bestiary completion
     if (typeof Bestiary !== 'undefined') {
-      const totalEnemyTypes = 32; // 8 original + 3 frozen peaks + 3 celestial sanctum + 3 abyssal depths + 3 volcanic forge + 3 ethereal gardens + 3 twilight citadel + 3 astral nexus + 3 temporal rift
+      const totalEnemyTypes = 35; // 8 original + 3 frozen peaks + 3 celestial sanctum + 3 abyssal depths + 3 volcanic forge + 3 ethereal gardens + 3 twilight citadel + 3 astral nexus + 3 temporal rift + 3 shattered realm
       if (Bestiary.getDiscoveredCount() >= totalEnemyTypes) {
         unlock('zoologist');
       }
@@ -243,15 +252,18 @@ const Achievements = (() => {
     if (mapName === 'Temporal Rift') {
       unlock('rift_explorer');
     }
+    if (mapName === 'Shattered Realm') {
+      unlock('realm_explorer');
+    }
     // Check world explorer (all 12 maps visited)
     // Village, Woods, and Cavern are required to reach later maps, so checking
     // only the optional-path achievements is sufficient
-    const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer', 'abyss_explorer', 'volcano_explorer', 'gardens_explorer', 'citadel_explorer', 'nexus_explorer', 'rift_explorer'];
+    const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer', 'abyss_explorer', 'volcano_explorer', 'gardens_explorer', 'citadel_explorer', 'nexus_explorer', 'rift_explorer', 'realm_explorer'];
     if (allMaps.every(id => unlocked.has(id))) {
       unlock('world_explorer');
     }
     // Check ultimate champion (all bosses + world explorer)
-    const allBosses = ['shadow_slayer', 'ancient_vanquisher', 'drake_slayer', 'wyrm_slayer', 'chaos_slayer', 'titan_slayer', 'phoenix_slayer', 'void_conqueror', 'star_conqueror', 'epoch_conqueror'];
+    const allBosses = ['shadow_slayer', 'ancient_vanquisher', 'drake_slayer', 'wyrm_slayer', 'chaos_slayer', 'titan_slayer', 'phoenix_slayer', 'void_conqueror', 'star_conqueror', 'epoch_conqueror', 'reality_conqueror'];
     if (allBosses.every(id => unlocked.has(id)) && unlocked.has('world_explorer')) {
       unlock('ultimate_champion');
     }
@@ -260,7 +272,7 @@ const Achievements = (() => {
   // Called when a chest is opened
   function onChestOpen() {
     // Count all chests across all maps
-    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum', 'abyss', 'volcano', 'gardens', 'citadel', 'nexus'];
+    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum', 'abyss', 'volcano', 'gardens', 'citadel', 'nexus', 'rift', 'realm'];
     let totalChests = 0;
     let openedChests = 0;
     for (const name of mapNames) {

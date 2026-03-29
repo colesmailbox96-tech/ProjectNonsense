@@ -13,22 +13,22 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 
 ## Features
 
-- **Tile-based exploration** across 12 unique maps: Echohaven Village, Whispering Woods, Shadow Cavern, Ancient Ruins, Frozen Peaks, Celestial Sanctum, Abyssal Depths, Volcanic Forge, Ethereal Gardens, Twilight Citadel, Astral Nexus, and Temporal Rift
+- **Tile-based exploration** across 13 unique maps: Echohaven Village, Whispering Woods, Shadow Cavern, Ancient Ruins, Frozen Peaks, Celestial Sanctum, Abyssal Depths, Volcanic Forge, Ethereal Gardens, Twilight Citadel, Astral Nexus, Temporal Rift, and Shattered Realm
 - **Turn-based combat** with attack, skills, items, and flee options
 - **Skill system** — learn 6 unique skills as you level up (Power Strike, Heal, Flame Strike, Shield Bash, Warding Light, Holy Smite)
 - **Talent system** — 3 talent paths (Might, Arcane, Survival) with 4 tiers each
 - **Status effects** — poison, stun, ATK/DEF buffs affect both player and enemies in combat
 - **Critical hits** — SPD-based crit chance with 1.5x damage multiplier
-- **10 Boss fights** — Shadow Lord, Ancient Guardian, Crystal Drake, Celestial Wyrm, Chaos Dragon, Inferno Titan, Eternal Phoenix, Void Emperor, Star Devourer, and Epoch Weaver
-- **Quest system** — 25-part story chain tracking your journey across all areas
+- **11 Boss fights** — Shadow Lord, Ancient Guardian, Crystal Drake, Celestial Wyrm, Chaos Dragon, Inferno Titan, Eternal Phoenix, Void Emperor, Star Devourer, Epoch Weaver, and Reality Weaver
+- **Quest system** — 27-part story chain tracking your journey across all areas
 - **Character progression** — gain XP, level up, increase stats, unlock new skills
 - **NPC dialogue system** — talk to the Village Elder, Merchant, Healer, and Guard
 - **Merchant shop** — buy potions, ethers, weapons, armor, and accessories
 - **Inventory & equipment** — collect items, equip weapons, armor, and accessories with real stat effects
-- **Crafting system** — 35 recipes to forge equipment and brew consumables from enemy drops
+- **Crafting system** — 38 recipes to forge equipment and brew consumables from enemy drops
 - **Treasure chests** hidden across every map
-- **Bestiary** — track all 32 enemy types you've encountered
-- **42 Achievements** — unlock rewards for combat, crafting, exploration, and more
+- **Bestiary** — track all 35 enemy types you've encountered
+- **45 Achievements** — unlock rewards for combat, crafting, exploration, and more
 - **Save/Load system** — auto-saves on map transitions and victories; manual save from menu
 - **Minimap** — see the full map layout in the corner during exploration
 - **Particle effects** — visual feedback for damage, healing, and leveling
@@ -65,6 +65,7 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 | 10 | Twilight Citadel | 25×20 | Twilight Sentinel, Shadow Mage | Void Emperor |
 | 11 | Astral Nexus | 25×22 | Astral Wraith, Cosmic Sentinel | Star Devourer |
 | 12 | Temporal Rift | 24×20 | Chrono Phantom, Temporal Guardian | Epoch Weaver |
+| 13 | Shattered Realm | 22×20 | Realm Wraith, Void Sentinel | Reality Weaver |
 
 ## Quest Chain
 
@@ -92,7 +93,9 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 22. **Defeat the Star Devourer** — Defeat the nexus boss
 23. **Enter the Temporal Rift** — Enter the Temporal Rift
 24. **Defeat the Epoch Weaver** — Defeat the rift boss
-25. **Legend of Echohaven** — Return to the village
+25. **Enter the Shattered Realm** — Enter the Shattered Realm
+26. **Defeat the Reality Weaver** — Defeat the realm boss
+27. **Legend of Echohaven** — Return to the village
 
 ## Player Skills
 

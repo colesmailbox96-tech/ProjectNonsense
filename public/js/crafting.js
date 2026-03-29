@@ -247,6 +247,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'riftEssence', qty: 1 }, { id: 'temporalShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
       result: { id: 'temporalCirclet', qty: 1 },
     },
+    {
+      id: 'craft_realmBlade',
+      name: 'Forge Realm Blade',
+      description: 'Combine 3 Realm Shard + 2 Temporal Shard for a Realm Blade',
+      ingredients: [{ id: 'realmShard', qty: 3 }, { id: 'temporalShard', qty: 2 }],
+      result: { id: 'realmBlade', qty: 1 },
+    },
+    {
+      id: 'craft_realmArmor',
+      name: 'Forge Realm Armor',
+      description: 'Combine 3 Realm Shard + 2 Void Crystal + 1 Rift Essence',
+      ingredients: [{ id: 'realmShard', qty: 3 }, { id: 'voidCrystal', qty: 2 }, { id: 'riftEssence', qty: 1 }],
+      result: { id: 'realmArmor', qty: 1 },
+    },
+    {
+      id: 'craft_realmPendant',
+      name: 'Craft Realm Pendant',
+      description: 'Combine 1 Void Crystal + 1 Realm Shard + 2 Arcane Dust',
+      ingredients: [{ id: 'voidCrystal', qty: 1 }, { id: 'realmShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
+      result: { id: 'realmPendant', qty: 1 },
+    },
   ];
 
   function getRecipes() {

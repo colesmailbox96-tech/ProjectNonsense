@@ -276,6 +276,23 @@ const AudioSystem = (() => {
         { n: 'C3', d: 4 }, { n: 'G3', d: 4 },
       ],
     },
+    realm: {
+      tempo: 70,
+      loop: true,
+      melody: [
+        { n: 'D4', d: 3 }, { n: 'C4', d: 1 }, { n: 'A3', d: 2 }, { n: 'F3', d: 2 },
+        { n: 'G3', d: 2 }, { n: 'A3', d: 2 }, { n: 'G3', d: 4 },
+        { n: 'F3', d: 2 }, { n: 'D3', d: 2 }, { n: 'C3', d: 4 },
+        { n: 'D3', d: 2 }, { n: 'F3', d: 2 }, { n: 'A3', d: 2 }, { n: 'C4', d: 2 },
+        { n: 'D4', d: 3 }, { n: 'C4', d: 1 }, { n: 'A3', d: 4 },
+      ],
+      bass: [
+        { n: 'D3', d: 4 }, { n: 'A3', d: 4 },
+        { n: 'F3', d: 4 }, { n: 'D3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'G3', d: 4 },
+        { n: 'D3', d: 4 }, { n: 'A3', d: 4 },
+      ],
+    },
   };
 
   function ensureContext() {
@@ -539,6 +556,7 @@ const AudioSystem = (() => {
       citadel: 'citadel',
       nexus: 'nexus',
       rift: 'rift',
+      realm: 'realm',
     };
     const name = trackMap[mapName];
     if (name) playTrack(name);
