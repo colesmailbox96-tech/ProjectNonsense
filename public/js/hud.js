@@ -1,6 +1,19 @@
 /* ========= HUD (Heads-Up Display) ========= */
 const HUD = (() => {
-  function render(ctx, canvasW) {
+  const toasts = [];
+
+  function addToast(message, color = '#ffd700', duration = 3000) {
+    toasts.push({ message, color, duration, timer: duration });
+  }
+
+  function update(dt) {
+    for (let i = toasts.length - 1; i >= 0; i--) {
+      toasts[i].timer -= dt;
+      if (toasts[i].timer <= 0) toasts.splice(i, 1);
+    }
+  }
+
+  function render(ctx, canvasW, canvasH = 0) {
     const ps = Player.getState();
     const map = MapData.getMap(ps.currentMap);
 
@@ -86,7 +99,55 @@ const HUD = (() => {
         ctx.fillText(`▸ ${quest.description}`, 10, 62);
       }
     }
+
+    // Toast notifications
+    if (toasts.length > 0 && canvasH) {
+      const toastY = canvasH * 0.18;
+      const toastW = Math.min(320, canvasW - 40);
+      const toastH = 32;
+      const toastX = canvasW / 2 - toastW / 2;
+      const r = 6;
+
+      toasts.forEach((t, i) => {
+        const fadeIn = Math.min(1, (t.duration - t.timer) / 200);
+        const fadeOut = Math.min(1, t.timer / 300);
+        const alpha = Math.min(fadeIn, fadeOut);
+        const floatY = toastY + i * (toastH + 6) + (1 - fadeIn) * 12;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        // Background rounded rect
+        ctx.fillStyle = 'rgba(0, 0, 20, 0.88)';
+        ctx.beginPath();
+        ctx.moveTo(toastX + r, floatY);
+        ctx.arcTo(toastX + toastW, floatY, toastX + toastW, floatY + toastH, r);
+        ctx.arcTo(toastX + toastW, floatY + toastH, toastX, floatY + toastH, r);
+        ctx.arcTo(toastX, floatY + toastH, toastX, floatY, r);
+        ctx.arcTo(toastX, floatY, toastX + toastW, floatY, r);
+        ctx.closePath();
+        ctx.fill();
+
+        // Border
+        ctx.strokeStyle = t.color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(toastX + r, floatY);
+        ctx.arcTo(toastX + toastW, floatY, toastX + toastW, floatY + toastH, r);
+        ctx.arcTo(toastX + toastW, floatY + toastH, toastX, floatY + toastH, r);
+        ctx.arcTo(toastX, floatY + toastH, toastX, floatY, r);
+        ctx.arcTo(toastX, floatY, toastX + toastW, floatY, r);
+        ctx.closePath();
+        ctx.stroke();
+
+        ctx.fillStyle = t.color;
+        ctx.font = 'bold 12px "Courier New", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(t.message, canvasW / 2, floatY + toastH / 2 + 4);
+        ctx.restore();
+      });
+    }
   }
 
-  return { render };
+  return { render, addToast, update };
 })();

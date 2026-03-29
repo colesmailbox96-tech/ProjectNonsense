@@ -102,6 +102,7 @@ const Game = (() => {
 
     if (typeof Particles !== 'undefined') Particles.update(dt);
     if (typeof WeatherSystem !== 'undefined') WeatherSystem.update(dt);
+    if (typeof HUD !== 'undefined') HUD.update(dt);
 
     if (gameState === GAME_STATES.EXPLORE) {
       // Handle movement
@@ -151,7 +152,10 @@ const Game = (() => {
     ctx.fillStyle = '#0a0a1a';
     ctx.fillRect(0, 0, displayW, displayH);
 
-    if (gameState === GAME_STATES.BATTLE) return; // Battle has its own canvas
+    if (gameState === GAME_STATES.BATTLE) {
+      BattleSystem.renderBattle();
+      return;
+    }
 
     const camX = Camera.getX();
     const camY = Camera.getY();
@@ -165,7 +169,7 @@ const Game = (() => {
     if (typeof Particles !== 'undefined') Particles.render(ctx);
 
     // HUD
-    HUD.render(ctx, displayW);
+    HUD.render(ctx, displayW, displayH);
 
     // Minimap
     if (typeof Minimap !== 'undefined') Minimap.render(ctx, displayW, displayH);
