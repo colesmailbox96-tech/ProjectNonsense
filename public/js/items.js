@@ -569,6 +569,42 @@ const ItemDB = (() => {
       type: 'material',
       description: 'A crystal formed from the void between realms',
     },
+    prismBlade: {
+      name: 'Prism Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +60, prismatic-forged sword',
+      attack: 60,
+      buyPrice: 4500,
+    },
+    prismArmor: {
+      name: 'Prism Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +56, prismatic-forged armor',
+      defense: 56,
+      buyPrice: 4800,
+    },
+    prismCrown: {
+      name: 'Prism Crown',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +24, DEF +18, SPD +12',
+      attack: 24,
+      defense: 18,
+      speed: 12,
+      buyPrice: 4000,
+    },
+    prismShard: {
+      name: 'Prism Shard',
+      type: 'material',
+      description: 'A shard refracting light from every dimension',
+    },
+    spectraEssence: {
+      name: 'Spectra Essence',
+      type: 'material',
+      description: 'Pure spectral energy crystallized into form',
+    },
   };
 
   function getItem(id) {

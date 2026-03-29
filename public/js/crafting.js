@@ -268,6 +268,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'voidCrystal', qty: 1 }, { id: 'realmShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
       result: { id: 'realmPendant', qty: 1 },
     },
+    {
+      id: 'craft_prismBlade',
+      name: 'Forge Prism Blade',
+      description: 'Combine 3 Prism Shard + 2 Realm Shard for a Prism Blade',
+      ingredients: [{ id: 'prismShard', qty: 3 }, { id: 'realmShard', qty: 2 }],
+      result: { id: 'prismBlade', qty: 1 },
+    },
+    {
+      id: 'craft_prismArmor',
+      name: 'Forge Prism Armor',
+      description: 'Combine 3 Prism Shard + 2 Spectra Essence + 1 Void Crystal',
+      ingredients: [{ id: 'prismShard', qty: 3 }, { id: 'spectraEssence', qty: 2 }, { id: 'voidCrystal', qty: 1 }],
+      result: { id: 'prismArmor', qty: 1 },
+    },
+    {
+      id: 'craft_prismCrown',
+      name: 'Craft Prism Crown',
+      description: 'Combine 1 Spectra Essence + 1 Prism Shard + 2 Arcane Dust',
+      ingredients: [{ id: 'spectraEssence', qty: 1 }, { id: 'prismShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
+      result: { id: 'prismCrown', qty: 1 },
+    },
   ];
 
   function getRecipes() {

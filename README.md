@@ -13,28 +13,28 @@ Then open `http://localhost:3000` in your browser (Safari, Chrome, etc.).
 
 ## Environment Screenshot
 
-Shattered Realm environment (latest added area/content), showing the updated map visuals and in-game HUD context:
+Prismatic Void environment (latest added area/content), showing the updated map visuals and in-game HUD context:
 
-![Shattered Realm environment screenshot](https://github.com/user-attachments/assets/9f68aa71-42d1-4003-a913-2df0e536f394)
+![Prismatic Void environment screenshot](https://github.com/user-attachments/assets/c897b2fa-e967-4993-8c1a-101777af1b60)
 
 ## Features
 
-- **Tile-based exploration** across 13 unique maps: Echohaven Village, Whispering Woods, Shadow Cavern, Ancient Ruins, Frozen Peaks, Celestial Sanctum, Abyssal Depths, Volcanic Forge, Ethereal Gardens, Twilight Citadel, Astral Nexus, Temporal Rift, and Shattered Realm
+- **Tile-based exploration** across 14 unique maps: Echohaven Village, Whispering Woods, Shadow Cavern, Ancient Ruins, Frozen Peaks, Celestial Sanctum, Abyssal Depths, Volcanic Forge, Ethereal Gardens, Twilight Citadel, Astral Nexus, Temporal Rift, Shattered Realm, and Prismatic Void
 - **Turn-based combat** with attack, skills, items, and flee options
 - **Skill system** — learn 6 unique skills as you level up (Power Strike, Heal, Flame Strike, Shield Bash, Warding Light, Holy Smite)
 - **Talent system** — 3 talent paths (Might, Arcane, Survival) with 4 tiers each
 - **Status effects** — poison, stun, ATK/DEF buffs affect both player and enemies in combat
 - **Critical hits** — SPD-based crit chance with 1.5x damage multiplier
-- **11 Boss fights** — Shadow Lord, Ancient Guardian, Crystal Drake, Celestial Wyrm, Chaos Dragon, Inferno Titan, Eternal Phoenix, Void Emperor, Star Devourer, Epoch Weaver, and Reality Weaver
-- **Quest system** — 27-part story chain tracking your journey across all areas
+- **12 Boss fights** — Shadow Lord, Ancient Guardian, Crystal Drake, Celestial Wyrm, Chaos Dragon, Inferno Titan, Eternal Phoenix, Void Emperor, Star Devourer, Epoch Weaver, Reality Weaver, and Prism Arbiter
+- **Quest system** — 29-part story chain tracking your journey across all areas
 - **Character progression** — gain XP, level up, increase stats, unlock new skills
 - **NPC dialogue system** — talk to the Village Elder, Merchant, Healer, and Guard
 - **Merchant shop** — buy potions, ethers, weapons, armor, and accessories
 - **Inventory & equipment** — collect items, equip weapons, armor, and accessories with real stat effects
-- **Crafting system** — 38 recipes to forge equipment and brew consumables from enemy drops
+- **Crafting system** — 41 recipes to forge equipment and brew consumables from enemy drops
 - **Treasure chests** hidden across every map
-- **Bestiary** — track all 35 enemy types you've encountered
-- **45 Achievements** — unlock rewards for combat, crafting, exploration, and more
+- **Bestiary** — track all 38 enemy types you've encountered
+- **48 Achievements** — unlock rewards for combat, crafting, exploration, and more
 - **Save/Load system** — auto-saves on map transitions and victories; manual save from menu
 - **Minimap** — see the full map layout in the corner during exploration
 - **Particle effects** — visual feedback for damage, healing, and leveling
@@ -72,6 +72,7 @@ Shattered Realm environment (latest added area/content), showing the updated map
 | 11 | Astral Nexus | 25×22 | Astral Wraith, Cosmic Sentinel | Star Devourer |
 | 12 | Temporal Rift | 24×20 | Chrono Phantom, Temporal Guardian | Epoch Weaver |
 | 13 | Shattered Realm | 22×20 | Realm Wraith, Void Sentinel | Reality Weaver |
+| 14 | Prismatic Void | 24×20 | Prism Phantom, Spectra Sentinel | Prism Arbiter |
 
 ## Quest Chain
 
@@ -101,7 +102,9 @@ Shattered Realm environment (latest added area/content), showing the updated map
 24. **Defeat the Epoch Weaver** — Defeat the rift boss
 25. **Enter the Shattered Realm** — Enter the Shattered Realm
 26. **Defeat the Reality Weaver** — Defeat the realm boss
-27. **Legend of Echohaven** — Return to the village
+27. **Enter the Prismatic Void** — Enter the Prismatic Void
+28. **Defeat the Prism Arbiter** — Defeat the void boss
+29. **Legend of Echohaven** — Return to the village
 
 ## Player Skills
 

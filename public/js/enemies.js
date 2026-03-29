@@ -327,6 +327,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'realmShard', chance: 1.0 }, { id: 'voidCrystal', chance: 1.0 }],
     },
+    prismPhantom: {
+      name: 'Prism Phantom',
+      hp: 380, maxHp: 380,
+      attack: 58, defense: 28, speed: 18,
+      xp: 300, gold: 190,
+      sprite: 'prismPhantom',
+      skills: ['prismSlash', 'voidTouch'],
+      drops: [{ id: 'prismShard', chance: 0.45 }, { id: 'spectraEssence', chance: 0.15 }],
+    },
+    spectraSentinel: {
+      name: 'Spectra Sentinel',
+      hp: 400, maxHp: 400,
+      attack: 56, defense: 32, speed: 11,
+      xp: 310, gold: 200,
+      sprite: 'spectraSentinel',
+      skills: ['spectraBurst', 'rockSmash'],
+      drops: [{ id: 'prismShard', chance: 0.4 }, { id: 'spectraEssence', chance: 0.2 }],
+    },
+    prismArbiter: {
+      name: 'Prism Arbiter',
+      hp: 2800, maxHp: 2800,
+      attack: 100, defense: 60, speed: 13,
+      xp: 2000, gold: 1700,
+      sprite: 'prismArbiter',
+      skills: ['prismRend', 'spectraBurst', 'realityRend'],
+      isBoss: true,
+      drops: [{ id: 'prismShard', chance: 1.0 }, { id: 'spectraEssence', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -364,6 +392,9 @@ const EnemyDB = (() => {
     fractureSlash: { name: 'Fracture Slash', multiplier: 2.3 },
     fractureBurst: { name: 'Fracture Burst', multiplier: 2.5 },
     realityRend: { name: 'Reality Rend', multiplier: 4.5 },
+    prismSlash: { name: 'Prism Slash', multiplier: 2.4 },
+    spectraBurst: { name: 'Spectra Burst', multiplier: 2.6 },
+    prismRend: { name: 'Prism Rend', multiplier: 4.8 },
   };
 
   function create(type) {

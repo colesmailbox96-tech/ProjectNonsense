@@ -18,6 +18,7 @@ const Game = (() => {
   let nexusBossDefeated = false;
   let riftBossDefeated = false;
   let realmBossDefeated = false;
+  let prismBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -183,6 +184,9 @@ const Game = (() => {
     } else if (ps.currentMap === 'realm' && !realmBossDefeated) {
       realmBossDefeated = true;
       BattleSystem.startBattle('realityWeaver');
+    } else if (ps.currentMap === 'prism' && !prismBossDefeated) {
+      prismBossDefeated = true;
+      BattleSystem.startBattle('prismArbiter');
     }
   }
 
@@ -303,9 +307,10 @@ const Game = (() => {
   function setNexusBossDefeated(val) { nexusBossDefeated = val; }
   function setRiftBossDefeated(val) { riftBossDefeated = val; }
   function setRealmBossDefeated(val) { realmBossDefeated = val; }
+  function setPrismBossDefeated(val) { prismBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated, setCitadelBossDefeated, setNexusBossDefeated, setRiftBossDefeated, setRealmBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated, setCitadelBossDefeated, setNexusBossDefeated, setRiftBossDefeated, setRealmBossDefeated, setPrismBossDefeated };
 })();

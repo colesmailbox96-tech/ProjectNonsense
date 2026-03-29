@@ -186,6 +186,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_prismatic_void',
+      name: 'Enter the Prismatic Void',
+      description: 'Enter the Prismatic Void',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_prism_arbiter',
+      name: 'Defeat the Prism Arbiter',
+      description: 'Defeat the boss in the Prismatic Void',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -415,6 +429,20 @@ const QuestSystem = (() => {
       case 'defeat_reality_weaver':
         if (event === 'defeat_boss' && data && data.bossType === 'realityWeaver') {
           completeQuest('defeat_reality_weaver');
+          return true;
+        }
+        break;
+
+      case 'enter_prismatic_void':
+        if (event === 'enter_map' && data && data.mapName === 'Prismatic Void') {
+          completeQuest('enter_prismatic_void');
+          return true;
+        }
+        break;
+
+      case 'defeat_prism_arbiter':
+        if (event === 'defeat_boss' && data && data.bossType === 'prismArbiter') {
+          completeQuest('defeat_prism_arbiter');
           return true;
         }
         break;
