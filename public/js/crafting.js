@@ -151,7 +151,7 @@ const CraftingSystem = (() => {
     },
     {
       id: 'craft_forgePlate',
-      name: 'Forge Forge Plate',
+      name: 'Forge Plate',
       description: 'Combine 3 Forge Steel + 2 Magma Core + 1 Abyssal Ore',
       ingredients: [{ id: 'forgeSteel', qty: 3 }, { id: 'magmaCore', qty: 2 }, { id: 'abyssalOre', qty: 1 }],
       result: { id: 'forgePlate', qty: 1 },

@@ -557,7 +557,7 @@ const MapData = (() => {
     ],
     chests: [
       { x: 18, y: 8, item: 'infernoBlade', opened: false },
-      { x: 3, y: 15, item: 'forgePlate', opened: false },
+      { x: 8, y: 15, item: 'forgePlate', opened: false },
     ],
     bossSpawn: { x: 11, y: 16 },
     playerStart: { x: 11, y: 1 },
@@ -605,7 +605,7 @@ const MapData = (() => {
 
         // Chests
         if (x === 18 && y === 8) t = T.CHEST;
-        if (x === 3 && y === 15) t = T.CHEST;
+        if (x === 8 && y === 15) t = T.CHEST;
 
         // Ensure entrance is clear
         if (y === 0 && x >= 10 && x <= 11) t = T.BASALT;
