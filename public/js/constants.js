@@ -94,6 +94,12 @@ const COLORS = {
   riftGlow: '#33aaaa',
   riftGlowLight: '#55cccc',
   riftGlowDark: '#117777',
+  shatteredStone: '#3a2040',
+  shatteredStoneLight: '#4a3050',
+  shatteredStoneDark: '#2a1030',
+  fractureGlow: '#aa33cc',
+  fractureGlowLight: '#cc55ee',
+  fractureGlowDark: '#771199',
 };
 
 const TILE_TYPES = {
@@ -126,6 +132,8 @@ const TILE_TYPES = {
   NEBULA_GLOW: 26,
   TEMPORAL_STONE: 27,
   RIFT_GLOW: 28,
+  SHATTERED_STONE: 29,
+  FRACTURE_GLOW: 30,
 };
 
 const PASSABLE = new Set([
@@ -152,4 +160,6 @@ const PASSABLE = new Set([
   TILE_TYPES.NEBULA_GLOW,
   TILE_TYPES.TEMPORAL_STONE,
   TILE_TYPES.RIFT_GLOW,
+  TILE_TYPES.SHATTERED_STONE,
+  TILE_TYPES.FRACTURE_GLOW,
 ]);

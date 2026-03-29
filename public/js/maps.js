@@ -861,6 +861,7 @@ const MapData = (() => {
     npcs: [],
     warps: [
       { x: 12, y: 0, toMap: 'nexus', toX: 12, toY: 20 },
+      { x: 12, y: 19, toMap: 'realm', toX: 11, toY: 1 },
     ],
     chests: [
       { x: 3, y: 9, item: 'temporalBlade', opened: false },
@@ -916,13 +917,88 @@ const MapData = (() => {
         if (y === 0 && x >= 11 && x <= 13) t = T.RIFT_GLOW;
         if (y === 1 && x >= 11 && x <= 13) t = T.RIFT_GLOW;
 
+        // South exit to Shattered Realm
+        if (y === 19 && x >= 11 && x <= 13) t = T.RIFT_GLOW;
+
         m[y][x] = t;
       }
     }
     rift.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens, citadel, nexus, rift };
+  // Shattered Realm map (22x20)
+  const realm = {
+    name: 'Shattered Realm',
+    width: 22,
+    height: 20,
+    encounterRate: 0.15,
+    enemyPool: ['realmWraith', 'voidSentinel'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 11, y: 0, toMap: 'rift', toX: 12, toY: 18 },
+    ],
+    chests: [
+      { x: 3, y: 9, item: 'realmBlade', opened: false },
+      { x: 18, y: 9, item: 'realmArmor', opened: false },
+    ],
+    bossSpawn: { x: 11, y: 17 },
+    playerStart: { x: 11, y: 1 },
+  };
+
+  (function buildRealm() {
+    const m = [];
+    for (let y = 0; y < realm.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < realm.width; x++) {
+        let t = T.SHATTERED_STONE;
+
+        // Wall borders
+        if (x === 0 || x === 21) t = T.WALL;
+        if (y === 0 && (x < 10 || x > 12)) t = T.WALL;
+        if (y === 19) t = T.WALL;
+
+        // Main north-south corridor
+        if (x >= 10 && x <= 12 && y >= 0 && y <= 12) t = T.FRACTURE_GLOW;
+
+        // West wing corridor
+        if (y >= 7 && y <= 9 && x >= 1 && x <= 10) t = T.FRACTURE_GLOW;
+        // West wing chamber
+        if (x >= 1 && x <= 6 && y >= 6 && y <= 11) t = T.FRACTURE_GLOW;
+
+        // East wing corridor
+        if (y >= 7 && y <= 9 && x >= 12 && x <= 20) t = T.FRACTURE_GLOW;
+        // East wing chamber
+        if (x >= 15 && x <= 20 && y >= 6 && y <= 11) t = T.FRACTURE_GLOW;
+
+        // Void pools in wings
+        if (x >= 2 && x <= 3 && y >= 7 && y <= 8) t = T.WATER;
+        if (x >= 18 && x <= 19 && y >= 7 && y <= 8) t = T.WATER;
+
+        // Boss chamber (south)
+        if (x >= 4 && x <= 17 && y >= 12 && y <= 18) t = T.FRACTURE_GLOW;
+        if (x >= 4 && x <= 17 && y === 11) t = T.WALL;
+        if ((x === 4 || x === 17) && y >= 11 && y <= 18) t = T.WALL;
+        if (x >= 10 && x <= 12 && y === 11) t = T.FRACTURE_GLOW; // entrance
+
+        // Inner boss floor
+        if (x >= 6 && x <= 15 && y >= 14 && y <= 18) t = T.FLOOR;
+
+        // Chests
+        if (x === 3 && y === 9) t = T.CHEST;
+        if (x === 18 && y === 9) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 10 && x <= 12) t = T.FRACTURE_GLOW;
+        if (y === 1 && x >= 10 && x <= 12) t = T.FRACTURE_GLOW;
+
+        m[y][x] = t;
+      }
+    }
+    realm.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens, citadel, nexus, rift, realm };
 
   function getMap(name) {
     return maps[name];

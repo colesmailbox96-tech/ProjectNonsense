@@ -172,6 +172,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_shattered_realm',
+      name: 'Enter the Shattered Realm',
+      description: 'Enter the Shattered Realm',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_reality_weaver',
+      name: 'Defeat the Reality Weaver',
+      description: 'Defeat the boss in the Shattered Realm',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -387,6 +401,20 @@ const QuestSystem = (() => {
       case 'defeat_epoch_weaver':
         if (event === 'defeat_boss' && data && data.bossType === 'epochWeaver') {
           completeQuest('defeat_epoch_weaver');
+          return true;
+        }
+        break;
+
+      case 'enter_shattered_realm':
+        if (event === 'enter_map' && data && data.mapName === 'Shattered Realm') {
+          completeQuest('enter_shattered_realm');
+          return true;
+        }
+        break;
+
+      case 'defeat_reality_weaver':
+        if (event === 'defeat_boss' && data && data.bossType === 'realityWeaver') {
+          completeQuest('defeat_reality_weaver');
           return true;
         }
         break;

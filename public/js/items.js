@@ -533,6 +533,42 @@ const ItemDB = (() => {
       type: 'material',
       description: 'A crystallized fragment of the Temporal Rift',
     },
+    realmBlade: {
+      name: 'Realm Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +56, reality-forged sword',
+      attack: 56,
+      buyPrice: 4000,
+    },
+    realmArmor: {
+      name: 'Realm Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +52, reality-forged armor',
+      defense: 52,
+      buyPrice: 4300,
+    },
+    realmPendant: {
+      name: 'Realm Pendant',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +22, DEF +16, SPD +10',
+      attack: 22,
+      defense: 16,
+      speed: 10,
+      buyPrice: 3500,
+    },
+    realmShard: {
+      name: 'Realm Shard',
+      type: 'material',
+      description: 'A shard pulsing with fractured reality',
+    },
+    voidCrystal: {
+      name: 'Void Crystal',
+      type: 'material',
+      description: 'A crystal formed from the void between realms',
+    },
   };
 
   function getItem(id) {
