@@ -392,12 +392,13 @@ const BattleSystem = (() => {
         }
       }
 
-      // Ice skills can stun (15% chance)
-      if ((skillId === 'frostBite' || skillId === 'iceBlast' || skillId === 'crystalBreath') && Math.random() < 0.15) {
+      // Ice and lightning skills can stun (15% chance)
+      if ((skillId === 'frostBite' || skillId === 'iceBlast' || skillId === 'crystalBreath' || skillId === 'thunderStrike' || skillId === 'celestialRay') && Math.random() < 0.15) {
         if (!hasEffect(playerEffects, 'stun')) {
           addEffect(playerEffects, 'stun', 1);
-          addLog(`You are frozen solid!`);
-          addBattleText('❄ FROZEN', 'player', '#88ccff');
+          const isLightning = skillId === 'thunderStrike' || skillId === 'celestialRay';
+          addLog(isLightning ? `You are paralyzed!` : `You are frozen solid!`);
+          addBattleText(isLightning ? '⚡ PARALYZED' : '❄ FROZEN', 'player', isLightning ? '#ffdd44' : '#88ccff');
         }
       }
     } else {
@@ -525,7 +526,7 @@ const BattleSystem = (() => {
     if (typeof QuestSystem !== 'undefined') {
       QuestSystem.checkProgress('defeat_enemy', { enemyType: enemy.type });
       if (isBoss) {
-        QuestSystem.checkProgress('defeat_boss', {});
+        QuestSystem.checkProgress('defeat_boss', { bossType: enemy.type });
       }
     }
 

@@ -151,6 +151,25 @@ const AudioSystem = (() => {
         { n: 'E3', d: 4 }, { n: 'E3', d: 4 },
       ],
     },
+    sanctum: {
+      tempo: 120,
+      loop: true,
+      melody: [
+        { n: 'G4', d: 2 }, { n: 'A4', d: 1 }, { n: 'B4', d: 2 }, { n: 'A4', d: 1 },
+        { n: 'G4', d: 2 }, { n: 'E4', d: 2 }, { n: 'D4', d: 2 },
+        { n: 'E4', d: 2 }, { n: 'G4', d: 1 }, { n: 'A4', d: 2 }, { n: 'B4', d: 1 },
+        { n: 'C5', d: 2 }, { n: 'B4', d: 2 }, { n: 'A4', d: 2 },
+        { n: 'G4', d: 2 }, { n: 'B4', d: 1 }, { n: 'A4', d: 2 }, { n: 'G4', d: 1 },
+        { n: 'E4', d: 2 }, { n: 'D4', d: 2 }, { n: 'E4', d: 2 },
+        { n: 'G4', d: 3 }, { n: 'A4', d: 1 }, { n: 'G4', d: 4 },
+      ],
+      bass: [
+        { n: 'G3', d: 4 }, { n: 'E3', d: 4 },
+        { n: 'A3', d: 4 }, { n: 'G3', d: 4 },
+        { n: 'C3', d: 4 }, { n: 'D3', d: 4 },
+        { n: 'G3', d: 4 }, { n: 'G3', d: 4 },
+      ],
+    },
   };
 
   function ensureContext() {
@@ -407,6 +426,7 @@ const AudioSystem = (() => {
       dungeon: 'dungeon',
       ruins: 'ruins',
       peaks: 'peaks',
+      sanctum: 'sanctum',
     };
     const name = trackMap[mapName];
     if (name) playTrack(name);

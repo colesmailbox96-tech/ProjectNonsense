@@ -103,6 +103,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'drakeScale', chance: 1.0 }, { id: 'iceCore', chance: 1.0 }],
     },
+    stormHawk: {
+      name: 'Storm Hawk',
+      hp: 90, maxHp: 90,
+      attack: 26, defense: 10, speed: 14,
+      xp: 70, gold: 45,
+      sprite: 'stormHawk',
+      skills: ['galeSlash', 'powerStrike'],
+      drops: [{ id: 'stormFeather', chance: 0.45 }, { id: 'lightningShard', chance: 0.15 }],
+    },
+    thunderGolem: {
+      name: 'Thunder Golem',
+      hp: 140, maxHp: 140,
+      attack: 28, defense: 18, speed: 4,
+      xp: 100, gold: 70,
+      sprite: 'thunderGolem',
+      skills: ['thunderStrike', 'rockSmash'],
+      drops: [{ id: 'thunderCore', chance: 0.5 }, { id: 'lightningShard', chance: 0.35 }],
+    },
+    celestialWyrm: {
+      name: 'Celestial Wyrm',
+      hp: 650, maxHp: 650,
+      attack: 48, defense: 28, speed: 10,
+      xp: 500, gold: 400,
+      sprite: 'celestialWyrm',
+      skills: ['celestialRay', 'thunderStrike', 'crystalBreath'],
+      isBoss: true,
+      drops: [{ id: 'wyrmHeart', chance: 1.0 }, { id: 'thunderCore', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -116,6 +144,9 @@ const EnemyDB = (() => {
     frostBite: { name: 'Frost Bite', multiplier: 1.4 },
     iceBlast: { name: 'Ice Blast', multiplier: 1.7 },
     crystalBreath: { name: 'Crystal Breath', multiplier: 2.5 },
+    galeSlash: { name: 'Gale Slash', multiplier: 1.5 },
+    thunderStrike: { name: 'Thunder Strike', multiplier: 1.9 },
+    celestialRay: { name: 'Celestial Ray', multiplier: 2.8 },
   };
 
   function create(type) {

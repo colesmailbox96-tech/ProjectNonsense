@@ -212,6 +212,52 @@ const ItemDB = (() => {
       type: 'material',
       description: 'Iridescent scale from a crystal drake',
     },
+    // Celestial Sanctum items
+    thunderSpear: {
+      name: 'Thunder Spear',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +26, lightning-forged spear',
+      attack: 26,
+      buyPrice: 900,
+    },
+    celestialPlate: {
+      name: 'Celestial Plate',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +22, sky-forged armor',
+      defense: 22,
+      buyPrice: 1000,
+    },
+    stormweaveRing: {
+      name: 'Stormweave Ring',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +5, SPD +5',
+      attack: 5,
+      speed: 5,
+      buyPrice: 600,
+    },
+    stormFeather: {
+      name: 'Storm Feather',
+      type: 'material',
+      description: 'Electrified feather from a storm hawk',
+    },
+    thunderCore: {
+      name: 'Thunder Core',
+      type: 'material',
+      description: 'Crackling core from a thunder golem',
+    },
+    lightningShard: {
+      name: 'Lightning Shard',
+      type: 'material',
+      description: 'A jagged shard of condensed lightning',
+    },
+    wyrmHeart: {
+      name: 'Wyrm Heart',
+      type: 'material',
+      description: 'Radiant heart of a celestial wyrm',
+    },
   };
 
   function getItem(id) {

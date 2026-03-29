@@ -20,6 +20,10 @@ const Achievements = (() => {
     { id: 'drake_slayer', name: 'Drake Slayer', description: 'Defeat the Crystal Drake', icon: '🐉' },
     { id: 'frost_crafter', name: 'Frost Crafter', description: 'Craft a Frozen Peaks item', icon: '🧊' },
     { id: 'talent_apprentice', name: 'Talent Apprentice', description: 'Unlock your first talent', icon: '💎' },
+    { id: 'sky_explorer', name: 'Sky Explorer', description: 'Enter the Celestial Sanctum', icon: '☁' },
+    { id: 'wyrm_slayer', name: 'Wyrm Slayer', description: 'Defeat the Celestial Wyrm', icon: '🌟' },
+    { id: 'storm_crafter', name: 'Storm Crafter', description: 'Craft a Celestial Sanctum item', icon: '⚡' },
+    { id: 'world_explorer', name: 'World Explorer', description: 'Visit all 6 maps', icon: '🌍' },
   ];
 
   // Unlocked achievements: Set of ids
@@ -95,6 +99,10 @@ const Achievements = (() => {
     if (enemyType === 'crystalDrake') {
       unlock('drake_slayer');
     }
+
+    if (enemyType === 'celestialWyrm') {
+      unlock('wyrm_slayer');
+    }
   }
 
   // Called after crafting
@@ -110,6 +118,9 @@ const Achievements = (() => {
     }
     if (recipeId === 'craft_frostBlade' || recipeId === 'craft_crystalArmor' || recipeId === 'craft_warmthAmulet') {
       unlock('frost_crafter');
+    }
+    if (recipeId === 'craft_thunderSpear' || recipeId === 'craft_celestialPlate' || recipeId === 'craft_stormweaveRing') {
+      unlock('storm_crafter');
     }
   }
 
@@ -131,7 +142,7 @@ const Achievements = (() => {
 
     // Check bestiary completion
     if (typeof Bestiary !== 'undefined') {
-      const totalEnemyTypes = 11; // 8 original + 3 frozen peaks
+      const totalEnemyTypes = 14; // 8 original + 3 frozen peaks + 3 celestial sanctum
       if (Bestiary.getDiscoveredCount() >= totalEnemyTypes) {
         unlock('zoologist');
       }
@@ -154,12 +165,22 @@ const Achievements = (() => {
     if (mapName === 'Frozen Peaks') {
       unlock('frozen_explorer');
     }
+    if (mapName === 'Celestial Sanctum') {
+      unlock('sky_explorer');
+    }
+    // Check world explorer (all 6 maps visited)
+    // Village, Woods, and Cavern are required to reach later maps, so checking
+    // only the optional-path achievements is sufficient
+    const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer'];
+    if (allMaps.every(id => unlocked.has(id))) {
+      unlock('world_explorer');
+    }
   }
 
   // Called when a chest is opened
   function onChestOpen() {
     // Count all chests across all maps
-    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks'];
+    const mapNames = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum'];
     let totalChests = 0;
     let openedChests = 0;
     for (const name of mapNames) {

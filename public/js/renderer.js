@@ -173,6 +173,27 @@ const Renderer = (() => {
         ctx.fillRect(variant * 5, 12, 2, 2);
         break;
 
+      case TILE_TYPES.CLOUD:
+        ctx.fillStyle = COLORS.cloud;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.cloudLight;
+        ctx.fillRect(2 + variant * 3, 3, 5, 3);
+        ctx.fillRect(8, 9 - variant, 4, 3);
+        ctx.fillStyle = COLORS.cloudDark;
+        ctx.fillRect(variant * 4, 12, 3, 2);
+        break;
+
+      case TILE_TYPES.SKY_BRICK:
+        ctx.fillStyle = COLORS.skyBrick;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.skyBrickLight;
+        ctx.fillRect(1, 1, 6, 6);
+        ctx.fillRect(9, 9, 6, 6);
+        ctx.fillStyle = COLORS.skyBrickDark;
+        ctx.fillRect(0, 7, TILE_SIZE, 1);
+        ctx.fillRect(8, 0, 1, TILE_SIZE);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
