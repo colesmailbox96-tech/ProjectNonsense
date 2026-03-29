@@ -260,6 +260,28 @@ const Renderer = (() => {
         ctx.fillRect(6 + animFrame * 2, 5, 1, 1);
         break;
 
+      case TILE_TYPES.SHADOW_STONE:
+        ctx.fillStyle = variant === 0 ? COLORS.shadowStone : COLORS.shadowStoneLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.shadowStoneDark;
+        ctx.fillRect(2 + variant * 2, 3, 4, 3);
+        ctx.fillRect(10, 9 - variant, 3, 2);
+        // Rune glow
+        ctx.fillStyle = '#8855cc';
+        ctx.fillRect(4 + animFrame * 2, 7, 2, 2);
+        break;
+
+      case TILE_TYPES.ARCANE_GLOW:
+        ctx.fillStyle = variant === 0 ? COLORS.arcaneGlow : COLORS.arcaneGlowLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.arcaneGlowDark;
+        ctx.fillRect(3 + variant, 4, 3, 2);
+        ctx.fillRect(9, 10 - variant, 2, 2);
+        // Arcane pulse
+        ctx.fillStyle = '#bb88ff';
+        ctx.fillRect(5 + animFrame * 3, 3 + variant, 2, 2);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
@@ -274,9 +296,13 @@ const Renderer = (() => {
     if (animTimer > 500) {
       animFrame = (animFrame + 1) % 4;
       animTimer = 0;
-      // Clear water cache for animation
+      // Clear animated tile cache for animation
       for (const key in tileCache) {
-        if (key.startsWith(`${TILE_TYPES.WATER}_`)) {
+        if (key.startsWith(`${TILE_TYPES.WATER}_`) ||
+            key.startsWith(`${TILE_TYPES.ETHEREAL}_`) ||
+            key.startsWith(`${TILE_TYPES.CRYSTAL}_`) ||
+            key.startsWith(`${TILE_TYPES.SHADOW_STONE}_`) ||
+            key.startsWith(`${TILE_TYPES.ARCANE_GLOW}_`)) {
           delete tileCache[key];
         }
       }

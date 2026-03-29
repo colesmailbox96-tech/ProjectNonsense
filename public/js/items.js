@@ -409,6 +409,58 @@ const ItemDB = (() => {
       type: 'material',
       description: 'An undying flame from the Eternal Phoenix',
     },
+    // Twilight Citadel items
+    twilightBlade: {
+      name: 'Twilight Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +42, shadow-forged sword',
+      attack: 42,
+      buyPrice: 2500,
+    },
+    twilightArmor: {
+      name: 'Twilight Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +38, shadow-forged armor',
+      defense: 38,
+      buyPrice: 2800,
+    },
+    twilightSigil: {
+      name: 'Twilight Sigil',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +15, DEF +10, SPD +5',
+      attack: 15,
+      defense: 10,
+      speed: 5,
+      buyPrice: 2200,
+    },
+    twilightShard: {
+      name: 'Twilight Shard',
+      type: 'material',
+      description: 'A shard pulsing with twilight energy',
+    },
+    arcaneDust: {
+      name: 'Arcane Dust',
+      type: 'material',
+      description: 'Shimmering dust from a shadow mage',
+    },
+    shadowOrb: {
+      name: 'Shadow Orb',
+      type: 'material',
+      description: 'Dark orb from a twilight sentinel',
+    },
+    voidCrystal: {
+      name: 'Void Crystal',
+      type: 'material',
+      description: 'A crystal of pure void energy from the Emperor',
+    },
+    emperorSeal: {
+      name: "Emperor's Seal",
+      type: 'material',
+      description: 'The seal of the Void Emperor',
+    },
   };
 
   function getItem(id) {

@@ -1,6 +1,6 @@
 const SaveSystem = (() => {
   const SAVE_KEY = 'realm_of_echoes_save';
-  const MAP_NAMES = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum', 'abyss', 'volcano', 'gardens'];
+  const MAP_NAMES = ['village', 'forest', 'dungeon', 'ruins', 'peaks', 'sanctum', 'abyss', 'volcano', 'gardens', 'citadel'];
 
   let notifEl = null;
   let notifTimer = null;

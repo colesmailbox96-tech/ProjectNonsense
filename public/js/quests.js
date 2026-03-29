@@ -130,6 +130,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_twilight_citadel',
+      name: 'Enter the Twilight Citadel',
+      description: 'Enter the Twilight Citadel',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_void_emperor',
+      name: 'Defeat the Void Emperor',
+      description: 'Defeat the boss in the Twilight Citadel',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -303,6 +317,20 @@ const QuestSystem = (() => {
       case 'defeat_eternal_phoenix':
         if (event === 'defeat_boss' && data && data.bossType === 'eternalPhoenix') {
           completeQuest('defeat_eternal_phoenix');
+          return true;
+        }
+        break;
+
+      case 'enter_twilight_citadel':
+        if (event === 'enter_map' && data && data.mapName === 'Twilight Citadel') {
+          completeQuest('enter_twilight_citadel');
+          return true;
+        }
+        break;
+
+      case 'defeat_void_emperor':
+        if (event === 'defeat_boss' && data && data.bossType === 'voidEmperor') {
+          completeQuest('defeat_void_emperor');
           return true;
         }
         break;

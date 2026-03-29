@@ -632,6 +632,7 @@ const MapData = (() => {
     npcs: [],
     warps: [
       { x: 12, y: 0, toMap: 'volcano', toX: 11, toY: 18 },
+      { x: 12, y: 21, toMap: 'citadel', toX: 12, toY: 1 },
     ],
     chests: [
       { x: 20, y: 8, item: 'etherealBlade', opened: false },
@@ -651,7 +652,7 @@ const MapData = (() => {
         // Wall borders
         if (x === 0 || x === 23) t = T.WALL;
         if (y === 0 && (x < 11 || x > 13)) t = T.WALL;
-        if (y === 21) t = T.WALL;
+        if (y === 21 && x !== 12) t = T.WALL;
 
         // Main north-south corridor
         if (x >= 11 && x <= 13 && y >= 0 && y <= 14) t = T.CRYSTAL;
@@ -697,7 +698,79 @@ const MapData = (() => {
     gardens.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens };
+  // Twilight Citadel map (25x20)
+  const citadel = {
+    name: 'Twilight Citadel',
+    width: 25,
+    height: 20,
+    encounterRate: 0.13,
+    enemyPool: ['twilightSentinel', 'shadowMage'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 12, y: 0, toMap: 'gardens', toX: 12, toY: 20 },
+    ],
+    chests: [
+      { x: 4, y: 8, item: 'twilightBlade', opened: false },
+      { x: 20, y: 8, item: 'twilightArmor', opened: false },
+    ],
+    bossSpawn: { x: 12, y: 16 },
+    playerStart: { x: 12, y: 1 },
+  };
+
+  (function buildCitadel() {
+    const m = [];
+    for (let y = 0; y < citadel.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < citadel.width; x++) {
+        let t = T.SHADOW_STONE;
+
+        // Wall borders
+        if (x === 0 || x === 24) t = T.WALL;
+        if (y === 0 && (x < 11 || x > 13)) t = T.WALL;
+        if (y === 19) t = T.WALL;
+
+        // Main north-south corridor
+        if (x >= 11 && x <= 13 && y >= 0 && y <= 12) t = T.ARCANE_GLOW;
+
+        // West wing corridor
+        if (y >= 6 && y <= 8 && x >= 1 && x <= 11) t = T.ARCANE_GLOW;
+        // West wing chamber
+        if (x >= 1 && x <= 6 && y >= 5 && y <= 10) t = T.ARCANE_GLOW;
+
+        // East wing corridor
+        if (y >= 6 && y <= 8 && x >= 13 && x <= 23) t = T.ARCANE_GLOW;
+        // East wing chamber
+        if (x >= 18 && x <= 23 && y >= 5 && y <= 10) t = T.ARCANE_GLOW;
+
+        // Dark pools in wings
+        if (x >= 2 && x <= 3 && y >= 6 && y <= 7) t = T.WATER;
+        if (x >= 21 && x <= 22 && y >= 6 && y <= 7) t = T.WATER;
+
+        // Boss chamber (south)
+        if (x >= 5 && x <= 19 && y >= 12 && y <= 18) t = T.ARCANE_GLOW;
+        if (x >= 5 && x <= 19 && y === 11) t = T.WALL;
+        if ((x === 5 || x === 19) && y >= 11 && y <= 18) t = T.WALL;
+        if (x >= 11 && x <= 13 && y === 11) t = T.ARCANE_GLOW; // entrance
+
+        // Inner boss floor
+        if (x >= 7 && x <= 17 && y >= 13 && y <= 17) t = T.FLOOR;
+
+        // Chests
+        if (x === 4 && y === 8) t = T.CHEST;
+        if (x === 20 && y === 8) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 11 && x <= 13) t = T.ARCANE_GLOW;
+        if (y === 1 && x >= 11 && x <= 13) t = T.ARCANE_GLOW;
+
+        m[y][x] = t;
+      }
+    }
+    citadel.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens, citadel };
 
   function getMap(name) {
     return maps[name];
