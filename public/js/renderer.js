@@ -169,7 +169,7 @@ const Renderer = (() => {
         ctx.fillStyle = COLORS.snowLight;
         ctx.fillRect(3 + variant, 4, 3, 2);
         ctx.fillRect(10, 10 - variant, 2, 2);
-        ctx.fillStyle = '#ccdde8';
+        ctx.fillStyle = COLORS.snowDark;
         ctx.fillRect(variant * 5, 12, 2, 2);
         break;
 

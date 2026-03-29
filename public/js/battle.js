@@ -152,10 +152,12 @@ const BattleSystem = (() => {
   // Override onclick for skill/item buttons via renderActions
   // The real handlers are bound in renderActions via btn.onclick
 
+  const MAX_CRIT_CHANCE = 0.6;
+
   function calcCrit() {
     let chance = Player.getCritChance();
     if (typeof TalentSystem !== 'undefined') chance += TalentSystem.getCritBonus();
-    return Math.random() < Math.min(chance, 0.6);
+    return Math.random() < Math.min(chance, MAX_CRIT_CHANCE);
   }
 
   function playerAttack() {

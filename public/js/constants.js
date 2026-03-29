@@ -51,6 +51,7 @@ const COLORS = {
   snow: '#ddeeff',
   snowLight: '#eef4ff',
   frost: '#aaddff',
+  snowDark: '#ccdde8',
 };
 
 const TILE_TYPES = {
