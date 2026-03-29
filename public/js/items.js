@@ -166,6 +166,52 @@ const ItemDB = (() => {
       type: 'material',
       description: 'Core of an ancient guardian construct',
     },
+    // Frozen Peaks items
+    frostBlade: {
+      name: 'Frost Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +22, ice-forged sword',
+      attack: 22,
+      buyPrice: 700,
+    },
+    crystalArmor: {
+      name: 'Crystal Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +18, crystalline protection',
+      defense: 18,
+      buyPrice: 800,
+    },
+    warmthAmulet: {
+      name: 'Warmth Amulet',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'DEF +5, SPD +3',
+      defense: 5,
+      speed: 3,
+      buyPrice: 400,
+    },
+    frostFang: {
+      name: 'Frost Fang',
+      type: 'material',
+      description: 'Icy fang from a frost wolf',
+    },
+    iceCore: {
+      name: 'Ice Core',
+      type: 'material',
+      description: 'Frozen energy core from ice creatures',
+    },
+    frozenShard: {
+      name: 'Frozen Shard',
+      type: 'material',
+      description: 'A crystallized shard of pure frost',
+    },
+    drakeScale: {
+      name: 'Drake Scale',
+      type: 'material',
+      description: 'Iridescent scale from a crystal drake',
+    },
   };
 
   function getItem(id) {

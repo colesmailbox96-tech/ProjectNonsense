@@ -75,6 +75,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'ancientCore', chance: 1.0 }, { id: 'runeFragment', chance: 1.0 }],
     },
+    frostWolf: {
+      name: 'Frost Wolf',
+      hp: 75, maxHp: 75,
+      attack: 20, defense: 8, speed: 10,
+      xp: 55, gold: 35,
+      sprite: 'frostWolf',
+      skills: ['frostBite', 'powerStrike'],
+      drops: [{ id: 'frostFang', chance: 0.45 }, { id: 'iceCore', chance: 0.15 }],
+    },
+    iceElemental: {
+      name: 'Ice Elemental',
+      hp: 100, maxHp: 100,
+      attack: 24, defense: 14, speed: 6,
+      xp: 80, gold: 55,
+      sprite: 'iceElemental',
+      skills: ['iceBlast', 'frostBite'],
+      drops: [{ id: 'iceCore', chance: 0.5 }, { id: 'frozenShard', chance: 0.35 }],
+    },
+    crystalDrake: {
+      name: 'Crystal Drake',
+      hp: 500, maxHp: 500,
+      attack: 40, defense: 25, speed: 8,
+      xp: 350, gold: 300,
+      sprite: 'crystalDrake',
+      skills: ['crystalBreath', 'iceBlast', 'rockSmash'],
+      isBoss: true,
+      drops: [{ id: 'drakeScale', chance: 1.0 }, { id: 'iceCore', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -85,6 +113,9 @@ const EnemyDB = (() => {
     spectralTouch: { name: 'Spectral Touch', multiplier: 1.6 },
     rockSmash: { name: 'Rock Smash', multiplier: 1.7 },
     ancientBeam: { name: 'Ancient Beam', multiplier: 2.2 },
+    frostBite: { name: 'Frost Bite', multiplier: 1.4 },
+    iceBlast: { name: 'Ice Blast', multiplier: 1.7 },
+    crystalBreath: { name: 'Crystal Breath', multiplier: 2.5 },
   };
 
   function create(type) {

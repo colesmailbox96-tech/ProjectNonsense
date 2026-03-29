@@ -153,6 +153,26 @@ const Renderer = (() => {
         ctx.strokeRect(3, 3, 10, 6);
         break;
 
+      case TILE_TYPES.ICE:
+        ctx.fillStyle = COLORS.ice;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.iceLight;
+        ctx.fillRect(2 + variant * 3, 3, 4, 2);
+        ctx.fillRect(9, 10 - variant, 3, 2);
+        ctx.fillStyle = COLORS.iceDark;
+        ctx.fillRect(variant * 4, variant * 5 + 6, 3, 1);
+        break;
+
+      case TILE_TYPES.SNOW:
+        ctx.fillStyle = COLORS.snow;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.snowLight;
+        ctx.fillRect(3 + variant, 4, 3, 2);
+        ctx.fillRect(10, 10 - variant, 2, 2);
+        ctx.fillStyle = COLORS.snowDark;
+        ctx.fillRect(variant * 5, 12, 2, 2);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
