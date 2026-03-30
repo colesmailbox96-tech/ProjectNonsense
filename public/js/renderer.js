@@ -370,6 +370,28 @@ const Renderer = (() => {
         ctx.fillRect(2 + animFrame * 3, 3 + variant, 2, 2);
         break;
 
+      case TILE_TYPES.ETHER_STONE:
+        ctx.fillStyle = variant === 0 ? COLORS.etherStone : COLORS.etherStoneLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.etherStoneDark;
+        ctx.fillRect(1 + variant * 2, 2, 4, 3);
+        ctx.fillRect(10, 8 - variant, 3, 2);
+        // Ether shimmer
+        ctx.fillStyle = '#66bbee';
+        ctx.fillRect(4 + animFrame * 2, 4, 1, 1);
+        break;
+
+      case TILE_TYPES.ETHER_GLOW:
+        ctx.fillStyle = variant === 0 ? COLORS.etherGlow : COLORS.etherGlowLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.etherGlowDark;
+        ctx.fillRect(2 + variant, 2, 3, 2);
+        ctx.fillRect(8, 9 - variant, 2, 2);
+        // Ether pulse
+        ctx.fillStyle = '#88ddff';
+        ctx.fillRect(3 + animFrame * 3, 2 + variant, 2, 2);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
@@ -398,7 +420,9 @@ const Renderer = (() => {
             key.startsWith(`${TILE_TYPES.SHATTERED_STONE}_`) ||
             key.startsWith(`${TILE_TYPES.FRACTURE_GLOW}_`) ||
             key.startsWith(`${TILE_TYPES.PRISMATIC_STONE}_`) ||
-            key.startsWith(`${TILE_TYPES.PRISMATIC_GLOW}_`)) {
+            key.startsWith(`${TILE_TYPES.PRISMATIC_GLOW}_`) ||
+            key.startsWith(`${TILE_TYPES.ETHER_STONE}_`) ||
+            key.startsWith(`${TILE_TYPES.ETHER_GLOW}_`)) {
           delete tileCache[key];
         }
       }

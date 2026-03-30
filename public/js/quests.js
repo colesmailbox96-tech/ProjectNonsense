@@ -200,6 +200,20 @@ const QuestSystem = (() => {
       active: false,
     },
     {
+      id: 'enter_ethereal_spire',
+      name: 'Enter the Ethereal Spire',
+      description: 'Enter the Ethereal Spire',
+      completed: false,
+      active: false,
+    },
+    {
+      id: 'defeat_astral_sovereign',
+      name: 'Defeat the Astral Sovereign',
+      description: 'Defeat the boss in the Ethereal Spire',
+      completed: false,
+      active: false,
+    },
+    {
       id: 'hero_of_echohaven',
       name: 'Legend of Echohaven',
       description: 'Return to the village as a legend',
@@ -443,6 +457,20 @@ const QuestSystem = (() => {
       case 'defeat_prism_arbiter':
         if (event === 'defeat_boss' && data && data.bossType === 'prismArbiter') {
           completeQuest('defeat_prism_arbiter');
+          return true;
+        }
+        break;
+
+      case 'enter_ethereal_spire':
+        if (event === 'enter_map' && data && data.mapName === 'Ethereal Spire') {
+          completeQuest('enter_ethereal_spire');
+          return true;
+        }
+        break;
+
+      case 'defeat_astral_sovereign':
+        if (event === 'defeat_boss' && data && data.bossType === 'astralSovereign') {
+          completeQuest('defeat_astral_sovereign');
           return true;
         }
         break;

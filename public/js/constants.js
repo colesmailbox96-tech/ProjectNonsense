@@ -106,6 +106,12 @@ const COLORS = {
   prismaticGlow: '#aa44ee',
   prismaticGlowLight: '#cc66ff',
   prismaticGlowDark: '#7722bb',
+  etherStone: '#2a3a50',
+  etherStoneLight: '#3a4a60',
+  etherStoneDark: '#1a2a40',
+  etherGlow: '#44aaee',
+  etherGlowLight: '#66ccff',
+  etherGlowDark: '#2277bb',
 };
 
 const TILE_TYPES = {
@@ -142,6 +148,8 @@ const TILE_TYPES = {
   FRACTURE_GLOW: 30,
   PRISMATIC_STONE: 31,
   PRISMATIC_GLOW: 32,
+  ETHER_STONE: 33,
+  ETHER_GLOW: 34,
 };
 
 const PASSABLE = new Set([
@@ -172,4 +180,6 @@ const PASSABLE = new Set([
   TILE_TYPES.FRACTURE_GLOW,
   TILE_TYPES.PRISMATIC_STONE,
   TILE_TYPES.PRISMATIC_GLOW,
+  TILE_TYPES.ETHER_STONE,
+  TILE_TYPES.ETHER_GLOW,
 ]);

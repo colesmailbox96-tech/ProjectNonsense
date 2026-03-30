@@ -355,6 +355,34 @@ const EnemyDB = (() => {
       isBoss: true,
       drops: [{ id: 'prismShard', chance: 1.0 }, { id: 'spectraEssence', chance: 1.0 }],
     },
+    etherWraith: {
+      name: 'Ether Wraith',
+      hp: 420, maxHp: 420,
+      attack: 62, defense: 30, speed: 19,
+      xp: 330, gold: 210,
+      sprite: 'etherWraith',
+      skills: ['etherSlash', 'voidTouch'],
+      drops: [{ id: 'etherShard', chance: 0.45 }, { id: 'astraDust', chance: 0.15 }],
+    },
+    celestineGolem: {
+      name: 'Celestine Golem',
+      hp: 440, maxHp: 440,
+      attack: 60, defense: 35, speed: 10,
+      xp: 340, gold: 220,
+      sprite: 'celestineGolem',
+      skills: ['celestineBurst', 'rockSmash'],
+      drops: [{ id: 'etherShard', chance: 0.4 }, { id: 'astraDust', chance: 0.2 }],
+    },
+    astralSovereign: {
+      name: 'Astral Sovereign',
+      hp: 3200, maxHp: 3200,
+      attack: 110, defense: 65, speed: 14,
+      xp: 2400, gold: 2000,
+      sprite: 'astralSovereign',
+      skills: ['etherRend', 'celestineBurst', 'prismRend'],
+      isBoss: true,
+      drops: [{ id: 'etherShard', chance: 1.0 }, { id: 'astraDust', chance: 1.0 }],
+    },
   };
 
   const skills = {
@@ -395,6 +423,9 @@ const EnemyDB = (() => {
     prismSlash: { name: 'Prism Slash', multiplier: 2.4 },
     spectraBurst: { name: 'Spectra Burst', multiplier: 2.6 },
     prismRend: { name: 'Prism Rend', multiplier: 4.8 },
+    etherSlash: { name: 'Ether Slash', multiplier: 2.5 },
+    celestineBurst: { name: 'Celestine Burst', multiplier: 2.7 },
+    etherRend: { name: 'Ether Rend', multiplier: 5.0 },
   };
 
   function create(type) {

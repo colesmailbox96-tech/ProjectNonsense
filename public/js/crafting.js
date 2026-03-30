@@ -289,6 +289,27 @@ const CraftingSystem = (() => {
       ingredients: [{ id: 'spectraEssence', qty: 1 }, { id: 'prismShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
       result: { id: 'prismCrown', qty: 1 },
     },
+    {
+      id: 'craft_etherBlade',
+      name: 'Forge Ether Blade',
+      description: 'Combine 3 Ether Shard + 2 Prism Shard for an Ether Blade',
+      ingredients: [{ id: 'etherShard', qty: 3 }, { id: 'prismShard', qty: 2 }],
+      result: { id: 'etherBlade', qty: 1 },
+    },
+    {
+      id: 'craft_etherArmor',
+      name: 'Forge Ether Armor',
+      description: 'Combine 3 Ether Shard + 2 Astra Dust + 1 Spectra Essence',
+      ingredients: [{ id: 'etherShard', qty: 3 }, { id: 'astraDust', qty: 2 }, { id: 'spectraEssence', qty: 1 }],
+      result: { id: 'etherArmor', qty: 1 },
+    },
+    {
+      id: 'craft_etherAmulet',
+      name: 'Craft Ether Amulet',
+      description: 'Combine 1 Astra Dust + 1 Ether Shard + 2 Arcane Dust',
+      ingredients: [{ id: 'astraDust', qty: 1 }, { id: 'etherShard', qty: 1 }, { id: 'arcaneDust', qty: 2 }],
+      result: { id: 'etherAmulet', qty: 1 },
+    },
   ];
 
   function getRecipes() {
