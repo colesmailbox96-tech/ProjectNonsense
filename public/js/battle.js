@@ -612,6 +612,24 @@ const BattleSystem = (() => {
     if (log.length > 30) log.shift();
   }
 
+  // Static star positions for battle background (pre-computed to avoid per-frame allocation)
+  const battleStarPositions = [
+    [0.1, 0.08], [0.25, 0.15], [0.4, 0.05], [0.55, 0.12], [0.7, 0.07],
+    [0.85, 0.18], [0.15, 0.25], [0.35, 0.22], [0.6, 0.28], [0.8, 0.1],
+    [0.05, 0.3], [0.48, 0.18], [0.92, 0.25], [0.3, 0.08], [0.72, 0.22]
+  ];
+
+  // Helper to draw rounded rect path
+  function battleRoundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
   function renderBattle() {
     const c = canvas();
     if (!c) return;
@@ -630,13 +648,44 @@ const BattleSystem = (() => {
     ctx.save();
     ctx.translate(shakeX, shakeY);
 
-    // Background
-    ctx.fillStyle = '#0a0a2a';
-    ctx.fillRect(-5, -5, c.width + 10, c.height + 10);
+    // Sky gradient background
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, c.height * 0.6);
+    skyGrad.addColorStop(0, '#060618');
+    skyGrad.addColorStop(0.4, '#0a0a2e');
+    skyGrad.addColorStop(1, '#151540');
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(-5, -5, c.width + 10, c.height * 0.6 + 5);
 
-    // Ground
-    ctx.fillStyle = '#1a1a3a';
-    ctx.fillRect(-5, c.height * 0.6, c.width + 10, c.height * 0.4 + 5);
+    // Stars in background
+    ctx.fillStyle = '#ffffff';
+    for (let i = 0; i < battleStarPositions.length; i++) {
+      const sx = battleStarPositions[i][0] * c.width;
+      const sy = battleStarPositions[i][1] * c.height;
+      ctx.globalAlpha = 0.3 + (i % 3) * 0.2;
+      ctx.fillRect(Math.floor(sx), Math.floor(sy), 1, 1);
+    }
+    ctx.globalAlpha = 1;
+
+    // Ground with gradient and texture
+    const groundY = c.height * 0.6;
+    const groundGrad = ctx.createLinearGradient(0, groundY, 0, c.height);
+    groundGrad.addColorStop(0, '#1e1e44');
+    groundGrad.addColorStop(0.3, '#1a1a3a');
+    groundGrad.addColorStop(1, '#121230');
+    ctx.fillStyle = groundGrad;
+    ctx.fillRect(-5, groundY, c.width + 10, c.height * 0.4 + 5);
+
+    // Horizon line glow
+    ctx.fillStyle = 'rgba(100, 80, 180, 0.15)';
+    ctx.fillRect(-5, groundY - 2, c.width + 10, 4);
+
+    // Ground texture dots
+    ctx.fillStyle = 'rgba(255,255,255,0.04)';
+    for (let gx = 0; gx < c.width; gx += 18) {
+      for (let gy = groundY + 8; gy < c.height; gy += 14) {
+        ctx.fillRect(gx + ((gy * 7) % 11), gy, 2, 1);
+      }
+    }
 
     if (enemy) {
       // Draw enemy sprite (scaled up)
@@ -647,24 +696,59 @@ const BattleSystem = (() => {
       const eX = c.width / 2 - eW / 2;
       const eY = c.height * 0.15;
 
+      // Enemy shadow on ground
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      ctx.beginPath();
+      ctx.ellipse(c.width / 2, groundY + 6, eW * 0.35, 6, 0, 0, Math.PI * 2);
+      ctx.fill();
+
       if (flashTarget === 'enemy' && flashTimer > 0) {
         ctx.globalAlpha = 0.5;
       }
       ctx.drawImage(eSprite, eX, eY, eW, eH);
       ctx.globalAlpha = 1;
 
-      // Enemy HP bar
-      const barW = 160;
-      const barH = 12;
+      // Enemy HP bar with gradient
+      const barW = 170;
+      const barH = 14;
       const barX = c.width / 2 - barW / 2;
       const barY = eY + eH + 12;
-      ctx.fillStyle = '#333';
-      ctx.fillRect(barX, barY, barW, barH);
+
+      // Bar background
+      ctx.fillStyle = '#181824';
+      battleRoundRect(ctx, barX, barY, barW, barH, 3);
+      ctx.fill();
+
+      // HP fill with gradient
       const hpRatio = enemy.hp / enemy.maxHp;
-      ctx.fillStyle = hpRatio > 0.5 ? '#44cc44' : hpRatio > 0.2 ? '#cccc44' : '#cc4444';
-      ctx.fillRect(barX, barY, barW * hpRatio, barH);
-      ctx.strokeStyle = '#666';
-      ctx.strokeRect(barX, barY, barW, barH);
+      if (hpRatio > 0) {
+        const hpGrad = ctx.createLinearGradient(barX, barY, barX, barY + barH);
+        if (hpRatio > 0.5) {
+          hpGrad.addColorStop(0, '#55ee55');
+          hpGrad.addColorStop(1, '#228822');
+        } else if (hpRatio > 0.2) {
+          hpGrad.addColorStop(0, '#eeee44');
+          hpGrad.addColorStop(1, '#888822');
+        } else {
+          hpGrad.addColorStop(0, '#ee4444');
+          hpGrad.addColorStop(1, '#882222');
+        }
+        ctx.fillStyle = hpGrad;
+        const fillW = Math.max(6, barW * hpRatio);
+        battleRoundRect(ctx, barX, barY, fillW, barH, 3);
+        ctx.fill();
+
+        // Shine
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        battleRoundRect(ctx, barX, barY, fillW, barH / 2, 3);
+        ctx.fill();
+      }
+
+      // Bar border
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+      ctx.lineWidth = 1;
+      battleRoundRect(ctx, barX, barY, barW, barH, 3);
+      ctx.stroke();
 
       // Enemy name + status
       ctx.fillStyle = '#fff';
@@ -676,12 +760,26 @@ const BattleSystem = (() => {
       ctx.fillText(enemyLabel, c.width / 2, barY + barH + 18);
     }
 
-    // Player stats in battle
+    // Player stats in battle with rounded panel
     const ps = Player.getState();
-    ctx.fillStyle = 'rgba(0,0,20,0.7)';
-    ctx.fillRect(8, c.height - 64, 220, 56);
-    ctx.strokeStyle = '#556';
-    ctx.strokeRect(8, c.height - 64, 220, 56);
+    const panelX = 8;
+    const panelY = c.height - 66;
+    const panelW = 224;
+    const panelH = 58;
+
+    // Panel background gradient
+    const panelGrad = ctx.createLinearGradient(panelX, panelY, panelX, panelY + panelH);
+    panelGrad.addColorStop(0, 'rgba(10,10,40,0.8)');
+    panelGrad.addColorStop(1, 'rgba(5,5,20,0.8)');
+    ctx.fillStyle = panelGrad;
+    battleRoundRect(ctx, panelX, panelY, panelW, panelH, 6);
+    ctx.fill();
+
+    // Panel border
+    ctx.strokeStyle = 'rgba(100, 120, 180, 0.3)';
+    ctx.lineWidth = 1;
+    battleRoundRect(ctx, panelX, panelY, panelW, panelH, 6);
+    ctx.stroke();
 
     if (flashTarget === 'player' && flashTimer > 0) {
       ctx.fillStyle = '#ff4444';

@@ -21,6 +21,17 @@ const Minimap = (() => {
     [TILE_TYPES.SIGN]: '#8b7355',
   };
 
+  // Helper for rounded rect
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
   function render(ctx, canvasW, canvasH) {
     const ps = Player.getState();
     const map = MapData.getMap(ps.currentMap);
@@ -31,13 +42,18 @@ const Minimap = (() => {
     const tileW = SIZE / map.width;
     const tileH = SIZE / map.height;
 
-    // Semi-transparent background
+    // Semi-transparent background with rounded corners
     ctx.globalAlpha = BG_ALPHA;
     ctx.fillStyle = '#000000';
-    ctx.fillRect(mapX - 2, mapY - 2, SIZE + 4, SIZE + 4);
+    roundRect(ctx, mapX - 2, mapY - 2, SIZE + 4, SIZE + 4, 6);
+    ctx.fill();
 
     // Draw tiles
     ctx.globalAlpha = 0.85;
+    // Clip to rounded rect for cleaner edges
+    ctx.save();
+    roundRect(ctx, mapX, mapY, SIZE, SIZE, 4);
+    ctx.clip();
     for (let row = 0; row < map.height; row++) {
       for (let col = 0; col < map.width; col++) {
         const tile = map.tiles[row][col];
@@ -50,6 +66,7 @@ const Minimap = (() => {
         );
       }
     }
+    ctx.restore();
 
     ctx.globalAlpha = 1;
 
@@ -82,7 +99,7 @@ const Minimap = (() => {
       }
     }
 
-    // Draw player (white dot)
+    // Draw player (white dot with glow)
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(
       Math.floor(mapX + ps.x * tileW) - 1,
@@ -90,12 +107,21 @@ const Minimap = (() => {
       DOT_SIZE,
       DOT_SIZE
     );
+    // Subtle glow around player dot
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.fillRect(
+      Math.floor(mapX + ps.x * tileW) - 2,
+      Math.floor(mapY + ps.y * tileH) - 2,
+      DOT_SIZE + 2,
+      DOT_SIZE + 2
+    );
 
-    // Border
-    ctx.strokeStyle = '#aaaaaa';
-    ctx.lineWidth = 1;
-    ctx.globalAlpha = 0.7;
-    ctx.strokeRect(mapX - 2, mapY - 2, SIZE + 4, SIZE + 4);
+    // Border with rounded corners
+    ctx.strokeStyle = 'rgba(200, 200, 220, 0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.globalAlpha = 0.8;
+    roundRect(ctx, mapX - 2, mapY - 2, SIZE + 4, SIZE + 4, 6);
+    ctx.stroke();
     ctx.globalAlpha = 1;
   }
 
