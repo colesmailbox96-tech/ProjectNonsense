@@ -487,5 +487,32 @@ const Renderer = (() => {
     ctx.drawImage(frame, screenX, screenY, scaledTile, scaledTile);
   }
 
-  return { renderMap, renderNPCs, renderPlayer, updateAnimation };
+  function renderMonsters(ctx, camX, camY) {
+    const ps = Player.getState();
+    const monsters = typeof MonsterSystem !== 'undefined' ? MonsterSystem.getMonsters(ps.currentMap) : [];
+    const scaledTile = TILE_SIZE * SCALE;
+
+    for (let i = 0; i < monsters.length; i++) {
+      const m = monsters[i];
+      if (!m.active) continue;
+
+      const sprite = SpriteEngine.generateEnemy(m.type);
+      if (!sprite) continue;
+
+      let rx, ry;
+      if (m.moving) {
+        rx = m.prevX + (m.x - m.prevX) * m.moveProgress;
+        ry = m.prevY + (m.y - m.prevY) * m.moveProgress;
+      } else {
+        rx = m.x;
+        ry = m.y;
+      }
+
+      const screenX = rx * scaledTile - camX;
+      const screenY = ry * scaledTile - camY;
+      ctx.drawImage(sprite, screenX, screenY, scaledTile, scaledTile);
+    }
+  }
+
+  return { renderMap, renderNPCs, renderMonsters, renderPlayer, updateAnimation };
 })();
