@@ -437,7 +437,7 @@ const CardPackSystem = (() => {
         const card = flyingCards[i];
         if (collectTimer > card.delay && !card.collected) {
           card.progress = Math.min(1, (collectTimer - card.delay) / 600);
-          // Ease out cubic
+          // Ease out cubic: 1 - (1-t)³
           const ease = 1 - Math.pow(1 - card.progress, 3);
           card.x = card.startX + (card.targetX - card.startX) * ease;
           card.y = card.startY + (card.targetY - card.startY) * ease;
@@ -588,7 +588,7 @@ const CardPackSystem = (() => {
     ctx.font = 'bold 16px "Courier New", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
-    ctx.fillText('\u2728 Adding to Inventory \u2728', cx, 55);
+    ctx.fillText('✨ Adding to Inventory ✨', cx, 55);
 
     // Draw flying cards
     for (const card of flyingCards) {
@@ -605,7 +605,6 @@ const CardPackSystem = (() => {
         ctx.translate(-card.cardW / 2, -card.cardH / 2);
         drawCard(ctx, 0, 0, card.cardW, card.cardH, card.itemId, 1, false);
         ctx.restore();
-        ctx.globalAlpha = 1;
       }
     }
 
@@ -645,7 +644,7 @@ const CardPackSystem = (() => {
       ctx.font = 'bold 16px "Courier New", monospace';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('\uD83D\uDCE6 Items Added to Inventory!', cx, h / 2);
+      ctx.fillText('📦 Items Added to Inventory!', cx, h / 2);
       ctx.textBaseline = 'alphabetic';
       ctx.restore();
     }
