@@ -95,6 +95,7 @@ const SaveSystem = (() => {
       bestiary: typeof Bestiary !== 'undefined' ? Bestiary.getState() : {},
       achievements: typeof Achievements !== 'undefined' ? Achievements.getState() : {},
       talents: typeof TalentSystem !== 'undefined' ? TalentSystem.getState() : {},
+      cardPacks: typeof CardPackSystem !== 'undefined' ? CardPackSystem.getState() : [],
     };
     return data;
   }
@@ -142,6 +143,10 @@ const SaveSystem = (() => {
 
     if (data.talents && typeof TalentSystem !== 'undefined') {
       TalentSystem.loadState(data.talents);
+    }
+
+    if (data.cardPacks && typeof CardPackSystem !== 'undefined') {
+      CardPackSystem.loadState(data.cardPacks);
     }
   }
 

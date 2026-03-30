@@ -63,6 +63,7 @@ const EnemyDB = (() => {
       xp: 70, gold: 50,
       sprite: 'stoneGolem',
       skills: ['rockSmash', 'powerStrike'],
+      isElite: true,
       drops: [{ id: 'runeFragment', chance: 0.5 }, { id: 'ironOre', chance: 0.4 }],
     },
     ancientGuardian: {
@@ -91,6 +92,7 @@ const EnemyDB = (() => {
       xp: 80, gold: 55,
       sprite: 'iceElemental',
       skills: ['iceBlast', 'frostBite'],
+      isElite: true,
       drops: [{ id: 'iceCore', chance: 0.5 }, { id: 'frozenShard', chance: 0.35 }],
     },
     crystalDrake: {
@@ -119,6 +121,7 @@ const EnemyDB = (() => {
       xp: 100, gold: 70,
       sprite: 'thunderGolem',
       skills: ['thunderStrike', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'thunderCore', chance: 0.5 }, { id: 'lightningShard', chance: 0.35 }],
     },
     celestialWyrm: {
@@ -147,6 +150,7 @@ const EnemyDB = (() => {
       xp: 120, gold: 80,
       sprite: 'abyssalKnight',
       skills: ['abyssalStrike', 'darkSlash'],
+      isElite: true,
       drops: [{ id: 'abyssalOre', chance: 0.5 }, { id: 'voidShard', chance: 0.3 }],
     },
     chaosDragon: {
@@ -175,6 +179,7 @@ const EnemyDB = (() => {
       xp: 140, gold: 90,
       sprite: 'forgeSentinel',
       skills: ['forgeStrike', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'forgeSteel', chance: 0.5 }, { id: 'magmaCore', chance: 0.3 }],
     },
     infernoTitan: {
@@ -203,6 +208,7 @@ const EnemyDB = (() => {
       xp: 160, gold: 100,
       sprite: 'crystalGolem',
       skills: ['crystalSmash', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'crystalHeart', chance: 0.5 }, { id: 'etherealShard', chance: 0.3 }],
     },
     eternalPhoenix: {
@@ -222,6 +228,7 @@ const EnemyDB = (() => {
       xp: 180, gold: 110,
       sprite: 'twilightSentinel',
       skills: ['twilightSlash', 'darkSlash'],
+      isElite: true,
       drops: [{ id: 'twilightShard', chance: 0.45 }, { id: 'shadowOrb', chance: 0.2 }],
     },
     shadowMage: {
@@ -259,6 +266,7 @@ const EnemyDB = (() => {
       xp: 220, gold: 140,
       sprite: 'cosmicSentinel',
       skills: ['cosmicBlast', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'stardustShard', chance: 0.4 }, { id: 'nexusCore', chance: 0.2 }],
     },
     starDevourer: {
@@ -287,6 +295,7 @@ const EnemyDB = (() => {
       xp: 250, gold: 160,
       sprite: 'temporalGuardian',
       skills: ['chronoBlast', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'temporalShard', chance: 0.4 }, { id: 'riftEssence', chance: 0.2 }],
     },
     epochWeaver: {
@@ -315,6 +324,7 @@ const EnemyDB = (() => {
       xp: 280, gold: 180,
       sprite: 'voidSentinel',
       skills: ['fractureBurst', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'realmShard', chance: 0.4 }, { id: 'voidCrystal', chance: 0.2 }],
     },
     realityWeaver: {
@@ -343,6 +353,7 @@ const EnemyDB = (() => {
       xp: 310, gold: 200,
       sprite: 'spectraSentinel',
       skills: ['spectraBurst', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'prismShard', chance: 0.4 }, { id: 'spectraEssence', chance: 0.2 }],
     },
     prismArbiter: {
@@ -371,6 +382,7 @@ const EnemyDB = (() => {
       xp: 340, gold: 220,
       sprite: 'celestineGolem',
       skills: ['celestineBurst', 'rockSmash'],
+      isElite: true,
       drops: [{ id: 'etherShard', chance: 0.4 }, { id: 'astraDust', chance: 0.2 }],
     },
     astralSovereign: {

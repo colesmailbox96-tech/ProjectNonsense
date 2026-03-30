@@ -488,8 +488,17 @@ const BattleSystem = (() => {
     // Bestiary tracking
     if (typeof Bestiary !== 'undefined') Bestiary.recordDefeat(enemy.type);
 
-    // Loot drops
-    if (enemy.drops) {
+    // Loot drops - award card packs instead of direct items
+    if (typeof CardPackSystem !== 'undefined') {
+      const packRarity = CardPackSystem.generatePackForEnemy(enemy);
+      CardPackSystem.addPack(packRarity);
+      const packInfo = CardPackSystem.getPackRarityInfo(packRarity);
+      addLog(`📦 Received: ${packInfo.name}!`);
+      if (typeof HUD !== 'undefined') {
+        const glowStr = packRarity === 'godpack' ? ' 🌈' : packRarity === 'legendary' ? ' ✨' : '';
+        HUD.addToast(`📦 ${packInfo.name}${glowStr}`, packInfo.color, 3000);
+      }
+    } else if (enemy.drops) {
       for (const drop of enemy.drops) {
         if (Math.random() < drop.chance) {
           Player.addItem(drop.id, 1);
