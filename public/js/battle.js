@@ -612,6 +612,13 @@ const BattleSystem = (() => {
     if (log.length > 30) log.shift();
   }
 
+  // Static star positions for battle background (pre-computed to avoid per-frame allocation)
+  const battleStarPositions = [
+    [0.1, 0.08], [0.25, 0.15], [0.4, 0.05], [0.55, 0.12], [0.7, 0.07],
+    [0.85, 0.18], [0.15, 0.25], [0.35, 0.22], [0.6, 0.28], [0.8, 0.1],
+    [0.05, 0.3], [0.48, 0.18], [0.92, 0.25], [0.3, 0.08], [0.72, 0.22]
+  ];
+
   // Helper to draw rounded rect path
   function battleRoundRect(ctx, x, y, w, h, r) {
     ctx.beginPath();
@@ -651,14 +658,9 @@ const BattleSystem = (() => {
 
     // Stars in background
     ctx.fillStyle = '#ffffff';
-    const starPositions = [
-      [0.1, 0.08], [0.25, 0.15], [0.4, 0.05], [0.55, 0.12], [0.7, 0.07],
-      [0.85, 0.18], [0.15, 0.25], [0.35, 0.22], [0.6, 0.28], [0.8, 0.1],
-      [0.05, 0.3], [0.48, 0.18], [0.92, 0.25], [0.3, 0.08], [0.72, 0.22]
-    ];
-    for (let i = 0; i < starPositions.length; i++) {
-      const sx = starPositions[i][0] * c.width;
-      const sy = starPositions[i][1] * c.height;
+    for (let i = 0; i < battleStarPositions.length; i++) {
+      const sx = battleStarPositions[i][0] * c.width;
+      const sy = battleStarPositions[i][1] * c.height;
       ctx.globalAlpha = 0.3 + (i % 3) * 0.2;
       ctx.fillRect(Math.floor(sx), Math.floor(sy), 1, 1);
     }

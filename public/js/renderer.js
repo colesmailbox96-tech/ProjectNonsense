@@ -4,13 +4,6 @@ const Renderer = (() => {
   let animFrame = 0;
   let animTimer = 0;
 
-  // Seeded random for deterministic tile variation
-  function seededRand(x, y, seed) {
-    let h = (x * 374761393 + y * 668265263 + seed * 1274126177) | 0;
-    h = ((h ^ (h >> 13)) * 1274126177) | 0;
-    return ((h ^ (h >> 16)) & 0x7fffffff) / 0x7fffffff;
-  }
-
   function getTileCanvas(type, x, y) {
     const variant = (x + y) % 3;
     const key = `${type}_${variant}_${animFrame}`;
@@ -598,7 +591,7 @@ const Renderer = (() => {
         ctx.fillRect(5 + animFrame * 2, 5, 1, 1);
         // Color shift effect
         const prismColors = ['#ff88aa', '#88ffaa', '#88aaff', '#ffff88'];
-        ctx.fillStyle = prismColors[animFrame];
+        ctx.fillStyle = prismColors[animFrame % prismColors.length];
         ctx.fillRect(8, 9, 1, 1);
         break;
 
@@ -613,7 +606,7 @@ const Renderer = (() => {
         ctx.fillRect(2 + animFrame * 3, 3 + variant, 2, 2);
         // Rainbow motes
         const glowColors = ['#ff6688', '#66ff88', '#6688ff', '#ffcc44'];
-        ctx.fillStyle = glowColors[animFrame];
+        ctx.fillStyle = glowColors[animFrame % glowColors.length];
         ctx.fillRect((7 + animFrame * 3) % 14, (5 + animFrame) % 12, 1, 1);
         break;
 

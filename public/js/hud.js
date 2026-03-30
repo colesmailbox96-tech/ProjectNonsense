@@ -33,6 +33,7 @@ const HUD = (() => {
 
     // Fill with gradient
     if (ratio > 0) {
+      // Minimum width must cover both rounded corners
       const fillW = Math.max(r * 2, w * ratio);
       const grad = ctx.createLinearGradient(x, y, x, y + h);
       grad.addColorStop(0, color1);
