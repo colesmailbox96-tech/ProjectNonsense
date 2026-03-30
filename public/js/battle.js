@@ -287,6 +287,7 @@ const BattleSystem = (() => {
       Player.removeItem(itemId, 1);
       addLog(`Used ${item.name}! Got away safely!`);
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('flee');
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.onFlee();
       renderBattle();
       renderActions();
       setTimeout(() => endBattle(), 600);
@@ -335,6 +336,7 @@ const BattleSystem = (() => {
     if (Math.random() < 0.4 + (ps.speed - (enemy.speed || 0)) * 0.05 + (typeof TalentSystem !== 'undefined' ? TalentSystem.getFleeBonus() : 0)) {
       addLog('Got away safely!');
       if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('flee');
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.onFlee();
       renderBattle();
       setTimeout(() => endBattle(), 600);
     } else {
@@ -542,6 +544,7 @@ const BattleSystem = (() => {
 
     renderBattle();
     setTimeout(() => {
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.onVictory();
       endBattle();
       if (typeof SaveSystem !== 'undefined') SaveSystem.autoSave();
     }, 1500);
@@ -571,6 +574,7 @@ const BattleSystem = (() => {
     enemyEffects = [];
     renderBattle();
     setTimeout(() => {
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.onDefeat();
       endBattle();
       // Revive at village with half HP
       Player.getState().hp = Math.floor(Player.getState().maxHp / 2);

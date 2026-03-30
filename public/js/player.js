@@ -111,7 +111,7 @@ const Player = (() => {
         // Advance time of day
         if (typeof WeatherSystem !== 'undefined') WeatherSystem.advanceTime(1);
         checkWarps();
-        checkEncounter();
+        if (typeof MonsterSystem !== 'undefined') MonsterSystem.checkPlayerCollision();
       }
     }
   }
@@ -123,19 +123,6 @@ const Player = (() => {
         Game.warpTo(warp.toMap, warp.toX, warp.toY);
         return;
       }
-    }
-  }
-
-  function checkEncounter() {
-    const map = MapData.getMap(state.currentMap);
-    let rate = map.encounterRate;
-    if (typeof WeatherSystem !== 'undefined') {
-      rate *= WeatherSystem.getEncounterMultiplier();
-    }
-    if (rate > 0 && Math.random() < rate) {
-      const pool = map.enemyPool || ['slime'];
-      const enemyType = pool[Math.floor(Math.random() * pool.length)];
-      BattleSystem.startBattle(enemyType);
     }
   }
 

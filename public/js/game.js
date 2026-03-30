@@ -19,6 +19,7 @@ const Game = (() => {
   let riftBossDefeated = false;
   let realmBossDefeated = false;
   let prismBossDefeated = false;
+  let spireBossDefeated = false;
 
   function init() {
     canvas = document.getElementById('game-canvas');
@@ -79,6 +80,9 @@ const Game = (() => {
       );
       // Start map music
       if (typeof AudioSystem !== 'undefined') AudioSystem.playMapMusic(ps.currentMap);
+
+      // Spawn map monsters
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.spawnForMap(ps.currentMap);
     } else {
       const map = MapData.getMap('village');
       Player.setPosition(map.playerStart.x, map.playerStart.y);
@@ -90,6 +94,9 @@ const Game = (() => {
       );
       // Start village music
       if (typeof AudioSystem !== 'undefined') AudioSystem.playMapMusic('village');
+
+      // Spawn map monsters
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.spawnForMap('village');
     }
 
     requestAnimationFrame(gameLoop);
@@ -132,6 +139,7 @@ const Game = (() => {
 
       Player.update(dt);
       Renderer.updateAnimation(dt);
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.update(dt);
 
       const ps = Player.getState();
       const map = MapData.getMap(ps.currentMap);
@@ -139,54 +147,6 @@ const Game = (() => {
       const displayW = canvas.width / (window.devicePixelRatio || 1);
       const displayH = canvas.height / (window.devicePixelRatio || 1);
       Camera.update(pos.x, pos.y, displayW, displayH, map.width, map.height);
-
-      // Check for boss encounter in dungeon
-      checkBossEncounter();
-    }
-  }
-
-  function checkBossEncounter() {
-    const ps = Player.getState();
-    const map = MapData.getMap(ps.currentMap);
-    if (!map.bossSpawn) return;
-    if (ps.x !== map.bossSpawn.x || ps.y !== map.bossSpawn.y) return;
-
-    if (ps.currentMap === 'dungeon' && !bossDefeated) {
-      bossDefeated = true;
-      BattleSystem.startBattle('shadowLord');
-    } else if (ps.currentMap === 'ruins' && !ruinsBossDefeated) {
-      ruinsBossDefeated = true;
-      BattleSystem.startBattle('ancientGuardian');
-    } else if (ps.currentMap === 'peaks' && !peaksBossDefeated) {
-      peaksBossDefeated = true;
-      BattleSystem.startBattle('crystalDrake');
-    } else if (ps.currentMap === 'sanctum' && !sanctumBossDefeated) {
-      sanctumBossDefeated = true;
-      BattleSystem.startBattle('celestialWyrm');
-    } else if (ps.currentMap === 'abyss' && !abyssBossDefeated) {
-      abyssBossDefeated = true;
-      BattleSystem.startBattle('chaosDragon');
-    } else if (ps.currentMap === 'volcano' && !volcanoBossDefeated) {
-      volcanoBossDefeated = true;
-      BattleSystem.startBattle('infernoTitan');
-    } else if (ps.currentMap === 'gardens' && !gardensBossDefeated) {
-      gardensBossDefeated = true;
-      BattleSystem.startBattle('eternalPhoenix');
-    } else if (ps.currentMap === 'citadel' && !citadelBossDefeated) {
-      citadelBossDefeated = true;
-      BattleSystem.startBattle('voidEmperor');
-    } else if (ps.currentMap === 'nexus' && !nexusBossDefeated) {
-      nexusBossDefeated = true;
-      BattleSystem.startBattle('starDevourer');
-    } else if (ps.currentMap === 'rift' && !riftBossDefeated) {
-      riftBossDefeated = true;
-      BattleSystem.startBattle('epochWeaver');
-    } else if (ps.currentMap === 'realm' && !realmBossDefeated) {
-      realmBossDefeated = true;
-      BattleSystem.startBattle('realityWeaver');
-    } else if (ps.currentMap === 'prism' && !prismBossDefeated) {
-      prismBossDefeated = true;
-      BattleSystem.startBattle('prismArbiter');
     }
   }
 
@@ -209,6 +169,7 @@ const Game = (() => {
     // Render map layers
     Renderer.renderMap(ctx, camX, camY, displayW, displayH);
     Renderer.renderNPCs(ctx, camX, camY);
+    Renderer.renderMonsters(ctx, camX, camY);
     Renderer.renderPlayer(ctx, camX, camY);
 
     // Particles
@@ -243,6 +204,9 @@ const Game = (() => {
 
       // Play map music
       if (typeof AudioSystem !== 'undefined') AudioSystem.playMapMusic(mapName);
+
+      // Spawn monsters for new map
+      if (typeof MonsterSystem !== 'undefined') MonsterSystem.spawnForMap(mapName);
 
       // Quest progress on map enter
       if (typeof QuestSystem !== 'undefined') {
@@ -308,9 +272,10 @@ const Game = (() => {
   function setRiftBossDefeated(val) { riftBossDefeated = val; }
   function setRealmBossDefeated(val) { realmBossDefeated = val; }
   function setPrismBossDefeated(val) { prismBossDefeated = val; }
+  function setSpireBossDefeated(val) { spireBossDefeated = val; }
 
   // Initialize on load
   window.addEventListener('DOMContentLoaded', init);
 
-  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated, setCitadelBossDefeated, setNexusBossDefeated, setRiftBossDefeated, setRealmBossDefeated, setPrismBossDefeated };
+  return { init, setState, getState, warpTo, setBossDefeated, setRuinsBossDefeated, setPeaksBossDefeated, setSanctumBossDefeated, setAbyssBossDefeated, setVolcanoBossDefeated, setGardensBossDefeated, setCitadelBossDefeated, setNexusBossDefeated, setRiftBossDefeated, setRealmBossDefeated, setPrismBossDefeated, setSpireBossDefeated };
 })();
