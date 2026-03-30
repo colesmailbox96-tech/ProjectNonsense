@@ -86,6 +86,16 @@ const CardPackSystem = (() => {
   let animFrame = null;
   let sparkles = [];
 
+  // --- Enhanced animation state ---
+  let shakeIntensity = 0;
+  let flashAlpha = 0;
+  let collectTimer = 0;
+  let collectIndex = -1;
+  let flyingCards = [];
+  let inventoryPopups = [];
+  let bannerAlpha = 0;
+  let bannerTimer = 0;
+
   // --- Public API ---
   function addPack(rarity) {
     const entry = packInventory.find(p => p.rarity === rarity);
@@ -187,6 +197,14 @@ const CardPackSystem = (() => {
     glowTimer = 0;
     cardFlipProgress = 0;
     sparkles = [];
+    shakeIntensity = 0;
+    flashAlpha = 0;
+    collectTimer = 0;
+    collectIndex = -1;
+    flyingCards = [];
+    inventoryPopups = [];
+    bannerAlpha = 0;
+    bannerTimer = 0;
 
     Game.setState(GAME_STATES.CARD_PACK);
     ensureOverlay();
@@ -266,16 +284,51 @@ const CardPackSystem = (() => {
         }
       }
     } else if (openPhase === 'done') {
-      // Add items to player inventory
+      // Start collecting animation
+      openPhase = 'collecting';
+      collectTimer = 0;
+      collectIndex = -1;
+      flyingCards = [];
+      inventoryPopups = [];
+      bannerAlpha = 0;
+      bannerTimer = 0;
+
+      // Pre-calculate card positions for flying animation
       if (openingPack) {
-        for (const itemId of openingPack.items) {
-          Player.addItem(itemId, 1);
-        }
-        if (typeof HUD !== 'undefined') {
-          HUD.addToast('📦 Pack items added to inventory!', '#ffd700', 3000);
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const cxPos = w / 2;
+        const cyPos = h / 2;
+        const cardW = Math.min(90, (w - 60) / 3.5);
+        const cardH = cardW * 1.3;
+        const gap = 8;
+        const cols = 3;
+        const totalW = cols * cardW + (cols - 1) * gap;
+        const totalH = 2 * cardH + gap;
+        const sx = cxPos - totalW / 2;
+        const sy = cyPos - totalH / 2;
+
+        for (let i = 0; i < 6; i++) {
+          const col = i % cols;
+          const row = Math.floor(i / cols);
+          flyingCards.push({
+            startX: sx + col * (cardW + gap),
+            startY: sy + row * (cardH + gap),
+            x: sx + col * (cardW + gap),
+            y: sy + row * (cardH + gap),
+            targetX: cxPos - cardW / 2,
+            targetY: -cardH,
+            itemId: openingPack.items[i],
+            progress: 0,
+            collected: false,
+            scale: 1,
+            alpha: 1,
+            cardW,
+            cardH,
+            delay: i * 250,
+          });
         }
       }
-      closePackUI();
     }
   }
 
@@ -324,10 +377,37 @@ const CardPackSystem = (() => {
     animTimer += dt;
 
     if (openPhase === 'opening') {
-      if (animTimer > 800) {
+      // Enhanced opening: 1500ms with shake and flash
+      const progress = Math.min(1, animTimer / 1500);
+      if (progress < 0.4) {
+        shakeIntensity = progress * 15;
+      } else if (progress < 0.85) {
+        shakeIntensity = 6 + Math.sin(animTimer * 0.05) * 4;
+      } else {
+        shakeIntensity = (1 - progress) * 40;
+      }
+      // Flash at climax
+      if (progress > 0.8 && progress < 1) {
+        flashAlpha = Math.max(flashAlpha, (progress - 0.8) * 5);
+      }
+      // Spawn extra sparkles
+      if (progress > 0.3 && Math.random() < 0.6) {
+        const sCx = window.innerWidth / 2;
+        const sCy = window.innerHeight / 2;
+        const sPw = Math.min(200, window.innerWidth * 0.45);
+        spawnSparkles(sCx, sCy, sPw * 1.5, sPw * 2, 4);
+      }
+      // Big burst near end
+      if (animTimer > 1200 && animTimer < 1250) {
+        const bCx = window.innerWidth / 2;
+        const bCy = window.innerHeight / 2;
+        spawnSparkles(bCx, bCy, 300, 300, 30);
+      }
+      if (animTimer > 1500) {
         openPhase = 'revealing';
         animTimer = 0;
         cardFlipProgress = 0;
+        shakeIntensity = 0;
       }
     }
 
@@ -342,6 +422,72 @@ const CardPackSystem = (() => {
 
     // Update sparkles
     updateSparkles(dt);
+
+    // Fade flash
+    if (flashAlpha > 0) {
+      flashAlpha = Math.max(0, flashAlpha - dt / 300);
+    }
+
+    // Collecting phase logic
+    if (openPhase === 'collecting') {
+      collectTimer += dt;
+
+      // Animate each card flying away
+      for (let i = 0; i < flyingCards.length; i++) {
+        const card = flyingCards[i];
+        if (collectTimer > card.delay && !card.collected) {
+          card.progress = Math.min(1, (collectTimer - card.delay) / 600);
+          // Ease out cubic
+          const ease = 1 - Math.pow(1 - card.progress, 3);
+          card.x = card.startX + (card.targetX - card.startX) * ease;
+          card.y = card.startY + (card.targetY - card.startY) * ease;
+          card.scale = 1 - ease * 0.7;
+          card.alpha = 1 - ease;
+
+          if (card.progress >= 1 && !card.collected) {
+            card.collected = true;
+            collectIndex = i;
+            // Add item to inventory
+            Player.addItem(card.itemId, 1);
+            // Spawn popup
+            const item = typeof ItemDB !== 'undefined' ? ItemDB.getItem(card.itemId) : null;
+            const itemName = item ? item.name : card.itemId;
+            inventoryPopups.push({
+              text: '+ ' + itemName,
+              x: window.innerWidth / 2,
+              y: 70 + inventoryPopups.length * 22,
+              alpha: 1,
+              color: getItemTierColor(card.itemId),
+            });
+            // Sparkles at collection point
+            spawnSparkles(window.innerWidth / 2, 30, 100, 30, 8);
+          }
+        }
+      }
+
+      // Fade popups after all collected
+      const allCollected = flyingCards.length > 0 && flyingCards.every(c => c.collected);
+      if (allCollected) {
+        bannerTimer += dt;
+        bannerAlpha = Math.min(1, bannerTimer / 500);
+
+        // Fade popups slowly
+        for (let i = inventoryPopups.length - 1; i >= 0; i--) {
+          if (bannerTimer > 800) {
+            inventoryPopups[i].alpha = Math.max(0, inventoryPopups[i].alpha - dt / 1500);
+          }
+        }
+
+        // Auto-close after banner shown
+        if (bannerTimer > 2500) {
+          if (typeof HUD !== 'undefined') {
+            HUD.addToast('📦 Pack items added to inventory!', '#ffd700', 3000);
+          }
+          closePackUI();
+          return;
+        }
+      }
+    }
 
     drawPackScene();
     animFrame = requestAnimationFrame(renderLoop);
@@ -380,6 +526,14 @@ const CardPackSystem = (() => {
     const h = window.innerHeight;
     const ctx = packCtx;
 
+    // Apply screen shake
+    ctx.save();
+    if (shakeIntensity > 0) {
+      const sx = (Math.random() - 0.5) * shakeIntensity * 2;
+      const sy = (Math.random() - 0.5) * shakeIntensity * 2;
+      ctx.translate(sx, sy);
+    }
+
     // Dark background
     ctx.fillStyle = 'rgba(5, 5, 15, 0.95)';
     ctx.fillRect(0, 0, w, h);
@@ -402,6 +556,8 @@ const CardPackSystem = (() => {
       }
     } else if (openPhase === 'revealing' || openPhase === 'done') {
       drawRevealedCards(ctx, cx, cy, packW);
+    } else if (openPhase === 'collecting') {
+      drawCollectingPhase(ctx, w, h);
     }
 
     // Title
@@ -414,6 +570,85 @@ const CardPackSystem = (() => {
 
     // Draw sparkles
     drawSparkles(ctx);
+
+    // Flash overlay
+    if (flashAlpha > 0) {
+      ctx.fillStyle = `rgba(255, 255, 240, ${Math.min(1, flashAlpha)})`;
+      ctx.fillRect(-20, -20, w + 40, h + 40);
+    }
+
+    ctx.restore();
+  }
+
+  function drawCollectingPhase(ctx, w, h) {
+    const cx = w / 2;
+
+    // "Adding to Inventory" header
+    ctx.fillStyle = '#ffd700';
+    ctx.font = 'bold 16px "Courier New", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText('\u2728 Adding to Inventory \u2728', cx, 55);
+
+    // Draw flying cards
+    for (const card of flyingCards) {
+      if (card.progress <= 0) {
+        // Not started - draw in original position
+        drawCard(ctx, card.startX, card.startY, card.cardW, card.cardH, card.itemId, 1, false);
+      } else if (!card.collected) {
+        // Flying animation
+        ctx.save();
+        ctx.globalAlpha = card.alpha;
+        const s = card.scale;
+        ctx.translate(card.x + card.cardW / 2 * s, card.y + card.cardH / 2 * s);
+        ctx.scale(s, s);
+        ctx.translate(-card.cardW / 2, -card.cardH / 2);
+        drawCard(ctx, 0, 0, card.cardW, card.cardH, card.itemId, 1, false);
+        ctx.restore();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    // Draw inventory popup text
+    for (const p of inventoryPopups) {
+      if (p.alpha <= 0) continue;
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle = p.color;
+      ctx.font = 'bold 14px "Courier New", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(p.text, p.x, p.y);
+      ctx.restore();
+    }
+
+    // Draw "Items Added!" banner
+    if (bannerAlpha > 0) {
+      ctx.save();
+      ctx.globalAlpha = bannerAlpha;
+      const bannerW = Math.min(320, w * 0.8);
+      const bannerH = 50;
+      const bannerX = cx - bannerW / 2;
+      const bannerY = h / 2 - bannerH / 2;
+      const bGrad = ctx.createLinearGradient(bannerX, bannerY, bannerX, bannerY + bannerH);
+      bGrad.addColorStop(0, 'rgba(30, 30, 60, 0.95)');
+      bGrad.addColorStop(1, 'rgba(20, 20, 50, 0.95)');
+      ctx.fillStyle = bGrad;
+      roundRect(ctx, bannerX, bannerY, bannerW, bannerH, 10);
+      ctx.fill();
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 2;
+      roundRect(ctx, bannerX, bannerY, bannerW, bannerH, 10);
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffd700';
+      ctx.font = 'bold 16px "Courier New", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('\uD83D\uDCE6 Items Added to Inventory!', cx, h / 2);
+      ctx.textBaseline = 'alphabetic';
+      ctx.restore();
+    }
   }
 
   function drawPack3D(ctx, cx, cy, packW, packH) {
@@ -422,6 +657,20 @@ const CardPackSystem = (() => {
 
     ctx.save();
     ctx.translate(cx, cy);
+
+    // Wobble during opening animation
+    if (openPhase === 'opening') {
+      const progress = Math.min(1, animTimer / 1500);
+      if (progress < 0.5) {
+        const wobbleAngle = Math.sin(animTimer * 0.03) * progress * 6;
+        ctx.rotate(wobbleAngle * Math.PI / 180);
+      }
+      // Pulse scale near climax
+      if (progress > 0.6 && progress < 0.85) {
+        const pulse = 1 + Math.sin((progress - 0.6) * 40) * 0.04;
+        ctx.scale(pulse, pulse);
+      }
+    }
 
     // Simulate 3D rotation with skew
     const angleY = (rotationY % 360) * Math.PI / 180;
@@ -478,34 +727,93 @@ const CardPackSystem = (() => {
     ctx.font = `bold ${Math.max(10, packW * 0.07)}px "Courier New", monospace`;
     ctx.fillText('CARD PACK', 0, halfH - 25);
 
-    // Opening animation - crack effect
+    // Enhanced opening animation
     if (openPhase === 'opening') {
-      const progress = Math.min(1, animTimer / 800);
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      const crackLen = packH * progress;
-      ctx.moveTo(0, -crackLen / 2);
-      for (let i = 0; i < 8; i++) {
-        const t = i / 8;
-        const x = Math.sin(t * 12) * (5 + progress * 10);
-        const y = -crackLen / 2 + crackLen * t;
-        ctx.lineTo(x, y);
-      }
-      ctx.stroke();
+      const progress = Math.min(1, animTimer / 1500);
 
-      // Light burst
-      if (progress > 0.5) {
-        const burstAlpha = (progress - 0.5) * 2;
-        ctx.fillStyle = `rgba(255, 255, 200, ${burstAlpha * 0.5})`;
+      // Phase 1: Cracks appear (30%+)
+      if (progress > 0.3) {
+        const crackProgress = Math.min(1, (progress - 0.3) / 0.4);
+        ctx.strokeStyle = `rgba(255, 255, 220, ${0.6 + crackProgress * 0.4})`;
+        ctx.lineWidth = 1.5 + crackProgress * 1.5;
+
+        // Center crack
         ctx.beginPath();
-        ctx.arc(0, 0, packW * progress, 0, Math.PI * 2);
-        ctx.fill();
+        const crackLen = packH * crackProgress;
+        ctx.moveTo(0, -crackLen / 2);
+        for (let i = 0; i <= 10; i++) {
+          const t = i / 10;
+          const crX = Math.sin(t * 15 + 1) * (3 + crackProgress * 12);
+          const crY = -crackLen / 2 + crackLen * t;
+          ctx.lineTo(crX, crY);
+        }
+        ctx.stroke();
+
+        // Left crack
+        if (crackProgress > 0.3) {
+          const lp = (crackProgress - 0.3) / 0.7;
+          ctx.beginPath();
+          ctx.moveTo(-5, 0);
+          for (let i = 0; i <= 6; i++) {
+            const t = i / 6;
+            const crX = -5 - halfW * 0.6 * t * lp;
+            const crY = Math.sin(t * 10 + 2) * (2 + lp * 8);
+            ctx.lineTo(crX, crY);
+          }
+          ctx.stroke();
+        }
+
+        // Right crack
+        if (crackProgress > 0.5) {
+          const rp = (crackProgress - 0.5) / 0.5;
+          ctx.beginPath();
+          ctx.moveTo(5, -10);
+          for (let i = 0; i <= 6; i++) {
+            const t = i / 6;
+            const crX = 5 + halfW * 0.5 * t * rp;
+            const crY = -10 + Math.sin(t * 8 + 3) * (2 + rp * 6);
+            ctx.lineTo(crX, crY);
+          }
+          ctx.stroke();
+        }
+
+        // Light beams through cracks
+        if (crackProgress > 0.4) {
+          const beamAlpha = (crackProgress - 0.4) * 1.5;
+          const beamGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, packW * 0.8);
+          beamGrad.addColorStop(0, `rgba(255, 255, 200, ${beamAlpha * 0.6})`);
+          beamGrad.addColorStop(0.5, `rgba(255, 240, 150, ${beamAlpha * 0.3})`);
+          beamGrad.addColorStop(1, 'rgba(255, 255, 200, 0)');
+          ctx.fillStyle = beamGrad;
+          ctx.fillRect(-packW, -packH, packW * 2, packH * 2);
+        }
       }
 
-      // Spawn sparkles
-      if (Math.random() < 0.4) {
-        spawnSparkles(cx, cy, packW, packH, 3);
+      // Phase 2: Burst (80%+)
+      if (progress > 0.8) {
+        const burstProgress = (progress - 0.8) / 0.2;
+        const burstRadius = packW * (0.5 + burstProgress * 2);
+        const burstAlpha = (1 - burstProgress) * 0.7;
+        const burstGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, burstRadius);
+        burstGrad.addColorStop(0, `rgba(255, 255, 240, ${burstAlpha})`);
+        burstGrad.addColorStop(0.3, `rgba(255, 220, 100, ${burstAlpha * 0.6})`);
+        burstGrad.addColorStop(1, 'rgba(255, 200, 50, 0)');
+        ctx.fillStyle = burstGrad;
+        ctx.beginPath();
+        ctx.arc(0, 0, burstRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Light rays
+        ctx.save();
+        for (let i = 0; i < 8; i++) {
+          const angle = (i / 8) * Math.PI * 2 + animTimer * 0.002;
+          ctx.save();
+          ctx.rotate(angle);
+          ctx.fillStyle = `rgba(255, 255, 200, ${burstAlpha * 0.4})`;
+          ctx.fillRect(-2, 0, 4, burstRadius * 0.8);
+          ctx.restore();
+        }
+        ctx.restore();
       }
     }
 
