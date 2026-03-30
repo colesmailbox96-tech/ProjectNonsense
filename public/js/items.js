@@ -605,6 +605,42 @@ const ItemDB = (() => {
       type: 'material',
       description: 'Pure spectral energy crystallized into form',
     },
+    etherBlade: {
+      name: 'Ether Blade',
+      type: 'equipment',
+      equipSlot: 'weapon',
+      description: 'ATK +66, forged from pure ether',
+      attack: 66,
+      buyPrice: 5200,
+    },
+    etherArmor: {
+      name: 'Ether Armor',
+      type: 'equipment',
+      equipSlot: 'armor',
+      description: 'DEF +62, woven with ethereal threads',
+      defense: 62,
+      buyPrice: 5500,
+    },
+    etherAmulet: {
+      name: 'Ether Amulet',
+      type: 'equipment',
+      equipSlot: 'accessory',
+      description: 'ATK +26, DEF +20, SPD +14',
+      attack: 26,
+      defense: 20,
+      speed: 14,
+      buyPrice: 4600,
+    },
+    etherShard: {
+      name: 'Ether Shard',
+      type: 'material',
+      description: 'A shard of solidified ether from the spire',
+    },
+    astraDust: {
+      name: 'Astra Dust',
+      type: 'material',
+      description: 'Glittering dust infused with astral energy',
+    },
   };
 
   function getItem(id) {

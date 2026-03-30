@@ -1014,6 +1014,7 @@ const MapData = (() => {
     npcs: [],
     warps: [
       { x: 12, y: 0, toMap: 'realm', toX: 11, toY: 18 },
+      { x: 12, y: 19, toMap: 'spire', toX: 12, toY: 1 },
     ],
     chests: [
       { x: 4, y: 10, item: 'prismBlade', opened: false },
@@ -1069,13 +1070,89 @@ const MapData = (() => {
         if (y === 0 && x >= 11 && x <= 13) t = T.PRISMATIC_GLOW;
         if (y === 1 && x >= 11 && x <= 13) t = T.PRISMATIC_GLOW;
 
+        // South exit to Ethereal Spire
+        if (y === 19 && x >= 11 && x <= 13) t = T.PRISMATIC_GLOW;
+        if (y === 18 && x >= 11 && x <= 13) t = T.PRISMATIC_GLOW;
+
         m[y][x] = t;
       }
     }
     prism.tiles = m;
   })();
 
-  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens, citadel, nexus, rift, realm, prism };
+  // Ethereal Spire map (24x20)
+  const spire = {
+    name: 'Ethereal Spire',
+    width: 24,
+    height: 20,
+    encounterRate: 0.15,
+    enemyPool: ['etherWraith', 'celestineGolem'],
+    tiles: [],
+    npcs: [],
+    warps: [
+      { x: 12, y: 0, toMap: 'prism', toX: 12, toY: 18 },
+    ],
+    chests: [
+      { x: 4, y: 10, item: 'etherBlade', opened: false },
+      { x: 19, y: 10, item: 'etherArmor', opened: false },
+    ],
+    bossSpawn: { x: 12, y: 17 },
+    playerStart: { x: 12, y: 1 },
+  };
+
+  (function buildSpire() {
+    const m = [];
+    for (let y = 0; y < spire.height; y++) {
+      m[y] = [];
+      for (let x = 0; x < spire.width; x++) {
+        let t = T.ETHER_STONE;
+
+        // Wall borders
+        if (x === 0 || x === 23) t = T.WALL;
+        if (y === 0 && (x < 11 || x > 13)) t = T.WALL;
+        if (y === 19) t = T.WALL;
+
+        // Main north-south corridor
+        if (x >= 11 && x <= 13 && y >= 0 && y <= 12) t = T.ETHER_GLOW;
+
+        // West wing corridor
+        if (y >= 8 && y <= 10 && x >= 1 && x <= 11) t = T.ETHER_GLOW;
+        // West wing chamber
+        if (x >= 1 && x <= 7 && y >= 7 && y <= 12) t = T.ETHER_GLOW;
+
+        // East wing corridor
+        if (y >= 8 && y <= 10 && x >= 13 && x <= 22) t = T.ETHER_GLOW;
+        // East wing chamber
+        if (x >= 16 && x <= 22 && y >= 7 && y <= 12) t = T.ETHER_GLOW;
+
+        // Ether pools in wings
+        if (x >= 2 && x <= 3 && y >= 8 && y <= 9) t = T.WATER;
+        if (x >= 20 && x <= 21 && y >= 8 && y <= 9) t = T.WATER;
+
+        // Boss chamber (south)
+        if (x >= 5 && x <= 18 && y >= 12 && y <= 18) t = T.ETHER_GLOW;
+        if (x >= 5 && x <= 18 && y === 12) t = T.WALL;
+        if ((x === 5 || x === 18) && y >= 12 && y <= 18) t = T.WALL;
+        if (x >= 11 && x <= 13 && y === 12) t = T.ETHER_GLOW; // entrance
+
+        // Inner boss floor
+        if (x >= 7 && x <= 16 && y >= 14 && y <= 18) t = T.FLOOR;
+
+        // Chests
+        if (x === 4 && y === 10) t = T.CHEST;
+        if (x === 19 && y === 10) t = T.CHEST;
+
+        // Ensure entrance is clear
+        if (y === 0 && x >= 11 && x <= 13) t = T.ETHER_GLOW;
+        if (y === 1 && x >= 11 && x <= 13) t = T.ETHER_GLOW;
+
+        m[y][x] = t;
+      }
+    }
+    spire.tiles = m;
+  })();
+
+  const maps = { village, forest, dungeon, ruins, peaks, sanctum, abyss, volcano, gardens, citadel, nexus, rift, realm, prism, spire };
 
   function getMap(name) {
     return maps[name];
