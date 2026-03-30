@@ -18,6 +18,7 @@ const GAME_STATES = {
   BATTLE: 'battle',
   MENU: 'menu',
   TRANSITION: 'transition',
+  CARD_PACK: 'card_pack',
 };
 
 const COLORS = {

@@ -310,6 +310,38 @@ const MenuSystem = (() => {
           html = '<p style="color:#888; text-align:center; padding:20px;">No talents</p>';
         }
         break;
+
+      case 'cardpacks':
+        if (typeof CardPackSystem !== 'undefined') {
+          const packs = CardPackSystem.getInventory();
+          const totalPacks = CardPackSystem.getTotalPacks();
+          html += `<div style="color:#ffd700; font-size:0.8em; text-align:center; margin-bottom:10px;">📦 Card Packs: ${totalPacks}</div>`;
+          if (packs.length === 0) {
+            html += '<p style="color:#888; text-align:center; padding:20px;">No card packs. Defeat enemies to earn packs!</p>';
+          } else {
+            const rarityOrder = ['common', 'uncommon', 'rare', 'epic', 'legendary', 'godpack'];
+            const sortedPacks = [...packs].sort((a, b) => rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity));
+            sortedPacks.forEach(pack => {
+              const info = CardPackSystem.getPackRarityInfo(pack.rarity);
+              const glowStr = pack.rarity === 'godpack' ? ' 🌈' : pack.rarity === 'legendary' ? ' ✨' : '';
+              html += `
+                <div class="item-row pack-open-row" data-pack-rarity="${pack.rarity}" style="cursor:pointer; border-left: 3px solid ${info.color}; padding-left: 8px; margin-bottom: 6px;">
+                  <div>
+                    <span class="item-name" style="color:${info.color}">${info.name}${glowStr}</span>
+                    <br><small style="color:#888">Contains 6 loot items</small>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="item-qty" style="color:${info.color}">x${pack.qty}</span>
+                    <span style="font-size:0.75em; color:#44cc44;">OPEN</span>
+                  </div>
+                </div>
+              `;
+            });
+          }
+        } else {
+          html = '<p style="color:#888; text-align:center; padding:20px;">No card packs</p>';
+        }
+        break;
     }
 
     el.innerHTML = html;
@@ -403,6 +435,17 @@ const MenuSystem = (() => {
             if (typeof AudioSystem !== 'undefined') AudioSystem.playSFX('levelup');
             renderTab();
           }
+        };
+      });
+    }
+
+    // Bind card pack open actions
+    if (activeTab === 'cardpacks' && typeof CardPackSystem !== 'undefined') {
+      el.querySelectorAll('.pack-open-row').forEach(row => {
+        row.onclick = () => {
+          const rarity = row.dataset.packRarity;
+          close();
+          CardPackSystem.openPack(rarity);
         };
       });
     }

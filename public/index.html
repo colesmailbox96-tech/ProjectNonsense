@@ -43,6 +43,7 @@
           <button class="menu-tab" data-tab="quests">Quests</button>
           <button class="menu-tab" data-tab="achievements">Achieve</button>
           <button class="menu-tab" data-tab="talents">Talents</button>
+          <button class="menu-tab" data-tab="cardpacks">Packs</button>
           <button class="menu-tab" data-tab="save">Save</button>
         </div>
         <div id="menu-content"></div>
@@ -60,6 +61,9 @@
           <button class="battle-btn" data-action="flee">Flee</button>
         </div>
       </div>
+    </div>
+    <div id="cardpack-overlay" class="hidden">
+      <canvas id="cardpack-canvas"></canvas>
     </div>
     <div id="title-screen">
       <div id="title-art">
@@ -79,6 +83,7 @@
   <script src="js/monsters.js"></script>
   <script src="js/npcs.js"></script>
   <script src="js/items.js"></script>
+  <script src="js/cardpacks.js"></script>
   <script src="js/skills.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/particles.js"></script>
