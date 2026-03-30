@@ -350,13 +350,14 @@ const CardPackSystem = (() => {
   // --- Sparkle particles ---
   function spawnSparkles(cx, cy, w, h, count) {
     for (let i = 0; i < count; i++) {
+      const duration = 600 + Math.random() * 600;
       sparkles.push({
         x: cx + (Math.random() - 0.5) * w,
         y: cy + (Math.random() - 0.5) * h,
         vx: (Math.random() - 0.5) * 1.5,
         vy: -Math.random() * 2 - 0.5,
-        life: 600 + Math.random() * 600,
-        maxLife: 600 + Math.random() * 600,
+        life: duration,
+        maxLife: duration,
         size: 1 + Math.random() * 2,
       });
     }
@@ -503,7 +504,7 @@ const CardPackSystem = (() => {
       }
 
       // Spawn sparkles
-      if (animTimer % 50 < 20) {
+      if (Math.random() < 0.4) {
         spawnSparkles(cx, cy, packW, packH, 3);
       }
     }
@@ -663,10 +664,10 @@ const CardPackSystem = (() => {
         ctx.shadowBlur = 0;
 
         // Spawn sparkles near card
-        const canvasCx = x + w / 2;
-        const canvasCy = y + h / 2;
+        const cardCenterX = x + w / 2;
+        const cardCenterY = y + h / 2;
         if (Math.random() < 0.3) {
-          spawnSparkles(canvasCx, canvasCy, w, h, 1);
+          spawnSparkles(cardCenterX, cardCenterY, w, h, 1);
         }
       }
     }
