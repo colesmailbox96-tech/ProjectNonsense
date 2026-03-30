@@ -348,6 +348,28 @@ const Renderer = (() => {
         ctx.fillRect(3 + animFrame * 3, 2 + variant, 2, 2);
         break;
 
+      case TILE_TYPES.PRISMATIC_STONE:
+        ctx.fillStyle = variant === 0 ? COLORS.prismaticStone : COLORS.prismaticStoneLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.prismaticStoneDark;
+        ctx.fillRect(1 + variant * 2, 1, 4, 3);
+        ctx.fillRect(9, 7 - variant, 3, 2);
+        // Prismatic shimmer
+        ctx.fillStyle = '#dd77ff';
+        ctx.fillRect(5 + animFrame * 2, 5, 1, 1);
+        break;
+
+      case TILE_TYPES.PRISMATIC_GLOW:
+        ctx.fillStyle = variant === 0 ? COLORS.prismaticGlow : COLORS.prismaticGlowLight;
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+        ctx.fillStyle = COLORS.prismaticGlowDark;
+        ctx.fillRect(2 + variant, 2, 3, 2);
+        ctx.fillRect(9, 8 - variant, 2, 2);
+        // Prismatic pulse
+        ctx.fillStyle = '#ff99ff';
+        ctx.fillRect(2 + animFrame * 3, 3 + variant, 2, 2);
+        break;
+
       default:
         ctx.fillStyle = '#ff00ff';
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
@@ -374,7 +396,9 @@ const Renderer = (() => {
             key.startsWith(`${TILE_TYPES.TEMPORAL_STONE}_`) ||
             key.startsWith(`${TILE_TYPES.RIFT_GLOW}_`) ||
             key.startsWith(`${TILE_TYPES.SHATTERED_STONE}_`) ||
-            key.startsWith(`${TILE_TYPES.FRACTURE_GLOW}_`)) {
+            key.startsWith(`${TILE_TYPES.FRACTURE_GLOW}_`) ||
+            key.startsWith(`${TILE_TYPES.PRISMATIC_STONE}_`) ||
+            key.startsWith(`${TILE_TYPES.PRISMATIC_GLOW}_`)) {
           delete tileCache[key];
         }
       }
