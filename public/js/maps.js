@@ -1090,7 +1090,7 @@ const MapData = (() => {
     tiles: [],
     npcs: [],
     warps: [
-      { x: 12, y: 0, toMap: 'prism', toX: 12, toY: 18 },
+      { x: 12, y: 0, toMap: 'prism', toX: 12, toY: 17 },
     ],
     chests: [
       { x: 4, y: 10, item: 'etherBlade', opened: false },

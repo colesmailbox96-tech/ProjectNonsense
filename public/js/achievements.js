@@ -279,7 +279,7 @@ const Achievements = (() => {
     if (mapName === 'Ethereal Spire') {
       unlock('spire_explorer');
     }
-    // Check world explorer (all 14 maps visited)
+    // Check world explorer (all 15 maps visited)
     // Village, Woods, and Cavern are required to reach later maps, so checking
     // only the optional-path achievements is sufficient
     const allMaps = ['ancient_explorer', 'frozen_explorer', 'sky_explorer', 'abyss_explorer', 'volcano_explorer', 'gardens_explorer', 'citadel_explorer', 'nexus_explorer', 'rift_explorer', 'realm_explorer', 'prism_explorer', 'spire_explorer'];
