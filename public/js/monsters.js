@@ -5,6 +5,7 @@ const MonsterSystem = (() => {
   let fleeCooldown = 0;
   const defeatedBosses = new Set();
   let respawnTimers = {};
+  let idCounter = 0;
 
   const bossMap = {
     dungeon: 'shadowLord',
@@ -66,7 +67,7 @@ const MonsterSystem = (() => {
       const pos = findSpawnPos(map, monsters, mapName);
       if (pos) {
         monsters.push({
-          id: mapName + '_' + Date.now() + '_' + i,
+          id: mapName + '_' + (++idCounter),
           type: type,
           x: pos.x,
           y: pos.y,
@@ -74,7 +75,8 @@ const MonsterSystem = (() => {
           prevY: pos.y,
           moving: false,
           moveProgress: 0,
-          moveTimer: Math.random() * 2000,
+          moveTimer: 0,
+          wanderTarget: 1500 + Math.random() * 2000,
           dir: 'down',
           active: true,
           isBoss: false,
@@ -169,8 +171,9 @@ const MonsterSystem = (() => {
       } else if (!m.isBoss) {
         // Wander AI — bosses stay still
         m.moveTimer += dt;
-        if (m.moveTimer > 1500 + Math.random() * 2000) {
+        if (m.moveTimer > m.wanderTarget) {
           m.moveTimer = 0;
+          m.wanderTarget = 1500 + Math.random() * 2000;
           const dir = dirs[Math.floor(Math.random() * dirs.length)];
           tryMonsterMove(m, dir, map, monsters);
         }
@@ -189,7 +192,7 @@ const MonsterSystem = (() => {
           const pos = findSpawnPos(map, monsters, mapName);
           if (pos) {
             monsters.push({
-              id: mapName + '_' + Date.now() + '_r',
+              id: mapName + '_' + (++idCounter),
               type: type,
               x: pos.x,
               y: pos.y,
@@ -197,7 +200,8 @@ const MonsterSystem = (() => {
               prevY: pos.y,
               moving: false,
               moveProgress: 0,
-              moveTimer: Math.random() * 2000,
+              moveTimer: 0,
+              wanderTarget: 1500 + Math.random() * 2000,
               dir: 'down',
               active: true,
               isBoss: false,
