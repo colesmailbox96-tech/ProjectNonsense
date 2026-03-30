@@ -13,7 +13,7 @@ const SpriteEngine = (() => {
     for (let y = 0; y < data.length; y++) {
       for (let x = 0; x < data[y].length; x++) {
         const colorKey = data[y][x];
-        if (colorKey === 0 || colorKey === ' ') continue;
+        if (colorKey === 0 || colorKey === '0' || colorKey === ' ') continue;
         ctx.fillStyle = palette[colorKey] || '#ff00ff';
         ctx.fillRect(x * px, y * px, px, px);
       }
